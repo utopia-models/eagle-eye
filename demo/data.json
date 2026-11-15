@@ -1,0 +1,26 @@
+{
+  "updated": "2026-11-15T09:00:00Z",
+  "applied": 214, "replied": 31, "screens": 12, "interviews": 7, "offers": 2, "signed": 1,
+  "hunts": {
+    "job_boards": {"sent": 214, "answered": 31, "status": "live", "window": "last 30 days",
+                   "what": "sent = applications submitted; came back = any employer reply",
+                   "source": "demo/data.json", "last_action": {"ts": "2026-11-15T08:41:00Z", "event": "applied"}},
+    "referrals":  {"sent": 9, "answered": 5, "status": "live", "window": "last 30 days", "source": "demo/data.json"},
+    "cold_email": {"sent": 120, "answered": 6, "status": "live", "window": "last 30 days", "source": "demo/data.json"},
+    "linkedin":   {"sent": 44, "answered": 3, "status": "partial", "window": "last 30 days", "source": "demo/data.json",
+                   "reason": "hand-sent messages only; the connector is not plugged in"},
+    "events":     {"sent": null, "answered": null, "status": "empty",
+                   "reason": "no events recorded yet: plug an adapter into this lane"}
+  },
+  "roosts": {
+    "clients": {"rows": [
+      {"name": "Northwind Labs", "hunt": "referrals", "stage": "contract", "contracts": 1, "paid": "$4,800"},
+      {"name": "Acme Robotics", "hunt": "cold_email", "stage": "proposal", "contracts": 0, "paid": "$0"}
+    ]},
+    "network": {"rows": [
+      {"name": "A. Rivera (recruiter)", "hunt": "linkedin", "stage": "interview", "contracts": 0, "paid": ""},
+      {"name": "J. Chen (hiring manager)", "hunt": "job_boards", "stage": "screen call", "contracts": 0, "paid": ""},
+      {"name": "M. Okafor", "hunt": "events", "stage": "met", "contracts": 0, "paid": ""}
+    ]}
+  }
+}

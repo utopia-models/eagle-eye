@@ -1,0 +1,12 @@
+{
+  "name": "eagle-eye",
+  "version": "0.1.0",
+  "private": true,
+  "description": "One screen for every outreach pipeline you run: hunts out, roosts back, the eye in the middle.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "check": "node scripts/layout-check.mjs http://localhost:8000/ shots"
+  },
+  "devDependencies": { "playwright": "^1.64.0" }
+}
