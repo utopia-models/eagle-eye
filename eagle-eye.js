@@ -32,6 +32,7 @@ const KEY4 = [['proposals_sent','sent'],['proposals_answered','answered'],['cont
 if(CFG.stages) STAGES.splice(0, STAGES.length, ...CFG.stages);
 if(CFG.key4) KEY4.splice(0, KEY4.length, ...CFG.key4);
 
+if(!document.querySelector('link[data-cinzel]')){ const fl=document.createElement('link'); fl.rel='stylesheet'; fl.dataset.cinzel=1; fl.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&display=block'; document.head.appendChild(fl); }
 const style = document.createElement('style');
 style.textContent = `
 :root{--bg:#0a0a09;--gold:#d9b35b;--pale:#f3dc9a}
@@ -165,6 +166,14 @@ style.textContent = `
 #e2.top #gl .grp{flex:1.3 1 0;min-width:0}
 #e2.top #gl #grp1{flex-grow:1}
 #e2 #lv,#e2 #gr{display:none!important}
+#e2.top.stack #gl{flex-direction:column;gap:var(--u)}
+#e2.top #gl .grp{background:rgba(10,10,9,.82);box-shadow:0 0 40px 24px rgba(10,10,9,.82)}
+#e2.top .gly i.ag{opacity:.85;font-size:max(.62em,11px)}
+#e2.top .gly small.why{-webkit-line-clamp:2!important;font-size:max(.62em,11px)!important;opacity:.8}
+#e2.top.narrow .gly small.why{-webkit-line-clamp:3!important}
+#e2.top.narrow .gly .gt{grid-template-columns:1fr auto}
+#e2.top.narrow .gly small.num{grid-column:2;grid-row:1 / span 2;align-self:center}
+#e2 #mark{white-space:nowrap}
 #e2 a.gly{color:inherit;text-decoration:none}
 #e2 a.gly:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
 #e2 .nums i{font-size:max(.66em,10px)}
@@ -277,20 +286,23 @@ function resize(){
   const u = Math.max(11, Math.min(W,H)/74);
   root.style.setProperty('--u', u+'px');
   const narrow = W < 700;
-  root.className = 'top rows'+(narrow?' narrow':'');
-  let gf = narrow ? 1.05 : Math.min(W>2400?2.1:1.75, Math.max(1.1, Math.min(W/(66*u), H/(46*u))));
+  const stack = narrow || W/H < 1.05;
+  root.className = 'top rows'+(narrow?' narrow':'')+(stack?' stack':'');
+  let gf = narrow ? 1.5 : (W>2400 ? 2.9 : 2.5);
   const setGf = ()=>root.style.setProperty('--gf', gf+'em');
-  const gp = (narrow?1:2.4)*u, lw = Math.min(W-2*gp, Math.max(60*u, 0.62*W), 150*u);
+  const gp = (narrow?1:2.4)*u, lw = stack ? Math.min(W-2*gp, 70*u) : Math.min(W-2*gp, Math.max(60*u, 0.62*W), 150*u);
   root.style.setProperty('--gg', (narrow?1:3.2)*u+'px'); root.style.setProperty('--lw', lw+'px'); root.style.setProperty('--gx', ((W-lw)/2)+'px');
   if(grpH.parentNode!==glA || grpR.parentNode!==glA){ glA.appendChild(grpH); glA.appendChild(grpR); }
-  const pt = (narrow?1.2:2.2)*u, markH = 3.2*u, minR = Math.max(44, Math.min(H*.15, W*.12));
-  for(let k=0;k<14;k++){ setGf(); root.style.setProperty('--pt', pt+'px');
-    const hh = Math.max(grpH.offsetHeight, grpR.offsetHeight), top = pt + hh + (narrow?1.2:2)*u;
+  const pt = (narrow?1.2:2.2)*u, markH = 3.2*u, minR = Math.max(40, Math.min(H*.13, W*.11));
+  const fits = ()=>[...glA.querySelectorAll('.gt')].every(e=>e.scrollWidth<=e.clientWidth+1);
+  for(let k=0;k<40;k++){ setGf(); root.style.setProperty('--pt', pt+'px');
+    const hh = stack ? grpH.offsetHeight + grpR.offsetHeight + u : Math.max(grpH.offsetHeight, grpR.offsetHeight), top = pt + hh + (narrow?1.2:2)*u;
     const avail = H - top - markH;
     R = Math.min(avail/2.9, W*.2); lidW = Math.min(W*.44, R*1.75, (W-2*gp)/2 - 8); R = Math.min(R, lidW/1.5);
     cy = top + avail/2;
-    if(R >= minR || gf <= .8) break;
-    gf -= .06; }
+    if((R >= minR && hh <= H*.6 && fits()) || gf <= .8) break;
+    gf -= .05; }
+  R = Math.max(R, 20); lidW = Math.max(lidW, 30);
   root.style.setProperty('--u', u+'px');
   root.style.setProperty('--ex', lidW+'px');
   root.style.setProperty('--ey', (R*1.44)+'px');
