@@ -2,11 +2,10 @@
 
 One screen for every outreach pipeline you run. Your **hunts** (what you send out: applications, proposals, cold
 email, LinkedIn, events) sit on the eye's outer ring. Your **roosts** (what comes back: clients, your network) sit
-on the inner ring. The busiest lane gets a live funnel card. It reads one JSON feed and redraws every 5 seconds.
+on the inner ring. It reads one JSON feed and redraws every 5 seconds.
 
 It fits whatever screen it is on, with no scroll bar: a phone, a laptop, a 1080p wall, an ultrawide, or half of a
-desk. Wide screens put HUNTS and ROOSTS in large side panels with the eye between them. Narrow ones stack the lanes,
-the eye, then the card.
+desk. At every size HUNTS and ROOSTS sit side by side on top, and the eye takes the room below them.
 
 ![Eagle Eye at 1920x1080 on the demo feed](docs/eagle-eye-1920.png)
 

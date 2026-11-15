@@ -6,7 +6,7 @@ drive the screen: a cron job, a serverless function, a database view. `adapters/
 ```jsonc
 {
   "updated": "2026-11-15T09:00:00Z",          // when your adapter measured it
-  // the live lane's funnel: every key named in config.js `stages` and `key4`, as top-level numbers
+  // funnel totals: every key named in config.js `stages` and `key4`, as top-level numbers
   "applied": 214, "replied": 31, "interviews": 7, "offers": 2,
   "hunts": {                                   // one entry per ring-0 lane, keyed by the lane's `hk`
     "job_boards": {

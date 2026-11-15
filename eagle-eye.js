@@ -7,7 +7,7 @@ const keep = {};
 const CFG = (typeof window!=='undefined' && window.EAGLE_EYE) || {};
 const TAU = Math.PI*2;
 const PIPES = [
-  {id:'applications', ring:0, hk:'applications', name:'Applications', short:'Applications', w:3, live:true},
+  {id:'applications', ring:0, hk:'applications', name:'Applications', short:'Applications', w:3},
   {id:'outreach', ring:0, hk:'outreach', name:'Outreach', short:'Outreach', w:1},
   {id:'network', ring:1, rk:'network', name:'Network', short:'Network', w:1},
 ];
@@ -23,7 +23,7 @@ Object.assign(SRCNAME, CFG.srcname||{});
 const NR = [PIPES.filter(p=>p.ring===0).length, PIPES.filter(p=>p.ring===1).length];
 { const c=[0,0], tw=[0,0]; PIPES.forEach(p=>tw[p.ring]+=(p.w||1));
   PIPES.forEach((p,i)=>{p.i=i; p.k=c[p.ring]++; p.aw=TAU*(p.w||1)/tw[p.ring]; p.a0=PIPES.slice(0,i).filter(o=>o.ring===p.ring).reduce((s,o)=>s+TAU*(o.w||1)/tw[o.ring],0);}); }
-const LIVE = PIPES.findIndex(p=>p.live);
+const LIVE = Math.max(0, PIPES.findIndex(p=>p.live));
 const GAP = 0.03;
 const OUT = [0.64,0.98], INN = [0.34,0.58], PUPIL = 0.26;
 const RING = [OUT, INN];
@@ -161,14 +161,12 @@ style.textContent = `
 #e2.rows.narrow .gly small.why{grid-column:1}
 #e2.rows.narrow .gly{gap:.6em;padding:.3em .3em}
 #e2.rows.narrow .gly svg{width:2.3em;height:2.3em}
-#e2.wide #gl{left:var(--pi);right:auto;top:0;bottom:0;height:auto;width:var(--pw);padding:var(--pt) 0 0;align-items:stretch;justify-content:flex-start;gap:1.6em}
-#e2.wide #gr{display:flex;right:var(--pi);left:auto;top:0;bottom:0;width:var(--pw);padding:var(--pt) 0 0;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:1.8em}
-#e2.wide #lv{display:none}
-#e2.wide #gr .card{width:100%;font-size:1.02em;margin:0}
-#e2.wide #gr .card .nums b{font-size:2.3em}
-#e2.tall #gl{top:var(--gt);bottom:var(--gb);height:auto;flex-direction:row;align-items:flex-start;justify-content:center;gap:var(--gg);padding:0 var(--gp)}
-#e2.tall #gl .grp{flex:1 1 0;max-width:30em}
-#e2.tall #lv{top:auto;bottom:0;height:auto;padding:0 var(--gp) 3.2em}
+#e2.top #gl{left:var(--gx);right:auto;top:var(--pt);bottom:auto;height:auto;width:var(--lw);flex-direction:row;align-items:flex-start;justify-content:center;gap:var(--gg);padding:0}
+#e2.top #gl .grp{flex:1.3 1 0;min-width:0}
+#e2.top #gl #grp1{flex-grow:1}
+#e2 #lv,#e2 #gr{display:none!important}
+#e2 a.gly{color:inherit;text-decoration:none}
+#e2 a.gly:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
 #e2 .nums i{font-size:max(.66em,10px)}
 #e2 .eyebrow{font-size:max(.72em,10px)}
 #e2 .age,#e2 #lv .age{margin-top:.9em;font-size:max(.74em,11px)}
@@ -216,7 +214,8 @@ function glyphText(p,s){
   if(p.ring===0) return `${nm}<small class="num">${s.sent} &middot; ${s.ans}</small>`;
   return `${nm}<small class="num">${s.sent} ${s.sent===1?'row':'rows'}</small>`;
 }
-const glyphs = PIPES.map(p=>`<div class="gly dim" data-i="${p.i}" role="button" tabindex="0"><span class="gs"></span><span class="gt"></span></div>`);
+const laneHref = p => !CFG.lanePages ? null : (CFG.laneBase||'') + '/' + (p.ring?'roost':'hunt') + '/' + (p.hk||p.rk);
+const glyphs = PIPES.map(p=>{ const h=laneHref(p); return h ? `<a class="gly dim" data-i="${p.i}" href="${h}" aria-label="${esc(p.name)}: open its page"><span class="gs"></span><span class="gt"></span></a>` : `<div class="gly dim" data-i="${p.i}" role="button" tabindex="0"><span class="gs"></span><span class="gt"></span></div>`; });
 const grp = (r,t)=>`<div class="grp" id="grp${r}" data-region="${r?'roosts':'hunts'}"><h3>${t}</h3><div class="row">${PIPES.filter(p=>p.ring===r).map(p=>glyphs[p.i]).join('')}</div></div>`;
 const numsHtml = ()=>KEY4.map(([k,l])=>`<div><b data-k="${k}">0</b><i>${l}</i></div>`).join('');
 root.innerHTML = `<div id="stg"><canvas class="main"></canvas>
@@ -231,6 +230,7 @@ const stg = root.querySelector('#stg'), ifr = root.querySelector('#hero'), backB
 const cv = root.querySelector('canvas.main'), ctx = cv.getContext('2d');
 const stCv = root.querySelector('canvas.stream'), sctx = stCv.getContext('2d');
 const liveCard = root.querySelector('#livecard'), lift = root.querySelector('#lift');
+liveCard.remove(); root.querySelector('#lv').remove();
 const scrim = root.querySelector('#scrim'), sheet = root.querySelector('#sheet'), dock = root.querySelector('#dock');
 const glA = root.querySelector('#gl'), glB = root.querySelector('#gr'), lvBox = root.querySelector('#lv'), eyeBox = root.querySelector('#eyebox');
 const grpH = root.querySelector('#grp0'), grpR = root.querySelector('#grp1');
@@ -273,40 +273,24 @@ let W,H,DPR,cx,cy,R,lidW,wide,rot=[0,0];
 function resize(){
   DPR=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
   cv.width=W*DPR; cv.height=H*DPR; cx=W/2;
-  wide = W/H > 1.3 && W >= 900;
+  wide = false;
   const u = Math.max(11, Math.min(W,H)/74);
   root.style.setProperty('--u', u+'px');
-  const narrow = !wide && W < 700;
-  root.className = (wide?'wide':'tall')+' rows'+(narrow?' narrow':'');
-  let gf = wide ? Math.min(1.7, Math.max(1.05, H/(44*u))) : (narrow ? 1.1 : 1.2);
+  const narrow = W < 700;
+  root.className = 'top rows'+(narrow?' narrow':'');
+  let gf = narrow ? 1.05 : Math.min(W>2400?2.1:1.75, Math.max(1.1, Math.min(W/(66*u), H/(46*u))));
   const setGf = ()=>root.style.setProperty('--gf', gf+'em');
-  if(wide){
-    const gut = 3*u, pw = Math.max(25*u, Math.min(W*.28, 46*u));
-    lidW = Math.max(60, (W - 2*pw - 4*gut)/2);
-    R = Math.min(H*.31, lidW/1.5); lidW = Math.min(lidW, R*1.5);
-    cy = H/2;
-    const pi = Math.max(1.6*u, (W/2 - lidW - gut - pw) * .5);
-    root.style.setProperty('--pw', pw+'px'); root.style.setProperty('--pi', pi+'px');
-    if(grpH.parentNode!==glA) glA.appendChild(grpH);
-    if(grpR.parentNode!==glB) glB.appendChild(grpR);
-    if(liveCard.parentNode!==glB) glB.appendChild(liveCard);
-    for(let k=0;k<12;k++){ setGf(); root.style.setProperty('--pt','0px');
-      const hA=grpH.offsetHeight, hB=grpR.offsetHeight+liveCard.offsetHeight+1.8*u*1.02, hh=Math.max(hA,hB);
-      if(hh <= H-4*u || gf<=.8){ root.style.setProperty('--pt', Math.max(2*u,(H-hh)/2)+'px'); break; }
-      gf -= .08; }
-  } else {
-    root.style.setProperty('--gp', (narrow?1:1.6)*u+'px'); root.style.setProperty('--gg', (narrow?1.2:2.4)*u+'px');
-    if(grpH.parentNode!==glA || grpR.parentNode!==glA){ glA.appendChild(grpH); glA.appendChild(grpR); }
-    if(liveCard.parentNode!==lvBox) lvBox.appendChild(liveCard);
-    let rf = narrow ? .16 : .17;
-    for(let k=0;k<10;k++){ setGf();
-      R = Math.min(W*.2, H*rf); lidW = Math.min(W*.4, R*1.75); cy = R*1.42 + 1.4*u;
-      const top = cy + R*1.42 + 1.2*u, bot = lvBox.offsetHeight + .8*u;
-      root.style.setProperty('--gt', top+'px'); root.style.setProperty('--gb', bot+'px');
-      const need = Math.max(grpH.offsetHeight, grpR.offsetHeight), room = H - top - bot;
-      if(need <= room) break;
-      if(rf > .12) rf -= .015; else if(gf > .85) gf -= .06; else break; }
-  }
+  const gp = (narrow?1:2.4)*u, lw = Math.min(W-2*gp, Math.max(60*u, 0.62*W), 150*u);
+  root.style.setProperty('--gg', (narrow?1:3.2)*u+'px'); root.style.setProperty('--lw', lw+'px'); root.style.setProperty('--gx', ((W-lw)/2)+'px');
+  if(grpH.parentNode!==glA || grpR.parentNode!==glA){ glA.appendChild(grpH); glA.appendChild(grpR); }
+  const pt = (narrow?1.2:2.2)*u, markH = 3.2*u, minR = Math.max(44, Math.min(H*.15, W*.12));
+  for(let k=0;k<14;k++){ setGf(); root.style.setProperty('--pt', pt+'px');
+    const hh = Math.max(grpH.offsetHeight, grpR.offsetHeight), top = pt + hh + (narrow?1.2:2)*u;
+    const avail = H - top - markH;
+    R = Math.min(avail/2.9, W*.2); lidW = Math.min(W*.44, R*1.75, (W-2*gp)/2 - 8); R = Math.min(R, lidW/1.5);
+    cy = top + avail/2;
+    if(R >= minR || gf <= .8) break;
+    gf -= .06; }
   root.style.setProperty('--u', u+'px');
   root.style.setProperty('--ex', lidW+'px');
   root.style.setProperty('--ey', (R*1.44)+'px');
@@ -486,9 +470,9 @@ const onClick=e=>{
   const chip=e.target.closest&&e.target.closest('.chip'); if(chip){ if(chip.dataset.copy) copyText(chip.dataset.copy,chip); return; }
   if(panelFor>=0){ if(e.target===scrim||e.target.closest('.x')) closeSheet(); return; }
   if(route!=='home') return;
-  const g=e.target.closest&&e.target.closest('.gly'); if(g){ select(+g.dataset.i); return; }
+  const g=e.target.closest&&e.target.closest('.gly'); if(g){ if(g.tagName==='A') return; select(+g.dataset.i); return; }
   if(liveCard.contains(e.target)){ select(LIVE); return; }
-  const s=segAt(e.clientX,e.clientY); if(s>=0) select(s);
+  const s=segAt(e.clientX,e.clientY); if(s>=0){ const h=laneHref(PIPES[s]); if(h){ location.href=h; return; } select(s); }
 };
 const onPop=()=>{
   if(panelFor>=0) closeSheet();

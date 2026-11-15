@@ -1,5 +1,5 @@
 // layout-check.mjs: render Eagle Eye at phone, laptop, 1080p, ultrawide, right-half and 720p in Chromium, WebKit and
-// Firefox; fail if any two regions (eye, hunts, roosts, live card, mark) overlap, leave the screen, or the page scrolls.
+// Firefox; fail if any two regions (eye, hunts, roosts, mark) overlap, leave the screen, or the page scrolls.
 //   npm i -D playwright && npx playwright install chromium webkit firefox
 //   node scripts/layout-check.mjs http://localhost:8000/ shots
 import { createRequire } from 'module';
