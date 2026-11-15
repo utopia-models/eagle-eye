@@ -169,8 +169,10 @@ style.textContent = `
 #e2.top.stack #gl{flex-direction:column;gap:var(--u)}
 #e2.top #gl .grp{background:rgba(10,10,9,.82);box-shadow:0 0 40px 24px rgba(10,10,9,.82)}
 #e2.top .gly i.ag{opacity:.85;font-size:max(.62em,11px)}
-#e2.top .gly small.why{-webkit-line-clamp:2!important;font-size:max(.62em,11px)!important;opacity:.8}
-#e2.top.narrow .gly small.why{-webkit-line-clamp:3!important}
+#e2.top .gly small.why{-webkit-line-clamp:4!important;font:400 max(.62em,13px)/1.35 Georgia,"Palatino Linotype",serif!important;letter-spacing:.01em!important;text-transform:none!important;opacity:.85}
+#e2.top .gly small.why::first-letter{text-transform:uppercase}
+#e2.top .gly small.num em{font-style:normal;font-size:.42em;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8;margin:0 .9em 0 .35em;vertical-align:.25em}
+#e2.top .gly small.num em:last-child{margin-right:0}
 #e2.top.narrow .gly .gt{grid-template-columns:1fr auto}
 #e2.top.narrow .gly small.num{grid-column:2;grid-row:1 / span 2;align-self:center}
 #e2 #mark{white-space:nowrap}
@@ -220,8 +222,9 @@ function glyphSvg(s){
 function glyphText(p,s){
   const nm=`${p.short}<i class="ag" title="the agent working this lane">${esc(String((DOORS[p.hk||p.rk]||{}).agent||'').toUpperCase())}</i>`;
   if(s.empty) return `${nm}<small class="why">${esc(s.reason)}</small>`;
-  if(p.ring===0) return `${nm}<small class="num">${s.sent} &middot; ${s.ans}</small>`;
-  return `${nm}<small class="num">${s.sent} ${s.sent===1?'row':'rows'}</small>`;
+  if(p.ring===0) return `${nm}<small class="num">${s.sent}<em>sent</em> ${s.ans}<em>back</em></small>`;
+  const unit = (CFG.units||{})[p.rk] || (p.rk==='clients' ? (s.sent===1?'client':'clients') : (s.sent===1?'person':'people'));
+  return `${nm}<small class="num">${s.sent}<em>${unit}</em></small>`;
 }
 const laneHref = p => !CFG.lanePages ? null : (CFG.laneBase||'') + '/' + (p.ring?'roost':'hunt') + '/' + (p.hk||p.rk);
 const glyphs = PIPES.map(p=>{ const h=laneHref(p); return h ? `<a class="gly dim" data-i="${p.i}" href="${h}" aria-label="${esc(p.name)}: open its page"><span class="gs"></span><span class="gt"></span></a>` : `<div class="gly dim" data-i="${p.i}" role="button" tabindex="0"><span class="gs"></span><span class="gt"></span></div>`; });
