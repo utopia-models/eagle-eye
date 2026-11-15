@@ -32,7 +32,7 @@ const KEY4 = [['proposals_sent','sent'],['proposals_answered','answered'],['cont
 if(CFG.stages) STAGES.splice(0, STAGES.length, ...CFG.stages);
 if(CFG.key4) KEY4.splice(0, KEY4.length, ...CFG.key4);
 
-if(!document.querySelector('link[data-cinzel]')){ const fl=document.createElement('link'); fl.rel='stylesheet'; fl.dataset.cinzel=1; fl.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&display=block'; document.head.appendChild(fl); }
+if(!document.querySelector('link[data-cinzel]')){ const fl=document.createElement('link'); fl.rel='stylesheet'; fl.dataset.cinzel=1; fl.href='https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@500&display=block'; document.head.appendChild(fl); }
 const style = document.createElement('style');
 style.textContent = `
 :root{--bg:#0a0a09;--gold:#d9b35b;--pale:#f3dc9a}
@@ -167,11 +167,15 @@ style.textContent = `
 #e2.top #gl #grp1{flex-grow:1}
 #e2 #lv,#e2 #gr{display:none!important}
 #e2.top.stack #gl{flex-direction:column;gap:var(--u)}
-#e2.top #gl .grp{background:rgba(10,10,9,.82);box-shadow:0 0 40px 24px rgba(10,10,9,.82)}
+#e2.top #gl{background:rgba(10,10,9,.78)}
+#e2.top:not(.stack) #gl{align-items:stretch}
+#e2.top:not(.stack) #gl .grp{display:flex;flex-direction:column}
+#e2.top:not(.stack) #gl .grp .row{flex:1;justify-content:space-between}
+#e2.top .gly .gt{column-gap:1.4em!important}
 #e2.top .gly i.ag{opacity:.85;font-size:max(.62em,11px)}
-#e2.top .gly small.why{-webkit-line-clamp:4!important;font:400 max(.62em,13px)/1.35 Georgia,"Palatino Linotype",serif!important;letter-spacing:.01em!important;text-transform:none!important;opacity:.85}
-#e2.top .gly small.why::first-letter{text-transform:uppercase}
+#e2.top .gly small.why{-webkit-line-clamp:4!important;font:500 max(.7em,14px)/1.3 "Cormorant Garamond",Georgia,serif!important;letter-spacing:.01em!important;text-transform:none!important;opacity:.9}
 #e2.top .gly small.num em{font-style:normal;font-size:.42em;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8;margin:0 .9em 0 .35em;vertical-align:.25em}
+#e2.top .gly small.num em{font-size:max(.42em,10px)}
 #e2.top .gly small.num em:last-child{margin-right:0}
 #e2.top.narrow .gly .gt{grid-template-columns:1fr auto}
 #e2.top.narrow .gly small.num{grid-column:2;grid-row:1 / span 2;align-self:center}
@@ -221,7 +225,7 @@ function glyphSvg(s){
 }
 function glyphText(p,s){
   const nm=`${p.short}<i class="ag" title="the agent working this lane">${esc(String((DOORS[p.hk||p.rk]||{}).agent||'').toUpperCase())}</i>`;
-  if(s.empty) return `${nm}<small class="why">${esc(s.reason)}</small>`;
+  if(s.empty) return `${nm}<small class="why">${esc(String(s.reason||'').replace(/^./,c=>c.toUpperCase()))}</small>`;
   if(p.ring===0) return `${nm}<small class="num">${s.sent}<em>sent</em> ${s.ans}<em>back</em></small>`;
   const unit = (CFG.units||{})[p.rk] || (p.rk==='clients' ? (s.sent===1?'client':'clients') : (s.sent===1?'person':'people'));
   return `${nm}<small class="num">${s.sent}<em>${unit}</em></small>`;
@@ -289,16 +293,17 @@ function resize(){
   const u = Math.max(11, Math.min(W,H)/74);
   root.style.setProperty('--u', u+'px');
   const narrow = W < 700;
-  const stack = narrow || W/H < 1.05;
+  const stack = narrow || W/H < 1.05 || PIPES.length <= 4;   // a person's copy (few lanes): one column, larger rows
   root.className = 'top rows'+(narrow?' narrow':'')+(stack?' stack':'');
-  let gf = narrow ? 1.5 : (W>2400 ? 2.9 : 2.5);
+  const nl = PIPES.length;   // few lanes (a person's copy) grow larger: the lanes stay the hero
+  let gf = (narrow ? 1.5 : (W>2400 ? 3.2 : 2.5)) * (nl <= 4 ? 1.6 : 1);
   const setGf = ()=>root.style.setProperty('--gf', gf+'em');
-  const gp = (narrow?1:2.4)*u, lw = stack ? Math.min(W-2*gp, 70*u) : Math.min(W-2*gp, Math.max(60*u, 0.62*W), 150*u);
+  const gp = (narrow?1:2.4)*u, lw = stack ? Math.min(W-2*gp, PIPES.length <= 4 && !narrow ? 90*u : 70*u) : Math.min(W-2*gp, Math.max(60*u, (W>2400?.72:.62)*W), 170*u);
   root.style.setProperty('--gg', (narrow?1:3.2)*u+'px'); root.style.setProperty('--lw', lw+'px'); root.style.setProperty('--gx', ((W-lw)/2)+'px');
   if(grpH.parentNode!==glA || grpR.parentNode!==glA){ glA.appendChild(grpH); glA.appendChild(grpR); }
   const pt = (narrow?1.2:2.2)*u, markH = 3.2*u, minR = Math.max(40, Math.min(H*.13, W*.11));
   const fits = ()=>[...glA.querySelectorAll('.gt')].every(e=>e.scrollWidth<=e.clientWidth+1);
-  for(let k=0;k<40;k++){ setGf(); root.style.setProperty('--pt', pt+'px');
+  for(let k=0;k<90;k++){ setGf(); root.style.setProperty('--pt', pt+'px');
     const hh = stack ? grpH.offsetHeight + grpR.offsetHeight + u : Math.max(grpH.offsetHeight, grpR.offsetHeight), top = pt + hh + (narrow?1.2:2)*u;
     const avail = H - top - markH;
     R = Math.min(avail/2.9, W*.2); lidW = Math.min(W*.44, R*1.75, (W-2*gp)/2 - 8); R = Math.min(R, lidW/1.5);
