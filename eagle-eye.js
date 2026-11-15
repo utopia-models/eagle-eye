@@ -168,14 +168,14 @@ style.textContent = `
 #e2 #lv,#e2 #gr{display:none!important}
 #e2.top.stack #gl{flex-direction:column;gap:var(--u)}
 #e2.top #gl{background:rgba(10,10,9,.78)}
-#e2.top:not(.stack) #gl{align-items:stretch}
-#e2.top:not(.stack) #gl .grp{display:flex;flex-direction:column}
-#e2.top:not(.stack) #gl .grp .row{flex:1;justify-content:space-between}
 #e2.top .gly .gt{column-gap:1.4em!important}
 #e2.top .gly i.ag{opacity:.85;font-size:max(.62em,11px)}
 #e2.top .gly small.why{-webkit-line-clamp:4!important;font:500 max(.7em,14px)/1.3 "Cormorant Garamond",Georgia,serif!important;letter-spacing:.01em!important;text-transform:none!important;opacity:.9}
 #e2.top .gly small.num em{font-style:normal;font-size:.42em;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.8;margin:0 .9em 0 .35em;vertical-align:.25em}
-#e2.top .gly small.num em{font-size:max(.42em,10px)}
+#e2.top .gly small.num em{font-size:max(.42em,11px)}
+#e2.top:not(.stack) .gly small.why{-webkit-line-clamp:1!important;font-style:italic!important}
+#e2.top.stack .gly small.why{-webkit-line-clamp:2!important}
+#e2 #mark{font-size:max(12px,1.1vmin)!important;opacity:.7!important}
 #e2.top .gly small.num em:last-child{margin-right:0}
 #e2.top.narrow .gly .gt{grid-template-columns:1fr auto}
 #e2.top.narrow .gly small.num{grid-column:2;grid-row:1 / span 2;align-self:center}
@@ -296,9 +296,9 @@ function resize(){
   const stack = narrow || W/H < 1.05 || PIPES.length <= 4;   // a person's copy (few lanes): one column, larger rows
   root.className = 'top rows'+(narrow?' narrow':'')+(stack?' stack':'');
   const nl = PIPES.length;   // few lanes (a person's copy) grow larger: the lanes stay the hero
-  let gf = (narrow ? 1.5 : (W>2400 ? 3.2 : 2.5)) * (nl <= 4 ? 1.6 : 1);
+  let gf = (narrow ? 1.5 : (W>2400 ? 3.2 : 2.5)) * (nl <= 4 ? (narrow ? 2.2 : 1.6) : 1);
   const setGf = ()=>root.style.setProperty('--gf', gf+'em');
-  const gp = (narrow?1:2.4)*u, lw = stack ? Math.min(W-2*gp, PIPES.length <= 4 && !narrow ? 90*u : 70*u) : Math.min(W-2*gp, Math.max(60*u, (W>2400?.72:.62)*W), 170*u);
+  const gp = (narrow?1:2.4)*u, lw = stack ? Math.min(W-2*gp, PIPES.length <= 4 && !narrow ? 90*u : 52*u) : Math.min(W-2*gp, Math.max(60*u, (W>2400?.72:.62)*W), 170*u);
   root.style.setProperty('--gg', (narrow?1:3.2)*u+'px'); root.style.setProperty('--lw', lw+'px'); root.style.setProperty('--gx', ((W-lw)/2)+'px');
   if(grpH.parentNode!==glA || grpR.parentNode!==glA){ glA.appendChild(grpH); glA.appendChild(grpR); }
   const pt = (narrow?1.2:2.2)*u, markH = 3.2*u, minR = Math.max(40, Math.min(H*.13, W*.11));
