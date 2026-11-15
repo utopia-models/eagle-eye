@@ -171,7 +171,9 @@ style.textContent = `
 #e2.tall #lv{top:auto;bottom:0;height:auto;padding:0 var(--gp) 3.2em}
 #e2 .nums i{font-size:max(.66em,10px)}
 #e2 .eyebrow{font-size:max(.72em,10px)}
-#e2 .age{margin-top:.9em}
+#e2 .age,#e2 #lv .age{margin-top:.9em;font-size:max(.74em,11px)}
+#e2.rows .gly small.why{-webkit-line-clamp:4}
+#e2.rows.narrow .gly small.why{-webkit-line-clamp:6}
 #e2.rows .gly .gt{white-space:nowrap}
 #e2.rows .gly small.why{white-space:normal}
 #e2.rows .gly.dim{opacity:.85}
