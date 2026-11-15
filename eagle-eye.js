@@ -143,7 +143,9 @@ style.textContent = `
 #e2 #eyebox{position:fixed;pointer-events:none;visibility:hidden}
 #e2 #gr{display:none}
 #e2 .card,#e2 .gly{box-sizing:border-box}
-#e2 .age{font-size:max(.62em,10px);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-top:.55em;text-align:center;min-height:1.2em}
+#e2 canvas.stream{height:6.6em}
+#e2 #mark{opacity:.55;font-size:clamp(10px,1.1vmin,16px)}
+#e2 .age{font-size:max(.74em,11px);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-top:.55em;text-align:center;min-height:1.2em}
 #e2.rows .grp{align-items:stretch;width:100%;gap:.45em;min-width:0}
 #e2.rows .grp h3{font-size:max(.95em,11px);letter-spacing:.55em;opacity:.85;padding-bottom:.5em;border-bottom:1px solid rgba(217,179,91,.22);text-align:left;text-indent:0}
 #e2.rows .row{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:.1em;width:100%}
@@ -267,7 +269,7 @@ function resize(){
   root.style.setProperty('--u', u+'px');
   const narrow = !wide && W < 700;
   root.className = (wide?'wide':'tall')+' rows'+(narrow?' narrow':'');
-  let gf = wide ? Math.min(1.4, Math.max(1.05, H/(50*u))) : (narrow ? 1.1 : 1.2);
+  let gf = wide ? Math.min(1.7, Math.max(1.05, H/(44*u))) : (narrow ? 1.1 : 1.2);
   const setGf = ()=>root.style.setProperty('--gf', gf+'em');
   if(wide){
     const gut = 3*u, pw = Math.max(25*u, Math.min(W*.28, 46*u));
@@ -279,7 +281,7 @@ function resize(){
     if(grpH.parentNode!==glA) glA.appendChild(grpH);
     if(grpR.parentNode!==glB) glB.appendChild(grpR);
     if(liveCard.parentNode!==glB) glB.appendChild(liveCard);
-    for(let k=0;k<8;k++){ setGf(); root.style.setProperty('--pt','0px');
+    for(let k=0;k<12;k++){ setGf(); root.style.setProperty('--pt','0px');
       const hA=grpH.offsetHeight, hB=grpR.offsetHeight+liveCard.offsetHeight+1.8*u*1.02, hh=Math.max(hA,hB);
       if(hh <= H-4*u || gf<=.8){ root.style.setProperty('--pt', Math.max(2*u,(H-hh)/2)+'px'); break; }
       gf -= .08; }
@@ -365,9 +367,9 @@ function drawStream(t,dt){
   const w=stCv.clientWidth,h=stCv.clientHeight; if(!w||!h) return;
   if(stCv.width!==Math.round(w*DPR)||stCv.height!==Math.round(h*DPR)){stCv.width=Math.round(w*DPR);stCv.height=Math.round(h*DPR);}
   sctx.setTransform(DPR,0,0,DPR,0,0); sctx.clearRect(0,0,w,h);
-  const n=STAGES.length, pad=w*.07, X=s=>pad+s*(w-2*pad)/(n-1), my0=h*.6, fs=Math.max(10,w/38);
+  const n=STAGES.length, pad=w*.07, X=s=>pad+s*(w-2*pad)/(n-1), fs=Math.max(10,w/38), lab=Math.max(10,fs*.8)+5, my0=(h-lab)*.56;
   const v=STAGES.map(([k])=>data[k]||0), vmax=Math.max(1,...v), lm=Math.log(1+vmax);
-  const half=s=>{const i=Math.min(n-1,Math.floor(s)),f=s-i,a=Math.log(1+v[i])/lm,b=Math.log(1+v[Math.min(n-1,i+1)])/lm;return (.06+.94*(a+(b-a)*f))*h*.3;};
+  const half=s=>{const i=Math.min(n-1,Math.floor(s)),f=s-i,a=Math.log(1+v[i])/lm,b=Math.log(1+v[Math.min(n-1,i+1)])/lm;return (.06+.94*(a+(b-a)*f))*Math.max(2,Math.min(h*.3,(h-lab)*.36,my0-fs*1.15-12));};
   sctx.globalCompositeOperation='lighter';
   for(const q of fp){
     const before=Math.floor(q.s); q.s+=q.sp*dt*1.3;

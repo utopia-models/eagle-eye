@@ -17,6 +17,12 @@ for (const b of browsers) {
     const pg = await ctx.newPage();
     const errs=[]; pg.on('pageerror',e=>errs.push(String(e)));
     await pg.goto(url+(url.includes('?')?'&':'?')+'t=10',{waitUntil:'load'}); await pg.waitForTimeout(+(process.env.SETTLE||6000));
+    // the eye must have drawn (a slow software renderer can take seconds at 3440 wide): wait up to 20 s, else fail
+    let eyeLit=false; for(let k=0;k<40&&!eyeLit;k++){ eyeLit = await pg.evaluate(()=>{ const c=document.querySelector('canvas.main'); if(!c) return false;
+      const g=document.createElement('canvas'); g.width=g.height=32; const x=g.getContext('2d'); const e=document.querySelector('#eyebox').getBoundingClientRect(), k=c.width/innerWidth; x.drawImage(c,(e.left+e.width*.4)*k,(e.top+e.height*.3)*k,e.width*.2*k,e.height*.4*k,0,0,32,32);
+      const d=x.getImageData(0,0,32,32).data; let m=0; for(let i=0;i<d.length;i+=4) m+=d[i]+d[i+1]+d[i+2]; return m/(32*32*3) > 30; }); if(!eyeLit) await pg.waitForTimeout(500); }
+    if(!eyeLit) errs.push('eye never drew');
+    await pg.waitForTimeout(1200);
     await pg.screenshot({path:`${outdir}/${b}-${w}x${h}.png`});
     const r = await pg.evaluate(()=>{
       const vis = el=>{const s=getComputedStyle(el); const r=el.getBoundingClientRect(); return s.visibility!=='hidden'&&s.display!=='none'&&+s.opacity>0.05&&r.width>2&&r.height>2;};
