@@ -192,7 +192,7 @@ figcaption b { color: var(--gold); font-weight: 500; }
 .stat { display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; }
 .stat dt { text-wrap: balance; font-family: var(--display); font-size: var(--label); letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-dim); }
 .stat dd { font-variant-numeric: lining-nums tabular-nums; margin: 0; font-family: var(--display); font-size: clamp(2.6rem, 1.8rem + 3vw, 4.4rem); line-height: 1; color: var(--gold); text-shadow: 0 0 32px rgba(217,179,91,0.35); }
-number-flow { --number-flow-char-height: 1em; }
+number-flow { --number-flow-char-height: 1em; font-variant-numeric: lining-nums tabular-nums; font-feature-settings: 'lnum' 1, 'tnum' 1; }
 
 /* ── footer ────────────────────────────────────── */
 .foot { margin-top: clamp(100px, 14vw, 180px); padding: 40px var(--gutter) calc(40px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; }
