@@ -44,7 +44,7 @@ if (demo) {
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) { if (!demo.src || demo.src === 'about:blank') demo.src = demo.dataset.src; }
     else if (demo.src && demo.src !== 'about:blank') demo.src = 'about:blank';
-  }, { rootMargin: '300px 0px' }).observe(demo);
+  }, { rootMargin: '100px 0px' }).observe(demo);
 }
 
 // ── nav state ───────────────────────────────────────
