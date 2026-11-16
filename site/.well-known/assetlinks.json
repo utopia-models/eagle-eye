@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "sh.eagleeye.app",
+      "sha256_cert_fingerprints": [
+        "3A:B1:B7:86:86:54:0B:EC:0A:74:E2:F8:9E:DA:07:13:02:90:14:4C:04:D0:91:B5:59:46:FF:40:5A:E3:2F:5A"
+      ]
+    }
+  }
+]
