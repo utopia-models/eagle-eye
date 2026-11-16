@@ -38,6 +38,15 @@ fetch('https://api.github.com/repos/utopia-models/eagle-eye', { headers: { Accep
   })
   .catch(() => {});
 
+// ── the demo runs only while it is near the screen (its own eye is a live canvas) ──
+const demo = document.querySelector('iframe[data-src]');
+if (demo) {
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { if (!demo.src || demo.src === 'about:blank') demo.src = demo.dataset.src; }
+    else if (demo.src && demo.src !== 'about:blank') demo.src = 'about:blank';
+  }, { rootMargin: '300px 0px' }).observe(demo);
+}
+
 // ── nav state ───────────────────────────────────────
 const nav = document.querySelector('.nav');
 const onScroll = () => nav.classList.toggle('scrolled', scrollY > 40);

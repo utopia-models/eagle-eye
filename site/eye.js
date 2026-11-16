@@ -166,9 +166,10 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     const now = performance.now();
     if (last && tier < 2) {
       gaps.push(now - last);
-      if (gaps.length === 45) {
+      const spent = gaps.reduce((a, b) => a + b, 0);
+      if (gaps.length >= 45 || spent > 1200) {
         gaps.sort((a, b) => a - b);
-        if (gaps[22] > 34) degrade();
+        if (gaps[gaps.length >> 1] > 34) degrade();
         gaps = [];
       }
     }
