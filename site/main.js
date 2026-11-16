@@ -41,6 +41,8 @@ fetch('https://api.github.com/repos/utopia-models/eagle-eye', { headers: { Accep
 // ── the demo runs only while it is near the screen (its own eye is a live canvas) ──
 const demo = document.querySelector('iframe[data-src]');
 if (demo) {
+  const fit = () => demo.parentElement.style.setProperty('--demo-scale', String(demo.parentElement.clientWidth / 1920));
+  fit(); addEventListener('resize', fit);
   demo.addEventListener('load', () => demo.classList.toggle('loaded', demo.src !== 'about:blank' && !!demo.getAttribute('src')));
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) { if (!demo.src || demo.src === 'about:blank') demo.src = demo.dataset.src; }
@@ -87,6 +89,11 @@ if (!gsap || !ScrollTrigger) {
         .from('.hero .lead, .hero .install, .hero-ctas, .hero .fine, .scroll-cue',
           { autoAlpha: 0, y: 18, filter: 'blur(8px)', duration: 0.9, ease: 'power3.out', stagger: 0.09, clearProps: 'filter' }, '-=0.7');
     });
+
+    // the scroll cue draws down and fades, on a loop
+    gsap.timeline({ repeat: -1, delay: 2.4 })
+      .fromTo('.scroll-cue span', { scaleY: 0, autoAlpha: 1 }, { scaleY: 1, duration: 1.6, ease: 'power3.out' })
+      .to('.scroll-cue span', { autoAlpha: 0, duration: 0.7, ease: 'power1.in' });
 
     // section reveals (IntersectionObserver triggers, GSAP animates)
     const io = new IntersectionObserver((entries) => {

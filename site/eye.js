@@ -46,9 +46,11 @@ const VERT = /* glsl */`
   uniform float uScale, uTime, uProgress, uBlink, uDisperse, uDpr, uBoost;
   varying float vAlpha;
   varying float vSeed;
+  varying float vPupil;
   void main() {
     vec2 p;
     vSeed = aSeed;
+    vPupil = aType > 0.5 && aType < 1.5 ? 1.0 : 0.0;
     if (aType > 1.5) {
       // ambient dust: drifts up through the hero
       float H = uRes.y + 40.0;
@@ -72,7 +74,7 @@ const VERT = /* glsl */`
       vec2 dir = normalize(t + vec2(0.001, 0.001));
       p += dir * uDisperse * (40.0 + aSeed * 320.0) + vec2(0.0, -uDisperse * aSeed * 160.0);
       float tw = 0.6 + 0.4 * sin(uTime * 2.2 + aSeed * 90.0);
-      vAlpha = mix(0.12, 1.0, d) * tw * (1.0 - uDisperse * 0.85) * (aType > 0.5 ? 1.25 : 1.0);
+      vAlpha = mix(0.12, 1.0, d) * tw * (1.0 - uDisperse * 0.85) * (aType > 0.5 ? 1.5 : 1.15);
       gl_PointSize = (1.2 + aSeed * 2.0) * uDpr * clamp(uScale / 3.0, 0.75, 1.25) * uBoost;
     }
     gl_Position = vec4(p.x / uRes.x * 2.0 - 1.0, 1.0 - p.y / uRes.y * 2.0, 0.0, 1.0);
@@ -82,6 +84,7 @@ const FRAG = /* glsl */`
   precision mediump float;
   varying float vAlpha;
   varying float vSeed;
+  varying float vPupil;
   void main() {
     vec2 c = gl_PointCoord - 0.5;
     float r = length(c);
@@ -90,7 +93,8 @@ const FRAG = /* glsl */`
     vec3 gold = vec3(0.851, 0.702, 0.357);
     vec3 bright = vec3(0.98, 0.90, 0.66);
     vec3 pearl = vec3(0.81, 0.85, 1.0);
-    vec3 col = mix(gold, bright, smoothstep(0.55, 1.0, vSeed));
+    vec3 col = mix(gold, bright, smoothstep(0.45, 1.0, vSeed));
+    col = mix(col, vec3(1.0, 0.96, 0.84), vPupil * 0.55);
     col = mix(col, pearl, step(0.975, vSeed) * 0.7);
     gl_FragColor = vec4(col * a, a);
   }
@@ -100,7 +104,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
   const phone = Math.min(innerWidth, innerHeight) < 600;
-  const N = phone ? 5000 : 9000;
+  const N = phone ? 5600 : 11000;
   const DUST = phone ? 260 : 620;
   const pts = sampleMark(N);
 
@@ -142,7 +146,6 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const scene = new THREE.Scene();
   scene.add(points);
   const camera = new THREE.Camera();
-  window.__eagleEye = u;
 
   let maxDpr = 1.5, sizedW = 0, sizedDpr = 0;
   function layout() {
