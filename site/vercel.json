@@ -2,19 +2,65 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/demo", "destination": "/demo/", "permanent": false }
+    {
+      "source": "/demo",
+      "destination": "/demo/",
+      "permanent": false
+    }
   ],
   "rewrites": [
-    { "source": "/install", "destination": "https://raw.githubusercontent.com/utopia-models/eagle-eye/main/install.sh" },
-    { "source": "/install.sh", "destination": "https://raw.githubusercontent.com/utopia-models/eagle-eye/main/install.sh" },
-    { "source": "/demo/", "destination": "https://utopia-models.github.io/eagle-eye/" },
-    { "source": "/demo/:path+", "destination": "https://utopia-models.github.io/eagle-eye/:path+" }
+    {
+      "source": "/install",
+      "destination": "https://raw.githubusercontent.com/utopia-models/eagle-eye/main/install.sh"
+    },
+    {
+      "source": "/install.sh",
+      "destination": "https://raw.githubusercontent.com/utopia-models/eagle-eye/main/install.sh"
+    },
+    {
+      "source": "/demo/",
+      "destination": "https://utopia-models.github.io/eagle-eye/"
+    },
+    {
+      "source": "/demo/:path+",
+      "destination": "https://utopia-models.github.io/eagle-eye/:path+"
+    }
   ],
   "headers": [
-    { "source": "/(.*)", "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-    ] },
-    { "source": "/(assets|vendor|fonts)/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=604800" } ] }
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/(assets|vendor|fonts)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
   ]
 }
