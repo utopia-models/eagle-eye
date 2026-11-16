@@ -142,6 +142,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const scene = new THREE.Scene();
   scene.add(points);
   const camera = new THREE.Camera();
+  window.__eagleEye = u;
 
   let maxDpr = 1.5, sizedW = 0, sizedDpr = 0;
   function layout() {
@@ -172,7 +173,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2);
     // past the hero only the dust is drawn
     const past = sr.bottom < -200;
-    if (past !== isPast) { isPast = past; geo.setDrawRange(past ? N : 0, past ? DUST : (tier ? Math.floor(N / 2) : Infinity)); }
+    setRange(past);
     const now = performance.now();
     if (!warm) warm = now;
     if (last && tier < 2 && now - warm > 400) {
@@ -187,14 +188,19 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     last = now;
     u.uTime.value = time; draw();
   };
+  function setRange(past) {
+    if (past === isPast) return;
+    isPast = past;
+    geo.setDrawRange(past ? N : 0, past ? DUST : (tier ? Math.floor(N / 2) : Infinity));
+  }
   function degrade() {
     tier++;
-    if (tier === 1) { geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; u.uBoost.value = 1.45; layout(); return; }
+    if (tier === 1) { if (!isPast) geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; u.uBoost.value = 1.45; layout(); return; }
     // still too slow: settle the eye and draw it once, like reduced motion
     frozen = true;
     gsap.killTweensOf(u.uProgress); blink.kill(); u.uProgress.value = 1; u.uBlink.value = 0;
     gsap.ticker.remove(tick);
-    draw();
+    setRange(slot.getBoundingClientRect().bottom < -200); draw();
     // one coalesced redraw per frame while the eye is on screen; nothing once it has left
     let queued = false, offDrawn = false;
     addEventListener('scroll', () => {
@@ -203,7 +209,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
       const off = sr.bottom < -300;
       if (off && offDrawn) return;
       queued = true;
-      requestAnimationFrame(() => { queued = false; offDrawn = off; u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); });
+      requestAnimationFrame(() => { queued = false; offDrawn = off; setRange(sr.bottom < -200); u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); });
     }, { passive: true });
   }
   layout();
