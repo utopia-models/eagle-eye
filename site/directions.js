@@ -14,7 +14,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   const eyeCv = document.querySelector('canvas.ee-canvas');
   const slot = document.querySelector('.eye-slot');
   const hero = document.querySelector('.hero');
-  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 1.45 : 0.15 });
+  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 1.1 : v === 'c' ? 0.5 : 0.15 });
   const sand = mountSand({ canvas: sandCv, gsap, reduced });
   const N = sand.N, U = sand.u; window.__ee = { sand, eye };
   // the eye's geometry in page coordinates (the hero sits at the top of the page)
@@ -33,7 +33,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
     U.uDrift.value = 4;
     sand.move(ground(N), eyeOutline(N, geo()), { attachTo: 1 });
     gsap.timeline({ delay: 0.15 })
-      .to(U.uK, { value: 1, duration: 2.1, ease: 'power2.inOut' })
+      .to(U.uK, { value: 1, duration: 1.7, ease: 'power2.inOut' })
       .add(() => { sand.move(eyeOutline(N, geo()), field(N), { attachFrom: 1, attachTo: 0 }); })
       .to(U.uDrift, { value: 12, duration: 2.6, ease: 'sine.inOut' }, '<')
       .to(U.uK, { value: 1, duration: 2.8, ease: 'sine.inOut' }, '<')
@@ -69,9 +69,12 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   if (v === 'c') {
     followPointer(eye, gsap);
     U.uDrift.value = 3;
-    sand.move(field(N), sunAndHorizon(N, geo(), horizon()), { attachTo: 1 });
-    gsap.to(U.uK, { value: 1, duration: 2.6, ease: 'power2.inOut', delay: 0.1 });
-    gsap.to(eye.st, { glow: 1, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.6 });
+    // sunrise: every grain starts on the horizon (visible from the first frame), then the sun disk rises out of it
+    const g0 = geo(), hz = horizon();
+    const sun = sunAndHorizon(N, g0, hz);
+    sand.move(sun.map((val, i) => (i % 2 ? hz + (Math.random() - .5) * 3 : val)), sun, { attachFrom: 1, attachTo: 1 });
+    gsap.to(U.uK, { value: 1, duration: 1.8, ease: 'power2.out', delay: 0.05 });
+    gsap.to(eye.st, { glow: 0.5, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.2 });
     gsap.fromTo('.sun-glow', { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 2.6, ease: 'power2.out', delay: 0.3 });
     // the sun sets as you scroll away: its glow sinks below the horizon and the grains dim
     gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })

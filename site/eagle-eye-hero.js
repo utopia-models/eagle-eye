@@ -45,7 +45,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     DPR = Math.min(devicePixelRatio || 1, dprCap); W = Math.round(sr.width + 2 * pad); H = Math.round(sr.height + 2 * pad);
     canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
     Object.assign(canvas.style, { width: W + 'px', height: H + 'px', left: -pad + 'px', top: -pad + 'px' });   // one uniform scale: the iris stays a circle
-    lidW = (sr.width - 16) / 2; R = lidW / LID_W;
+    lidW = Math.max(30, (sr.width - 16) / 2); R = Math.max(20, lidW / LID_W);   // a canvas gradient throws on a negative radius
     cx = W / 2; cy = H / 2;
     dk = Math.min(1, R / 200);
     rot[0] = Math.PI / 2 - (PIPES[LIVE].a0 + PIPES[LIVE].aw / 2);
@@ -83,7 +83,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     bl.addColorStop(0, `rgba(217,179,91,${(.10 + .08 * st.glow) * intro})`); bl.addColorStop(.6, `rgba(217,179,91,${(.04 + .04 * st.glow) * intro})`); bl.addColorStop(1, 'rgba(217,179,91,0)');
     ctx.globalAlpha = 1; ctx.fillStyle = bl; ctx.fillRect(0, 0, W, H);
 
-    ctx.save(); ctx.beginPath();
+    ctx.save(); try { ctx.beginPath();
     const steps = 48;
     for (let i = 0; i <= steps; i++) { const x = -1 + 2 * i / steps; const px = cx + x * lidW, py = cy + lidY(x, open, true); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
     for (let i = steps; i >= 0; i--) { const x = -1 + 2 * i / steps; ctx.lineTo(cx + x * lidW, cy + lidY(x, open, false)); }
@@ -131,7 +131,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     ig.addColorStop(0, 'rgba(243,220,154,0)'); ig.addColorStop(.55, `rgba(243,220,154,${(.10 + .06 * pulse) * intro})`); ig.addColorStop(1, 'rgba(217,179,91,0)');
     ctx.globalAlpha = 1; ctx.fillStyle = ig; ctx.beginPath(); ctx.arc(px, py, PUPIL * R * 1.4, 0, TAU); ctx.fill();
     ctx.globalAlpha = .5 * intro * open; const cz = R * .09; ctx.drawImage(spPale, px - R * .09 - cz / 2, py - R * .1 - cz / 2, cz * 2, cz * 2);
-    ctx.restore();
+    } finally { ctx.restore(); }   // never leave a clip on the stack: the next frame's clear would be clipped to it
     ctx.globalCompositeOperation = 'lighter';
     for (let di = 0; di < lid.length; di += stp) { const d = lid[di]; const e = Math.min(1, .15 + ease((t - .2 - d.t * 1.6) / 1.6)); const x = -1 + 2 * d.t, y = lidY(x, open, d.up);
       const lx = cx + x * lidW, ly = cy + y + d.off * (4 + (1 - Math.abs(x)) * 6) * dk;
@@ -146,9 +146,10 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
 
   const tick = () => { if (visible && !frozen) frame(performance.now()); };
   resize();
-  let lastW = innerWidth;
+  let lastW = innerWidth, lastSlotW = 0;
   addEventListener('resize', () => { if (innerWidth !== lastW || !reduced) { lastW = innerWidth; resize(); } });
   if (document.fonts) document.fonts.ready.then(resize);
+  new ResizeObserver(() => { if (slot.getBoundingClientRect().width !== lastSlotW) { lastSlotW = slot.getBoundingClientRect().width; resize(); } }).observe(slot);
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { rootMargin: '80px' }).observe(canvas);
   if (reduced) { t0 = -9e5; frame(performance.now()); return { st, resize, geometry: () => ({ cx, cy, R, lidW }), degrade() {} }; }
   gsap.ticker.add(tick);
