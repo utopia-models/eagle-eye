@@ -97,7 +97,7 @@ i { font-style: normal; color: var(--gold-dim); }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 88px var(--gutter) 72px; text-align: center;
 }
-.sand { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+.sand { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
 main, .foot, .nav { position: relative; z-index: 1; }
 .nav { position: fixed; z-index: 20; }
 .eye-slot { width: min(540px, 82vw, calc(46svh * 1.667)); aspect-ratio: 200 / 120; margin-bottom: clamp(16px, 3vh, 40px); display: grid; place-items: center; }

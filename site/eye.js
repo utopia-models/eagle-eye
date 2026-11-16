@@ -43,7 +43,7 @@ const VERT = /* glsl */`
   attribute float aSeed;
   attribute float aType;
   uniform vec2 uRes, uCenter, uLook;
-  uniform float uScale, uTime, uProgress, uBlink, uDisperse, uDpr;
+  uniform float uScale, uTime, uProgress, uBlink, uDisperse, uDpr, uBoost;
   varying float vAlpha;
   varying float vSeed;
   void main() {
@@ -73,7 +73,7 @@ const VERT = /* glsl */`
       p += dir * uDisperse * (40.0 + aSeed * 320.0) + vec2(0.0, -uDisperse * aSeed * 160.0);
       float tw = 0.6 + 0.4 * sin(uTime * 2.2 + aSeed * 90.0);
       vAlpha = mix(0.12, 1.0, d) * tw * (1.0 - uDisperse * 0.85) * (aType > 0.5 ? 1.25 : 1.0);
-      gl_PointSize = (1.2 + aSeed * 2.0) * uDpr * clamp(uScale / 3.0, 0.75, 1.25);
+      gl_PointSize = (1.2 + aSeed * 2.0) * uDpr * clamp(uScale / 3.0, 0.75, 1.25) * uBoost;
     }
     gl_Position = vec4(p.x / uRes.x * 2.0 - 1.0, 1.0 - p.y / uRes.y * 2.0, 0.0, 1.0);
   }
@@ -131,7 +131,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const u = {
     uRes: { value: new THREE.Vector2(1, 1) }, uCenter: { value: new THREE.Vector2() }, uLook: { value: new THREE.Vector2() },
     uScale: { value: 3 }, uTime: { value: 0 }, uProgress: { value: reduced ? 1 : 0 }, uBlink: { value: 0 },
-    uDisperse: { value: 0 }, uDpr: { value: 1 },
+    uDisperse: { value: 0 }, uDpr: { value: 1 }, uBoost: { value: 1 },
   };
   const mat = new THREE.ShaderMaterial({
     uniforms: u, vertexShader: VERT, fragmentShader: FRAG,
@@ -143,14 +143,19 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   scene.add(points);
   const camera = new THREE.Camera();
 
-  let maxDpr = 1.5;
+  let maxDpr = 1.5, sizedW = 0, sizedDpr = 0;
   function layout() {
     const sr = slot.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, maxDpr);
     renderer.setPixelRatio(dpr);
     // the canvas is fixed to the viewport: the eye rides the page, the dust stays for the whole scroll
-    renderer.setSize(innerWidth, innerHeight, false);
-    u.uRes.value.set(innerWidth, innerHeight);
+    // size only on width changes (rotation, window resize), never on height-only changes such as a phone's
+    // URL bar or a full-page capture, so the drawing buffer is never stretched or cleared mid-scroll
+    if (innerWidth !== sizedW || dpr !== sizedDpr) {
+      sizedW = innerWidth; sizedDpr = dpr;
+      renderer.setSize(innerWidth, innerHeight, true);
+      u.uRes.value.set(innerWidth, innerHeight);
+    }
     u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2);
     u.uScale.value = sr.width / VB_W;
     u.uDpr.value = dpr;
@@ -184,7 +189,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   };
   function degrade() {
     tier++;
-    if (tier === 1) { geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; layout(); return; }
+    if (tier === 1) { geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; u.uBoost.value = 1.45; layout(); return; }
     // still too slow: settle the eye and draw it once, like reduced motion
     frozen = true;
     gsap.killTweensOf(u.uProgress); blink.kill(); u.uProgress.value = 1; u.uBlink.value = 0;
