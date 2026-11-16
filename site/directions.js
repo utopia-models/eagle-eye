@@ -81,6 +81,22 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
     drawFlourishes(gsap);
   }
 
+  // adaptive quality: watch the frame gaps; a slow device steps down twice (half density at 1x, then still)
+  let tier = 0, last = 0, gaps = [], warm = performance.now();
+  const watch = () => {
+    const now = performance.now();
+    if (last && now - warm > 600 && tier < 2) {
+      gaps.push(now - last);
+      if (gaps.length >= 30 || gaps.reduce((a, b) => a + b, 0) > 800) {
+        gaps.sort((a, b) => a - b);
+        if (gaps[gaps.length >> 1] > 34) { tier++; eye.degrade(tier); sand.degrade(tier); if (tier === 2) gsap.ticker.remove(watch); }
+        gaps = [];
+      }
+    }
+    last = now;
+  };
+  gsap.ticker.add(watch);
+
   let lastW = innerWidth;
   addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; eye.resize(); sand.size(); settle(); });
 }

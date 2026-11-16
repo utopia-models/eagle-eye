@@ -233,7 +233,8 @@ number-flow { --number-flow-char-height: 1em; font-variant-numeric: lining-nums 
 }
 
 /* ── directions (a.html, b.html, c.html): the real Eagle Eye in the hero ── */
-.ee-canvas { position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none; }
+.ee-canvas { position: absolute; z-index: 0; pointer-events: none; }
+.hero:has(.eye-slot.ee) { overflow-x: clip; }
 .hero-copy, .scroll-cue { position: relative; z-index: 1; }
 .scroll-cue { position: absolute; }
 .eye-slot.ee { position: relative; width: min(540px, 90vw, calc(44svh * 1.232)); aspect-ratio: 1.232; margin-bottom: clamp(8px, 2vh, 28px); }

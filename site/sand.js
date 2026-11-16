@@ -32,8 +32,8 @@ const VS = `attribute vec2 aFrom; attribute vec2 aTo; attribute vec4 aS;
 
 export function mountSand({ canvas, gsap, reduced = false, count }) {
   const phone = Math.min(innerWidth, innerHeight) < 600;
-  const N = count || (phone ? 3200 : 6500);
-  const DPR = Math.min(devicePixelRatio || 1, 2);
+  const N = count || (phone ? 2600 : 4800);
+  let DPR = Math.min(devicePixelRatio || 1, 1.5);
   const renderer = new Renderer({ canvas, alpha: false, antialias: false, dpr: DPR, powerPreference: 'high-performance' });
   // opaque, cleared to the page ink, exactly like the Utopia sites: additive grains on a solid ground
   const gl = renderer.gl; gl.clearColor(10 / 255, 10 / 255, 9 / 255, 1);
@@ -65,7 +65,11 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
   let running = true;
   const tick = (time) => { if (!running) return; u.uT.value = time; u.uScroll.value = scrollY; draw(); };
   if (!reduced) gsap.ticker.add(tick);
-  return { N, u, move, draw, size, pause: (v) => { running = !v; }, seeds };
+  function degrade(tier) {
+    if (tier === 1) { geometry.setDrawRange(0, Math.floor(N / 2)); renderer.dpr = DPR = 1; u.uDpr.value = 1; u.uSize.value *= 1.3; sizedW = 0; size(); return; }
+    running = false;   // the last frame stays on the opaque canvas
+  }
+  return { N, u, move, draw, size, degrade, pause: (v) => { running = !v; }, seeds };
 }
 
 // ---------- formations: Float32Array(N*2) of CSS-pixel points (page coords when attached, viewport otherwise) ----------

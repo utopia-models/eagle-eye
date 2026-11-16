@@ -36,17 +36,19 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   const LIVE = PIPES.findIndex((p) => p.live);
 
   let W, H, DPR, cx, cy, R, lidW, dk = 1; const rot = [0, 0];
+  let lite = false, frozen = false, dprCap = 2;
   function resize() {
-    const r = canvas.parentElement.getBoundingClientRect(), s = slot.getBoundingClientRect();
-    DPR = Math.min(devicePixelRatio || 1, 2); W = Math.round(r.width); H = Math.round(r.height);
+    // the canvas is the eye's own box (the slot plus a margin for the glow and lash dust), never the whole hero
+    const sr = slot.getBoundingClientRect(), pad = Math.round(sr.width * .1);
+    DPR = Math.min(devicePixelRatio || 1, dprCap); W = Math.round(sr.width + 2 * pad); H = Math.round(sr.height + 2 * pad);
     canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
-    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';   // one uniform scale: the iris stays a circle
-    lidW = (s.width - 16) / 2; R = lidW / LID_W;
-    cx = s.left - r.left + s.width / 2; cy = s.top - r.top + s.height / 2;
+    Object.assign(canvas.style, { width: W + 'px', height: H + 'px', left: -pad + 'px', top: -pad + 'px' });   // one uniform scale: the iris stays a circle
+    lidW = (sr.width - 16) / 2; R = lidW / LID_W;
+    cx = W / 2; cy = H / 2;
     dk = Math.min(1, R / 200);
     rot[0] = Math.PI / 2 - (PIPES[LIVE].a0 + PIPES[LIVE].aw / 2);
     { const r1 = PIPES.find((p) => p.ring === 1); rot[1] = -Math.PI / 2 + (r1 ? r1.aw / 2 : 0); }
-    if (reduced) frame(performance.now() + 9e5);
+    if (reduced || frozen) frame(performance.now());
   }
 
   const rnd = (a, b) => a + Math.random() * (b - a);
@@ -91,11 +93,12 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
       ctx.lineWidth = 1; ctx.strokeStyle = 'rgb(243,220,154)'; ctx.globalAlpha = (.10 + .5 * a) * intro;
       ctx.beginPath(); ctx.arc(ix, iy, r0 * R, a0, a1); ctx.stroke(); ctx.beginPath(); ctx.arc(ix, iy, r1 * R, a0, a1); ctx.stroke();
     }
-    for (const f of fibres) { const e = ease((t - f.del * .7) / 2.2); if (e <= 0) continue; const a = f.a + Math.sin(t * .1 + f.tw) * .01, r0 = f.r * R * e, r1 = (f.r + f.l) * R * e;
+    const stp = lite ? 2 : 1;
+    for (let fi = 0; fi < fibres.length; fi += stp) { const f = fibres[fi]; const e = ease((t - f.del * .7) / 2.2); if (e <= 0) continue; const a = f.a + Math.sin(t * .1 + f.tw) * .01, r0 = f.r * R * e, r1 = (f.r + f.l) * R * e;
       ctx.globalAlpha = (.03 + .03 * Math.sin(t * .8 + f.tw)) * e; ctx.strokeStyle = '#d9b35b'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(ix + Math.cos(a) * r0, iy + Math.sin(a) * r0); ctx.lineTo(ix + Math.cos(a) * r1, iy + Math.sin(a) * r1); ctx.stroke(); }
     const rim = (r, al, lw, x, y) => { ctx.globalAlpha = al * intro; ctx.lineWidth = lw; ctx.strokeStyle = '#f3dc9a'; ctx.beginPath(); ctx.arc(x, y, r * R, 0, TAU); ctx.stroke(); };
     rim(1.005, .45, 1.2, ix, iy); rim(1.03, .12, 5, ix, iy); rim(PUPIL, .4, 1.2, cx + gx, cy + gy); rim(PUPIL + .01, .08, 5, cx + gx, cy + gy);
-    for (const q of parts) {
+    for (let qi = 0; qi < parts.length; qi += stp) { const q = parts[qi];
       const a = act[q.pi], vis = a * .55;
       if (q.gate > vis * 1.15 + .04) continue;
       q.p += q.sp * dt * (.5 + a * 1.2); if (q.p >= 1) { q.p -= 1; q.off = rnd(-1, 1); }
@@ -124,7 +127,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     ctx.globalAlpha = .5 * intro * open; const cz = R * .09; ctx.drawImage(spPale, px - R * .09 - cz / 2, py - R * .1 - cz / 2, cz * 2, cz * 2);
     ctx.restore();
     ctx.globalCompositeOperation = 'lighter';
-    for (const d of lid) { const e = Math.min(1, .15 + ease((t - .2 - d.t * 1.6) / 1.6)); const x = -1 + 2 * d.t, y = lidY(x, open, d.up);
+    for (let di = 0; di < lid.length; di += stp) { const d = lid[di]; const e = Math.min(1, .15 + ease((t - .2 - d.t * 1.6) / 1.6)); const x = -1 + 2 * d.t, y = lidY(x, open, d.up);
       const lx = cx + x * lidW, ly = cy + y + d.off * (4 + (1 - Math.abs(x)) * 6) * dk;
       ctx.globalAlpha = (.55 + .4 * Math.sin(t * 2 + d.tw)) * e * (.5 + .5 * Math.min(1, 1.2 - Math.abs(x) * .6)); const z = 4.2 * d.s * Math.max(.7, dk); ctx.drawImage(d.tw > 3 ? spPale : spGold, lx - z / 2, ly - z / 2, z, z); }
     const openB = sm((t - .3) / 2.4) * (1 - st.blink * .35);   // the brow barely moves in a blink
@@ -135,13 +138,13 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  const tick = () => { if (visible) frame(performance.now()); };
+  const tick = () => { if (visible && !frozen) frame(performance.now()); };
   resize();
   let lastW = innerWidth;
   addEventListener('resize', () => { if (innerWidth !== lastW || !reduced) { lastW = innerWidth; resize(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { rootMargin: '80px' }).observe(canvas);
-  if (reduced) { t0 = -9e5; frame(performance.now()); return { st, resize, geometry: () => ({ cx, cy, R, lidW }) }; }
+  if (reduced) { t0 = -9e5; frame(performance.now()); return { st, resize, geometry: () => ({ cx, cy, R, lidW }), degrade() {} }; }
   gsap.ticker.add(tick);
 
   // blink every few seconds, sometimes twice
@@ -149,7 +152,12 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   blink.to(st, { blink: 1, duration: .1, ease: 'power2.in' }).to(st, { blink: 0, duration: .18, ease: 'power2.out' })
        .to(st, { blink: 1, duration: .09, ease: 'power2.in' }, '+=3.1').to(st, { blink: 0, duration: .16, ease: 'power2.out' })
        .to(st, { blink: 1, duration: .08, ease: 'power2.in' }, '+=.14').to(st, { blink: 0, duration: .15, ease: 'power2.out' });
-  return { st, resize, geometry: () => ({ cx, cy, R, lidW, W, H }), restart: (s = 0) => { t0 = performance.now() + s * 1000; } };
+  // a device that cannot hold the frame rate: half the grains at 1x, then a still eye (fully open, drawn once)
+  function degrade(tier) {
+    if (tier === 1) { lite = true; dprCap = 1; resize(); return; }
+    frozen = true; blink.kill(); st.blink = 0; t0 = performance.now() - 9e5; frame(performance.now());
+  }
+  return { st, resize, degrade, geometry: () => ({ cx, cy, R, lidW, W, H }) };
 }
 
 // the pupil follows the pointer; with no pointer (phones) it glances on its own
