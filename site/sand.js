@@ -147,21 +147,22 @@ export function wadjetMarks(N, g) {
   for (let i = 0; i < N; i++) { pts[i * 2] = cx + (pts[i * 2] - 200) * S; pts[i * 2 + 1] = cy + (pts[i * 2 + 1] - 60) * S; }
   return pts;
 }
-// a Horus falcon wing: covert rows, then a fan of long primaries with separate feather tips, spread from the shoulder
+// a Horus falcon wing, spread: a fan of long primaries with separate tips (longest at the outer edge), coverts at the shoulder
 export function wing(N, W = innerWidth, H = innerHeight, dir = 1) {
-  const span = Math.min(W * 1.05, 1500), k = span / 1000;
-  const pts = sampleShape(N, 1000, 460, (c) => {
-    c.translate(70, 380);
-    for (let f = 0; f < 12; f++) {                                  // primaries and secondaries: long tapered feathers
-      const a = -0.18 - f * 0.105, len = 520 + 330 * Math.sin((f / 11) * Math.PI * .82), wdt = 22 + f * 1.2;
-      c.save(); c.rotate(a); c.beginPath(); c.moveTo(0, -wdt / 2); c.quadraticCurveTo(len * .55, -wdt, len, -2); c.quadraticCurveTo(len * .55, wdt * .55, 0, wdt / 2); c.fill(); c.restore();
+  const k = Math.min(W * .92, 1300) / 1000;
+  const ang = (f) => -0.05 - f * 0.073, len = (f) => 380 + 540 * Math.pow(1 - f / 11, .7);
+  const pts = sampleShape(N, 1000, 520, (c) => {
+    c.translate(60, 470);
+    for (let f = 0; f < 12; f++) {
+      const a = ang(f), L = len(f), wd = 26 + f * 1.5;
+      c.save(); c.rotate(a); c.beginPath(); c.moveTo(0, -wd / 2); c.quadraticCurveTo(L * .6, -wd * .9, L, -3); c.quadraticCurveTo(L * .6, wd * .5, 0, wd / 2); c.fill(); c.restore();
     }
-    c.globalCompositeOperation = 'destination-out'; c.lineWidth = 5;   // gaps between feathers
-    for (let f = 0; f < 12; f++) { const a = -0.18 - f * 0.105 - 0.052; c.save(); c.rotate(a); c.beginPath(); c.moveTo(180, 0); c.lineTo(900, 0); c.stroke(); c.restore(); }
+    c.globalCompositeOperation = 'destination-out'; c.lineWidth = 9;
+    for (let f = 0; f < 11; f++) { const a = (ang(f) + ang(f + 1)) / 2; c.save(); c.rotate(a); c.beginPath(); c.moveTo(250, 0); c.lineTo(1000, 0); c.stroke(); c.restore(); }
     c.globalCompositeOperation = 'source-over';
-    c.beginPath(); c.ellipse(150, -120, 210, 120, -0.55, 0, Math.PI * 2); c.fill();   // coverts at the shoulder
+    c.save(); c.rotate(-0.42); c.beginPath(); c.ellipse(170, -10, 210, 70, 0, 0, Math.PI * 2); c.fill(); c.restore();   // coverts
   });
-  const ox = dir > 0 ? (W - span) / 2 : (W + span) / 2, oy = H * .5 - 230 * k;
-  for (let i = 0; i < N; i++) { pts[i * 2] = ox + dir * pts[i * 2] * k; pts[i * 2 + 1] = oy + pts[i * 2 + 1] * k; }
+  const ox = (W - 1000 * k) / 2, oy = H * .5 - 300 * k;
+  for (let i = 0; i < N; i++) { const x = pts[i * 2] * k; pts[i * 2] = dir > 0 ? ox + x : W - ox - x; pts[i * 2 + 1] = oy + pts[i * 2 + 1] * k; }
   return pts;
 }

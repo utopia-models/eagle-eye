@@ -72,6 +72,8 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
         .to(U.uLum, { value: 1, duration: 1.5 }, '<');
     };
     document.querySelectorAll('main > section:not(.hero)').forEach((s) => ScrollTrigger.create({ trigger: s, start: 'top 70%', onEnter: sweep, onEnterBack: sweep }));
+    // ?pose=wing holds the formed wing (a still for design review)
+    if (/[?&]pose=wing/.test(location.search)) gsap.delayedCall(3, () => { flying = true; sand.move(field(N), wingAt(1)); U.uK.value = 1; });
     settle = () => { const f = field(N); sand.move(f, f); U.uK.value = 1; };
   }
 
