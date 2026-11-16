@@ -89,7 +89,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
       gaps.push(now - last);
       if (gaps.length >= 30 || gaps.reduce((a, b) => a + b, 0) > 800) {
         gaps.sort((a, b) => a - b);
-        if (gaps[gaps.length >> 1] > 34) { tier++; eye.degrade(tier); sand.degrade(tier); if (tier === 2) gsap.ticker.remove(watch); }
+        if (gaps[gaps.length >> 1] > 34 && !/[?&]q=hi/.test(location.search)) { tier++; eye.degrade(tier); sand.degrade(tier); if (tier === 2) gsap.ticker.remove(watch); }
         gaps = [];
       }
     }

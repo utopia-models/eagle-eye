@@ -27,6 +27,8 @@ function sprite(rgb, size) {
 }
 
 export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }) {
+  // the canvas is screen-blended (it can only add light), so the pupil's dark comes from a shade behind it
+  const shade = document.createElement('div'); shade.className = 'ee-shade'; canvas.before(shade);
   const ctx = canvas.getContext('2d');
   const spGold = sprite('217,179,91', 32), spPale = sprite('243,220,154', 32);
   const PIPES = DEMO.map((p, i) => ({ ...p, i }));
@@ -48,6 +50,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     dk = Math.min(1, R / 200);
     rot[0] = Math.PI / 2 - (PIPES[LIVE].a0 + PIPES[LIVE].aw / 2);
     { const r1 = PIPES.find((p) => p.ring === 1); rot[1] = -Math.PI / 2 + (r1 ? r1.aw / 2 : 0); }
+    const d = PUPIL * R * 2.5; Object.assign(shade.style, { width: d + 'px', height: d + 'px', left: (sr.width - d) / 2 + 'px', top: (sr.height - d) / 2 + 'px' });
     if (reduced || frozen) frame(performance.now());
   }
 
@@ -72,7 +75,9 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     const intro = Math.max(ease(t / 3.2) * .6, sm((t - .3) / 2.4));
     const gx = st.lx * R * .1, gy = st.ly * R * .08;   // the gaze: pupil, iris dust and highlight move together
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = 'source-over';
-    ctx.clearRect(0, 0, W, H);
+    // additive light needs an opaque ground (on a transparent canvas the grains come out several times dimmer):
+    // black, and the canvas is screen-blended onto the sand, so black adds nothing and the box never shows
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
     const bl = ctx.createRadialGradient(cx, cy, R * .2, cx, cy, R * 1.25);
     bl.addColorStop(0, `rgba(217,179,91,${(.10 + .08 * st.glow) * intro})`); bl.addColorStop(.6, `rgba(217,179,91,${(.04 + .04 * st.glow) * intro})`); bl.addColorStop(1, 'rgba(217,179,91,0)');
@@ -117,6 +122,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
       ctx.drawImage(spPale, cx + gx + Math.cos(a) * r - z / 2, cy + gy + Math.sin(a) * r - z / 2, z, z); }
     ctx.globalCompositeOperation = 'source-over';
     const px = cx + gx, py = cy + gy;
+    if (gx !== shade._gx || gy !== shade._gy) { shade._gx = gx; shade._gy = gy; shade.style.transform = `translate(${gx.toFixed(1)}px,${gy.toFixed(1)}px)`; }
     const pg = ctx.createRadialGradient(px, py, 0, px, py, PUPIL * R);
     pg.addColorStop(0, 'rgba(10,10,9,1)'); pg.addColorStop(.82, 'rgba(10,10,9,.97)'); pg.addColorStop(1, 'rgba(10,10,9,.6)');
     ctx.globalAlpha = intro; ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(px, py, PUPIL * R, 0, TAU); ctx.fill();

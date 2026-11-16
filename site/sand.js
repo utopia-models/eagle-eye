@@ -109,7 +109,7 @@ export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
   for (let i = 0; i < N; i++) {
     const s = rand(); let x, y;
     if (s < .42) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .045); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
-    else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(rand()); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
+    else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(.42 + .58 * rand()); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }   // the fill keeps clear of the iris
     else if (s < .66) { const t = -Math.PI * (.08 + rand() * .84), r = Rs * (1.12 + rand() * .55); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r * (1 - .25 * rand()); }   // rays
     else { const u = rand(); x = u * W; y = horizonY + (rand() - .5) * 3 * (1 + 3 * Math.pow(Math.abs(u - .5) * 2, 2)); }
     if (y > horizonY + 2 && s < .66) { y = horizonY + (rand() - .5) * 3; }
