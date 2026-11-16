@@ -32,7 +32,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   const PIPES = DEMO.map((p, i) => ({ ...p, i }));
   { const tw = [0, 0]; PIPES.forEach((p) => (tw[p.ring] += p.w));
     PIPES.forEach((p, i) => { p.aw = TAU * p.w / tw[p.ring]; p.a0 = PIPES.slice(0, i).filter((o) => o.ring === p.ring).reduce((s, o) => s + TAU * o.w / tw[o.ring], 0); }); }
-  const act = PIPES.map((p) => (p.live ? 0.85 : Math.min(0.8, 0.1 + 0.55 * Math.log10(1 + p.sent) / 3.3)));
+  const act = PIPES.map((p) => (p.live ? 1 : Math.min(0.8, 0.25 + 0.55 * Math.log10(1 + p.sent) / 2.4)));   // a busy demo fleet
   const LIVE = PIPES.findIndex((p) => p.live);
 
   let W, H, DPR, cx, cy, R, lidW, dk = 1; const rot = [0, 0];
@@ -152,9 +152,9 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   blink.to(st, { blink: 1, duration: .1, ease: 'power2.in' }).to(st, { blink: 0, duration: .18, ease: 'power2.out' })
        .to(st, { blink: 1, duration: .09, ease: 'power2.in' }, '+=3.1').to(st, { blink: 0, duration: .16, ease: 'power2.out' })
        .to(st, { blink: 1, duration: .08, ease: 'power2.in' }, '+=.14').to(st, { blink: 0, duration: .15, ease: 'power2.out' });
-  // a device that cannot hold the frame rate: half the grains at 1x, then a still eye (fully open, drawn once)
+  // a device that cannot hold the frame rate: 1x pixels, then a still eye (fully open, drawn once)
   function degrade(tier) {
-    if (tier === 1) { lite = true; dprCap = 1; resize(); return; }
+    if (tier === 1) { dprCap = 1; resize(); return; }   // keep every grain: the eye is the hero
     frozen = true; blink.kill(); st.blink = 0; t0 = performance.now() - 9e5; frame(performance.now());
   }
   return { st, resize, degrade, geometry: () => ({ cx, cy, R, lidW, W, H }) };
