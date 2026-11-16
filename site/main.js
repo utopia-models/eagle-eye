@@ -41,8 +41,6 @@ fetch('https://api.github.com/repos/utopia-models/eagle-eye', { headers: { Accep
 // ── the demo runs only while it is near the screen (its own eye is a live canvas) ──
 const demo = document.querySelector('iframe[data-src]');
 if (demo) {
-  const fit = () => demo.parentElement.style.setProperty('--demo-scale', String(demo.parentElement.clientWidth / 1920));
-  fit(); addEventListener('resize', fit);
   demo.addEventListener('load', () => demo.classList.toggle('loaded', demo.src !== 'about:blank' && !!demo.getAttribute('src')));
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) { if (!demo.src || demo.src === 'about:blank') demo.src = demo.dataset.src; }
