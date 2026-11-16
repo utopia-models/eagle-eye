@@ -100,7 +100,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
   const phone = Math.min(innerWidth, innerHeight) < 600;
-  const N = phone ? 6500 : 12000;
+  const N = phone ? 5000 : 9000;
   const DUST = phone ? 260 : 620;
   const pts = sampleMark(N);
 
@@ -143,22 +143,48 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   scene.add(points);
   const camera = new THREE.Camera();
 
+  let maxDpr = 1.5;
   function layout() {
     const hr = hero.getBoundingClientRect();
     const sr = slot.getBoundingClientRect();
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const dpr = Math.min(devicePixelRatio || 1, maxDpr);
     renderer.setPixelRatio(dpr);
     renderer.setSize(hr.width, hr.height, false);
     u.uRes.value.set(hr.width, hr.height);
     u.uCenter.value.set(sr.left - hr.left + sr.width / 2, sr.top - hr.top + sr.height / 2);
     u.uScale.value = sr.width / VB_W;
     u.uDpr.value = dpr;
-    if (reduced) draw();
+    if (reduced || frozen) draw();
   }
   function draw() { renderer.render(scene, camera); }
 
-  let visible = true;
-  const tick = (time) => { if (!visible) return; u.uTime.value = time; draw(); };
+
+  // Adaptive quality: a device that cannot hold the frame rate gets half the sand at 1x, then a still eye.
+  let visible = true, tier = 0, last = 0, gaps = [], frozen = false;
+  const tick = (time) => {
+    if (!visible || frozen) return;
+    const now = performance.now();
+    if (last && tier < 2) {
+      gaps.push(now - last);
+      if (gaps.length === 45) {
+        gaps.sort((a, b) => a - b);
+        if (gaps[22] > 34) degrade();
+        gaps = [];
+      }
+    }
+    last = now;
+    u.uTime.value = time; draw();
+  };
+  function degrade() {
+    tier++;
+    if (tier === 1) { geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; layout(); return; }
+    // still too slow: settle the eye and draw it once, like reduced motion
+    frozen = true;
+    gsap.killTweensOf(u.uProgress); blink.kill(); u.uProgress.value = 1; u.uBlink.value = 0;
+    gsap.ticker.remove(tick);
+    draw();
+    addEventListener('scroll', () => { if (visible) draw(); }, { passive: true });
+  }
   layout();
   addEventListener('resize', layout);
   if (document.fonts) document.fonts.ready.then(layout);
@@ -199,6 +225,6 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   // scrolling away scatters the sand
   ScrollTrigger.create({
     trigger: hero, start: 'top top', end: 'bottom top', scrub: true,
-    onUpdate: (st) => { u.uDisperse.value = st.progress; },
+    onUpdate: (st) => { u.uDisperse.value = st.progress; if (frozen) draw(); },
   });
 }
