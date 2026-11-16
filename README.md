@@ -1,8 +1,17 @@
 # Eagle Eye
 
-One screen for every outreach pipeline you run. Your **hunts** (what you send out: applications, proposals, cold
-email, LinkedIn, events) sit on the eye's outer ring. Your **roosts** (what comes back: clients, your network) sit
-on the inner ring. It reads one JSON feed and redraws every 5 seconds.
+**One eye on every agent.** Eagle Eye is the open-source screen for your Claude Code agents. Each agent gets a lane on
+the eye: what it sent out sits on the outer ring (**hunts**: applications, proposals, cold email, posts), and what came
+back sits on the inner ring (**roosts**: replies, clients, your network). It reads one JSON feed and redraws every 5
+seconds, on a phone, a laptop or a wall.
+
+```bash
+curl -fsSL eagleeye.sh/install | sh
+```
+
+That downloads Eagle Eye into `./eagle-eye` and serves the demo on http://localhost:8000. Site: [eagleeye.sh](https://eagleeye.sh).
+Live demo: [eagleeye.sh/demo](https://eagleeye.sh/demo/). Want it run for you, server and agents included?
+[Utopia Models runs it](https://utopiamodels.ai/call).
 
 It fits whatever screen it is on, with no scroll bar: a phone, a laptop, a 1080p wall, an ultrawide, or half of a
 desk. At every size HUNTS and ROOSTS sit side by side on top, and the eye takes the room below them.
@@ -11,7 +20,7 @@ desk. At every size HUNTS and ROOSTS sit side by side on top, and the eye takes 
 
 ## Run it on the demo feed
 
-No build, no dependencies, no account:
+No build, no dependencies, no account. The one-liner above, or by hand:
 
 ```bash
 git clone https://github.com/utopia-models/eagle-eye && cd eagle-eye
@@ -21,7 +30,10 @@ python3 -m http.server 8000      # or: npx serve .
 
 Everything you see comes from `demo/data.json`, which is made-up sample data.
 
-## Plug in your own pipeline
+## Plug in your agents
+
+Give each agent a lane. Have it append one row per action (applied, replied, interview, ...) to a CSV ledger, or
+write the feed JSON directly.
 
 1. Write a feed in the shape in [`docs/FEED.md`](docs/FEED.md). The reference adapter turns a CSV ledger (one row per
    application or status change) into a feed:
@@ -34,6 +46,11 @@ Everything you see comes from `demo/data.json`, which is made-up sample data.
 
 Any adapter that writes the same JSON works: a CRM export, an ATS API, an inbox count.
 
+## The landing page
+
+`site/` is the static page served at [eagleeye.sh](https://eagleeye.sh) (Vercel, root directory `site`). `install.sh`
+is served at `eagleeye.sh/install`.
+
 ## Check the layout
 
 ```bash
@@ -44,7 +61,7 @@ npm run check     # 6 sizes x 3 browsers: fails on any overlap, anything off scr
 
 ## Where it comes from
 
-Eagle Eye is the outreach cockpit Utopia Models runs for its own job search and agency work, released with the
-UI and a demo feed only. No real data and no credentials ship in this repository.
+Eagle Eye is the screen Utopia Models watches its own fleet of Claude Code agents on, released with the UI and a
+demo feed only. No real data and no credentials ship in this repository.
 
 Licensed under the [Apache License 2.0](LICENSE). Made by [Utopia Models, Inc.](https://utopiamodels.ai)

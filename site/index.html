@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add('js')</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eagle Eye: one eye on every agent</title>
+<meta name="description" content="Eagle Eye is the open-source screen for your Claude Code agents. Every agent gets a lane on the eye: what it sent, what came back, redrawn every five seconds. Apache-2.0.">
+<meta name="theme-color" content="#0a0a09">
+<link rel="canonical" href="https://eagleeye.sh/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eagleeye.sh/">
+<meta property="og:title" content="Eagle Eye: one eye on every agent">
+<meta property="og:description" content="The open-source screen for your Claude Code agents. Self-host in one line, or we run it for you.">
+<meta property="og:image" content="https://eagleeye.sh/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/Cinzel-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/CormorantGaramond-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/vendor/lenis.css">
+<link rel="stylesheet" href="/styles.css">
+<link rel="modulepreload" href="/vendor/three.mjs">
+<link rel="modulepreload" href="/eye.js">
+<link rel="modulepreload" href="/main.js">
+<script type="importmap">
+{ "imports": {
+  "three": "/vendor/three.mjs",
+  "number-flow": "/vendor/number-flow.mjs"
+} }
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <a class="brand" href="/" aria-label="Eagle Eye home">
+    <img src="/assets/mark.svg" alt="" width="40" height="24">
+    <span>Eagle Eye</span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="/demo/" class="hide-sm">Demo</a>
+    <a href="https://github.com/utopia-models/eagle-eye#readme" class="hide-sm">Docs</a>
+    <a href="https://github.com/utopia-models/eagle-eye" class="star-pill" data-cta="nav-star" aria-label="Star Eagle Eye on GitHub">
+      <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <span class="star-label">Star</span><span class="star-count" hidden></span>
+    </a>
+    <a href="https://utopiamodels.ai/call" class="btn btn-gold btn-sm" data-cta="nav-run">Run it for me</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- 1 · hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas class="sand" aria-hidden="true"></canvas>
+    <div class="eye-slot" aria-hidden="true">
+      <img class="eye-fallback" src="/assets/mark.svg" alt="" width="200" height="120">
+    </div>
+    <div class="hero-copy">
+      <h1 id="hero-title">One eye on every agent.</h1>
+      <p class="lead">The open-source screen for your Claude&nbsp;Code agents. Every agent gets a lane on the eye: what it sent, what came back, redrawn every five seconds.</p>
+      <div class="install" role="group" aria-label="Install command">
+        <code><span class="prompt" aria-hidden="true">$</span> <span class="cmd">curl -fsSL eagleeye.sh/install | sh</span></code>
+        <button type="button" class="copy" data-copy="curl -fsSL eagleeye.sh/install | sh" data-cta="copy-install" aria-label="Copy install command">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>
+          <span class="copy-label">Copy</span>
+        </button>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="https://github.com/utopia-models/eagle-eye" data-cta="hero-star">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg>
+          Star on GitHub
+        </a>
+        <a class="btn btn-ghost" href="/demo/" data-cta="hero-demo">Open the live demo</a>
+      </div>
+      <p class="fine">Apache-2.0 <i>·</i> self-host free <i>·</i> no account</p>
+    </div>
+    <a class="scroll-cue" href="#eye" aria-label="Scroll to the live demo"><span></span></a>
+  </section>
+
+  <!-- 2 · the eye, live -->
+  <section class="eye-section" id="eye" aria-labelledby="eye-title">
+    <p class="label reveal">The eye <i>·</i> live demo</p>
+    <h2 id="eye-title" class="reveal split">Every agent. One screen.</h2>
+    <figure class="frame reveal">
+      <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+      <div class="frame-inner">
+        <iframe data-src="/demo/" title="Eagle Eye live demo on made-up data" tabindex="-1"></iframe>
+      </div>
+      <figcaption>
+        <span>Made-up data, the real UI. <b>Hunts</b> are what your agents send out. <b>Roosts</b> are what comes back.</span>
+        <a href="/demo/" class="link" data-cta="frame-demo">Open full screen <span aria-hidden="true">→</span></a>
+      </figcaption>
+    </figure>
+    <p class="screens reveal"><span>Phone</span><i></i><span>Laptop</span><i></i><span>Wall</span><em>It fits whatever screen it is on, with no scroll bar.</em></p>
+  </section>
+
+  <!-- 3 · how it works -->
+  <section class="how" id="how" aria-labelledby="how-title">
+    <p class="label reveal">How it works</p>
+    <h2 id="how-title" class="reveal split">Three steps. No build.</h2>
+    <ol class="steps">
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">I</span>
+        <h3>Install</h3>
+        <p>Downloads Eagle Eye into <code>./eagle-eye</code> and serves it on localhost. Python&nbsp;3 is the only thing it needs.</p>
+        <pre><code>curl -fsSL eagleeye.sh/install | sh</code></pre>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">II</span>
+        <h3>Feed it your agents</h3>
+        <p>Each agent appends one row per action to a CSV ledger. The reference adapter turns it into the feed.</p>
+        <pre><code><span class="c"># ledger.csv, one row per action</span>
+ts,lane,org,role,status
+2026-11-02 10:00,upwork,Acme,Dev,applied
+
+python3 adapters/csv_feed.py \
+  ledger.csv &gt; data.json</code></pre>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">III</span>
+        <h3>Watch</h3>
+        <p>Point <code>feed</code> in <code>config.js</code> at it and name a lane per agent. The eye redraws every five seconds, no reload.</p>
+        <pre><code>feed: 'data.json',
+pipes: [{ id: 'upwork', ring: 0,
+  hk: 'upwork', name: 'Upwork agent' }]</code></pre>
+      </li>
+    </ol>
+    <p class="how-more reveal">Any adapter that writes the same JSON works. The shape is in <a class="link" href="https://github.com/utopia-models/eagle-eye/blob/main/docs/FEED.md" data-cta="feed-doc">docs/FEED.md</a>.</p>
+  </section>
+
+  <!-- 4 · self-host or we run it -->
+  <section class="paths" id="run" aria-labelledby="run-title">
+    <p class="label reveal">Two ways in</p>
+    <h2 id="run-title" class="reveal split">Run it yourself, or let us.</h2>
+    <div class="paths-grid">
+      <article class="path reveal">
+        <p class="path-kicker">Self-host <i>·</i> free forever</p>
+        <h3>Your server. Your agents.</h3>
+        <ul>
+          <li>Apache-2.0, the whole UI and the feed format</li>
+          <li>One-line install, no build, no account</li>
+          <li>Your data never leaves your box</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://github.com/utopia-models/eagle-eye" data-cta="path-github">Get it on GitHub</a>
+      </article>
+      <div class="divider" aria-hidden="true"></div>
+      <article class="path path-paid reveal">
+        <p class="path-kicker">We run it <i>·</i> Utopia Models</p>
+        <h3>Server + Claude&nbsp;Code. We do everything.</h3>
+        <ul>
+          <li>You own the server and the Claude Code seat</li>
+          <li>We build your agents and keep them running</li>
+          <li>Eagle Eye wired to your agents' real numbers</li>
+        </ul>
+        <a class="btn btn-gold" href="https://utopiamodels.ai/call" data-cta="path-call">Book a call</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5 · proof -->
+  <section class="proof" aria-labelledby="proof-title">
+    <h2 id="proof-title" class="reveal split">Built for our own fleet first.</h2>
+    <p class="proof-lead reveal">Utopia Models watches its own Claude&nbsp;Code agents on Eagle Eye, every day. This is the same screen, open&#8209;sourced.</p>
+    <dl class="stats">
+      <div class="stat reveal"><dt>agents watched</dt><dd><number-flow data-to="17">17</number-flow></dd></div>
+      <div class="stat reveal"><dt>second redraw</dt><dd><number-flow data-to="5">5</number-flow></dd></div>
+      <div class="stat reveal"><dt>build steps</dt><dd><number-flow data-to="0">0</number-flow></dd></div>
+      <div class="stat reveal"><dt>line install</dt><dd><number-flow data-stars data-to="1">1</number-flow></dd></div>
+    </dl>
+  </section>
+</main>
+
+<footer class="foot">
+  <a class="brand" href="#top" aria-label="Back to top">
+    <img src="/assets/mark.svg" alt="" width="40" height="24">
+    <span>Eagle Eye</span>
+  </a>
+  <nav aria-label="Footer">
+    <a href="https://github.com/utopia-models/eagle-eye#readme">Docs</a>
+    <a href="https://github.com/utopia-models/eagle-eye">GitHub</a>
+    <a href="https://github.com/utopia-models/eagle-eye/blob/main/LICENSE">License: Apache-2.0</a>
+    <a href="https://www.youtube.com/@pharaohbuilds">YouTube</a>
+    <a href="https://utopiamodels.ai">Utopia Models</a>
+  </nav>
+  <p>© 2026 Utopia Models, Inc. Open source under Apache-2.0.</p>
+</footer>
+
+<script src="/vendor/gsap.min.js"></script>
+<script src="/vendor/ScrollTrigger.min.js"></script>
+<script src="/vendor/SplitText.min.js"></script>
+<script src="/vendor/lenis.min.js"></script>
+<script type="module" src="/main.js"></script>
+</body>
+</html>
