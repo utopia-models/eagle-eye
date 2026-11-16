@@ -1,5 +1,5 @@
 // Eagle Eye site: Lenis smooth scroll on GSAP's ticker, SplitText hero, ScrollTrigger reveals,
-// NumberFlow stats, the sand eye (eye.js), the copy button and the live GitHub star count.
+// NumberFlow stats, the hero (directions.js), the copy button and the live GitHub star count.
 const { gsap, ScrollTrigger, SplitText, Lenis } = window;
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -58,6 +58,7 @@ if (!gsap || !ScrollTrigger) {
   root.classList.remove('js'); root.classList.add('no-sand');
 } else {
   gsap.registerPlugin(ScrollTrigger, SplitText);
+  if (window.DrawSVGPlugin) gsap.registerPlugin(window.DrawSVGPlugin);
 
   if (!reduced && Lenis) {
     const lenis = new Lenis({ autoRaf: false, lerp: 0.1, anchors: { offset: -64 } });
@@ -67,14 +68,10 @@ if (!gsap || !ScrollTrigger) {
     window.__lenis = lenis;
   }
 
-  // the eye
-  const canvas = document.querySelector('.sand');
-  import('./eye.js')
-    .then(({ mountEye }) => {
-      mountEye({ canvas, slot: document.querySelector('.eye-slot'), hero: document.querySelector('.hero'), gsap, ScrollTrigger, reduced });
-      root.classList.add('js-sand');
-    })
-    .catch(() => root.classList.add('no-sand'));
+  // the hero: the real Eagle Eye born of the Utopia sand (directions.js)
+  import('./directions.js').then(({ mountDirection }) => mountDirection(root.dataset.v || 'a', { gsap, ScrollTrigger, reduced }))
+    .then(() => root.classList.add('js-sand'))
+    .catch((e) => { console.error(e); root.classList.add('no-sand'); });
 
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
@@ -82,7 +79,7 @@ if (!gsap || !ScrollTrigger) {
     const ready = document.fonts ? Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1200))]) : Promise.resolve();
     ready.then(() => {
       const split = SplitText.create('#hero-title', { type: 'words,chars', mask: 'words' });
-      const tl = gsap.timeline({ delay: 0.5 });
+      const tl = gsap.timeline({ delay: Number(root.dataset.heroDelay || 0.5) });
       tl.from(split.chars, { yPercent: 115, duration: 1.1, ease: 'power4.out', stagger: 0.022 })
         .from('.hero .lead, .hero .install, .hero-ctas, .hero .fine, .scroll-cue',
           { autoAlpha: 0, y: 18, filter: 'blur(8px)', duration: 0.9, ease: 'power3.out', stagger: 0.09, clearProps: 'filter' }, '-=0.7');
