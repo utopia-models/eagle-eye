@@ -169,10 +169,11 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     const past = sr.bottom < -200;
     if (past !== isPast) { isPast = past; geo.setDrawRange(past ? N : 0, past ? DUST : (tier ? Math.floor(N / 2) : Infinity)); }
     const now = performance.now();
-    if (last && tier < 2 && ++warm > 20) {
+    if (!warm) warm = now;
+    if (last && tier < 2 && now - warm > 400) {
       gaps.push(now - last);
       const spent = gaps.reduce((a, b) => a + b, 0);
-      if (gaps.length >= 45 || spent > 1200) {
+      if (gaps.length >= 30 || spent > 700) {
         gaps.sort((a, b) => a - b);
         if (gaps[gaps.length >> 1] > 34) degrade();
         gaps = [];
@@ -189,7 +190,16 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     gsap.killTweensOf(u.uProgress); blink.kill(); u.uProgress.value = 1; u.uBlink.value = 0;
     gsap.ticker.remove(tick);
     draw();
-    addEventListener('scroll', () => { const sr = slot.getBoundingClientRect(); u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); }, { passive: true });
+    // one coalesced redraw per frame while the eye is on screen; nothing once it has left
+    let queued = false, offDrawn = false;
+    addEventListener('scroll', () => {
+      if (queued) return;
+      const sr = slot.getBoundingClientRect();
+      const off = sr.bottom < -300;
+      if (off && offDrawn) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; offDrawn = off; u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); });
+    }, { passive: true });
   }
   layout();
   addEventListener('resize', layout);
