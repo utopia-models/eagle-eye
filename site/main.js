@@ -45,7 +45,7 @@ addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
 // ── motion ──────────────────────────────────────────
 if (!gsap || !ScrollTrigger) {
-  root.classList.remove('js', 'js-sand');
+  root.classList.remove('js'); root.classList.add('no-sand');
 } else {
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -64,7 +64,7 @@ if (!gsap || !ScrollTrigger) {
       mountEye({ canvas, slot: document.querySelector('.eye-slot'), hero: document.querySelector('.hero'), gsap, ScrollTrigger, reduced });
       root.classList.add('js-sand');
     })
-    .catch(() => root.classList.remove('js-sand'));
+    .catch(() => root.classList.add('no-sand'));
 
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
@@ -78,12 +78,14 @@ if (!gsap || !ScrollTrigger) {
           { autoAlpha: 0, y: 18, filter: 'blur(8px)', duration: 0.9, ease: 'power3.out', stagger: 0.09, clearProps: 'filter' }, '-=0.7');
     });
 
-    // section reveals
-    ScrollTrigger.batch('.reveal', {
-      start: 'top 88%',
-      once: true,
-      onEnter: (els) => gsap.fromTo(els, { autoAlpha: 0, y: 34 }, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.1, overwrite: true }),
-    });
+    // section reveals (IntersectionObserver triggers, GSAP animates)
+    const io = new IntersectionObserver((entries) => {
+      const els = entries.filter((e) => e.isIntersecting).map((e) => e.target);
+      if (!els.length) return;
+      els.forEach((el) => io.unobserve(el));
+      gsap.fromTo(els, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.08, overwrite: true });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
     // the frame draws itself in
     gsap.from('.frame .tick', {
