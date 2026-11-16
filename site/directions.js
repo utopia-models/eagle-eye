@@ -14,7 +14,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   const eyeCv = document.querySelector('canvas.ee-canvas');
   const slot = document.querySelector('.eye-slot');
   const hero = document.querySelector('.hero');
-  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? (innerWidth < 600 ? 0.8 : 1.1) : v === 'c' ? 0.5 : 0.15 });
+  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 0.5 : v === 'c' ? 0.5 : 0.15 });
   const sand = mountSand({ canvas: sandCv, gsap, reduced });
   const N = sand.N, U = sand.u; window.__ee = { sand, eye };
   // the eye's geometry in page coordinates (the hero sits at the top of the page)

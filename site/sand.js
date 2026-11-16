@@ -22,6 +22,7 @@ const VS = `attribute vec2 aFrom; attribute vec2 aTo; attribute vec4 aS;
     float fieldG = step(aS.w, uField);                // a share of grains always drifts in the viewport (dust behind every section)
     vec2 a = aFrom - vec2(0.0, uAttachFrom*(1.0-fieldG)*uScroll), b = aTo - vec2(0.0, uAttachTo*(1.0-fieldG)*uScroll);
     vec2 p = mix(a, b, k);
+    p = mix(p, vec2(fract(aS.y*7.31)*uRes.x, fract(aS.z*5.17 + uT*0.004*(0.5+aS.x))*uRes.y), fieldG);   // dust behind every section
     float fly = sin(3.14159*k);                       // in flight, grains lift and stream
     p += vec2(uSweep*fly*(0.6+aS.w), -fly*40.0*aS.y);
     p += vec2(sin(uT*0.31 + aS.y*40.0), cos(uT*0.27 + aS.z*33.0)) * uDrift*(0.35+aS.w);
@@ -82,7 +83,7 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
 // ---------- formations: Float32Array(N*2) of CSS-pixel points (page coords when attached, viewport otherwise) ----------
 const rand = Math.random;
 export function field(N, W = innerWidth, H = innerHeight) { const a = new Float32Array(N * 2); for (let i = 0; i < N; i++) { a[i * 2] = rand() * W; a[i * 2 + 1] = rand() * H; } return a; }
-export function ground(N, W = innerWidth, H = innerHeight) { const a = new Float32Array(N * 2); for (let i = 0; i < N; i++) { a[i * 2] = (rand() * 1.2 - .1) * W; a[i * 2 + 1] = H * (1.02 + rand() * .25); } return a; }
+export function ground(N, W = innerWidth, H = innerHeight) { const a = new Float32Array(N * 2); for (let i = 0; i < N; i++) { a[i * 2] = (rand() * 1.2 - .1) * W; a[i * 2 + 1] = H * (.9 + Math.pow(rand(), .6) * .14); } return a; }
 // the eye's open outline: both lids, the brow, the iris rim and pupil rim (same curves as the canvas eye)
 export function eyeOutline(N, g, { LID_W = 1.75, LID_H = 1.16 } = {}) {
   const a = new Float32Array(N * 2), { cx, cy, R } = g, lidW = R * LID_W;
@@ -119,6 +120,9 @@ export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
     else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * (.86 + .14 * Math.sqrt(rand())); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }   // molten limb, clear of the lids
     else if (s < .66) { const t = -Math.PI * (.08 + rand() * .84), r = Rs * (1.12 + rand() * .55); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r * (1 - .25 * rand()); }   // rays
     else { const u = rand(); x = u * W; y = horizonY + (rand() - .5) * 3 * (1 + 3 * Math.pow(Math.abs(u - .5) * 2, 2)); }
+    if (s >= .3 && s < .6 && rand() < .55) {   // part of the fill lies across the disk, outside the lid almond
+      for (let tries = 0; tries < 8; tries++) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(rand()); const px = Math.cos(t) * r, py = Math.sin(t) * r, u = px / (R * 1.75);
+        if (Math.abs(u) >= 1 || Math.abs(py) > R * 1.16 * Math.pow(1 - u * u, .9) + R * .25) { x = cx + px; y = cy + py; break; } } }
     if (y > horizonY + 2 && s < .66) { y = horizonY + (rand() - .5) * 3; }
     a[i * 2] = x; a[i * 2 + 1] = y;
   }
