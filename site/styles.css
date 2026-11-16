@@ -57,6 +57,8 @@ i { font-style: normal; color: var(--gold-dim); }
   transition: background 0.3s var(--ease);
 }
 .nav.scrolled { background: rgba(10,10,9,0.86); border-bottom: 1px solid var(--line); }
+.nav .btn-gold { background: transparent; color: var(--gold-bright); box-shadow: inset 0 0 0 1px var(--gold); }
+.nav.scrolled .btn-gold, .nav .btn-gold:hover { background: var(--gold); color: #17130a; }
 .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; }
 .brand span { font-family: var(--display); font-weight: 500; letter-spacing: 0.28em; font-size: 0.86rem; text-transform: uppercase; color: var(--gold); }
 .nav-links { display: flex; align-items: center; gap: clamp(10px, 2.2vw, 28px); }
@@ -93,9 +95,11 @@ i { font-style: normal; color: var(--gold-dim); }
 .hero {
   position: relative; min-height: 100svh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 88px var(--gutter) 72px; text-align: center; isolation: isolate;
+  padding: 88px var(--gutter) 72px; text-align: center;
 }
-.sand { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.sand { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+main, .foot, .nav { position: relative; z-index: 1; }
+.nav { position: fixed; z-index: 20; }
 .eye-slot { width: min(540px, 82vw, calc(46svh * 1.667)); aspect-ratio: 200 / 120; margin-bottom: clamp(16px, 3vh, 40px); display: grid; place-items: center; }
 .eye-fallback { width: 100%; height: auto; opacity: 0.9; }
 .js .eye-fallback { opacity: 0; transition: opacity 0.6s; }
@@ -132,10 +136,10 @@ h1 {
 /* ── shared section type ───────────────────────── */
 section:not(.hero) { padding: clamp(80px, 12vw, 150px) var(--gutter) 0; max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; }
 .label { margin: 0 0 14px; font-family: var(--display); font-size: var(--label); letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); text-align: center; }
-h2 { margin: 0 auto; font-family: var(--display); font-weight: 500; font-size: var(--h2); line-height: 1.15; letter-spacing: 0.03em; color: var(--text); text-align: center; text-wrap: balance; }
+h2 { margin: 0 auto; overflow-wrap: break-word; font-family: var(--display); font-weight: 500; font-size: var(--h2); line-height: 1.15; letter-spacing: 0.03em; color: var(--text); text-align: center; text-wrap: balance; }
 h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.12rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-bright); }
-.link { color: var(--gold); border-bottom: 1px solid var(--line); transition: color 0.2s, border-color 0.2s; }
-.link:hover { color: var(--gold-bright); border-color: var(--gold); }
+.link { color: var(--gold); padding-block: 11px; background: linear-gradient(var(--line), var(--line)) 0 calc(100% - 9px) / 100% 1px no-repeat; transition: color 0.2s; }
+.link:hover { color: var(--gold-bright); background-image: linear-gradient(var(--gold), var(--gold)); }
 
 /* ── the eye frame ─────────────────────────────── */
 .frame { position: relative; margin: clamp(32px, 5vw, 56px) 0 0; padding: 10px; }
@@ -152,8 +156,9 @@ h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.12re
 .tick.tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
 .tick.bl { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
 .tick.br { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
-.frame-inner { position: relative; aspect-ratio: 16 / 9; background: var(--ink); overflow: hidden; }
-.frame-inner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.frame-inner { position: relative; aspect-ratio: 16 / 9; background: var(--ink) url(/assets/demo-1440.jpg) center / cover no-repeat; overflow: hidden; }
+.frame-inner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: var(--ink); opacity: 0; transition: opacity 0.8s var(--ease); color-scheme: dark; }
+.frame-inner iframe.loaded { opacity: 1; }
 figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px 24px; padding: 18px 4px 0; color: var(--text-dim); font-size: 1.05rem; }
 figcaption b { color: var(--gold); font-weight: 500; }
 .screens { margin: 34px 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 16px; font-family: var(--display); font-size: var(--label); letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
@@ -187,7 +192,7 @@ figcaption b { color: var(--gold); font-weight: 500; }
 .proof-lead { margin: 18px auto 0; max-width: 46ch; color: var(--text-dim); font-size: var(--lead); line-height: 1.45; }
 .stats { margin: clamp(40px, 6vw, 72px) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 .stat { display: flex; flex-direction: column-reverse; align-items: center; gap: 6px; }
-.stat dt { font-family: var(--display); font-size: var(--label); letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-dim); }
+.stat dt { text-wrap: balance; font-family: var(--display); font-size: var(--label); letter-spacing: 0.26em; text-transform: uppercase; color: var(--text-dim); }
 .stat dd { margin: 0; font-family: var(--display); font-size: clamp(2.6rem, 1.8rem + 3vw, 4.4rem); line-height: 1; color: var(--gold); text-shadow: 0 0 32px rgba(217,179,91,0.35); }
 number-flow { --number-flow-char-height: 1em; }
 
@@ -216,7 +221,7 @@ number-flow { --number-flow-char-height: 1em; }
   .fine { letter-spacing: 0.18em; font-size: 0.66rem; }
   .hero-ctas { width: 100%; flex-direction: column; }
   .hero-ctas .btn { width: 100%; }
-  .frame-inner { aspect-ratio: 390 / 640; }
+  .frame-inner { aspect-ratio: 350 / 574; background-image: url(/assets/demo-390.jpg); }
   .steps { grid-template-columns: 1fr; }
   .paths-grid { grid-template-columns: 1fr; }
   .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(217,179,91,0.6), transparent); }

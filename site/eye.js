@@ -97,7 +97,7 @@ const FRAG = /* glsl */`
 `;
 
 export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
   const phone = Math.min(innerWidth, innerHeight) < 600;
   const N = phone ? 5000 : 9000;
@@ -145,13 +145,13 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
 
   let maxDpr = 1.5;
   function layout() {
-    const hr = hero.getBoundingClientRect();
     const sr = slot.getBoundingClientRect();
     const dpr = Math.min(devicePixelRatio || 1, maxDpr);
     renderer.setPixelRatio(dpr);
-    renderer.setSize(hr.width, hr.height, false);
-    u.uRes.value.set(hr.width, hr.height);
-    u.uCenter.value.set(sr.left - hr.left + sr.width / 2, sr.top - hr.top + sr.height / 2);
+    // the canvas is fixed to the viewport: the eye rides the page, the dust stays for the whole scroll
+    renderer.setSize(innerWidth, innerHeight, false);
+    u.uRes.value.set(innerWidth, innerHeight);
+    u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2);
     u.uScale.value = sr.width / VB_W;
     u.uDpr.value = dpr;
     if (reduced || frozen) draw();
@@ -160,11 +160,16 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
 
 
   // Adaptive quality: a device that cannot hold the frame rate gets half the sand at 1x, then a still eye.
-  let visible = true, tier = 0, last = 0, gaps = [], frozen = false;
+  let isPast = false, tier = 0, last = 0, gaps = [], frozen = false, warm = 0;
   const tick = (time) => {
-    if (!visible || frozen) return;
+    if (frozen) return;
+    const sr = slot.getBoundingClientRect();
+    u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2);
+    // past the hero only the dust is drawn
+    const past = sr.bottom < -200;
+    if (past !== isPast) { isPast = past; geo.setDrawRange(past ? N : 0, past ? DUST : (tier ? Math.floor(N / 2) : Infinity)); }
     const now = performance.now();
-    if (last && tier < 2) {
+    if (last && tier < 2 && ++warm > 20) {
       gaps.push(now - last);
       const spent = gaps.reduce((a, b) => a + b, 0);
       if (gaps.length >= 45 || spent > 1200) {
@@ -184,7 +189,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
     gsap.killTweensOf(u.uProgress); blink.kill(); u.uProgress.value = 1; u.uBlink.value = 0;
     gsap.ticker.remove(tick);
     draw();
-    addEventListener('scroll', () => { if (visible) draw(); }, { passive: true });
+    addEventListener('scroll', () => { const sr = slot.getBoundingClientRect(); u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); }, { passive: true });
   }
   layout();
   addEventListener('resize', layout);
@@ -193,7 +198,6 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   if (reduced) { draw(); return; }
 
   gsap.ticker.add(tick);
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(hero);
 
   // gather
   gsap.to(u.uProgress, { value: 1, duration: 2.4, ease: 'power2.inOut', delay: 0.1 });
@@ -210,9 +214,8 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   const lookY = gsap.quickTo(u.uLook.value, 'y', { duration: 0.6, ease: 'power3.out' });
   let lastPointer = 0;
   addEventListener('pointermove', (e) => {
-    const hr = hero.getBoundingClientRect();
-    const dx = (e.clientX - hr.left - u.uCenter.value.x) / (hr.width / 2);
-    const dy = (e.clientY - hr.top - u.uCenter.value.y) / (hr.height / 2);
+    const dx = (e.clientX - u.uCenter.value.x) / (innerWidth / 2);
+    const dy = (e.clientY - u.uCenter.value.y) / (innerHeight / 2);
     lookX(gsap.utils.clamp(-1, 1, dx)); lookY(gsap.utils.clamp(-1, 1, dy));
     lastPointer = performance.now();
   }, { passive: true });
@@ -226,6 +229,6 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   // scrolling away scatters the sand
   ScrollTrigger.create({
     trigger: hero, start: 'top top', end: 'bottom top', scrub: true,
-    onUpdate: (st) => { u.uDisperse.value = st.progress; if (frozen) draw(); },
+    onUpdate: (st) => { u.uDisperse.value = st.progress; if (frozen) { const sr = slot.getBoundingClientRect(); u.uCenter.value.set(sr.left + sr.width / 2, sr.top + sr.height / 2); draw(); } },
   });
 }

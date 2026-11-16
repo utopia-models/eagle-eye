@@ -41,9 +41,10 @@ fetch('https://api.github.com/repos/utopia-models/eagle-eye', { headers: { Accep
 // ── the demo runs only while it is near the screen (its own eye is a live canvas) ──
 const demo = document.querySelector('iframe[data-src]');
 if (demo) {
+  demo.addEventListener('load', () => demo.classList.toggle('loaded', demo.src !== 'about:blank' && !!demo.getAttribute('src')));
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) { if (!demo.src || demo.src === 'about:blank') demo.src = demo.dataset.src; }
-    else if (demo.src && demo.src !== 'about:blank') demo.src = 'about:blank';
+    else if (demo.src && demo.src !== 'about:blank') { demo.classList.remove('loaded'); demo.src = 'about:blank'; }
   }, { rootMargin: '100px 0px' }).observe(demo);
 }
 
@@ -92,7 +93,13 @@ if (!gsap || !ScrollTrigger) {
       const els = entries.filter((e) => e.isIntersecting).map((e) => e.target);
       if (!els.length) return;
       els.forEach((el) => io.unobserve(el));
-      gsap.fromTo(els, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.08, overwrite: true });
+      // headings rise out of the sand letter by letter, like the hero line
+      for (const h of els.filter((el) => el.classList.contains('split'))) {
+        gsap.set(h, { autoAlpha: 1, y: 0 });
+        const sp = SplitText.create(h, { type: 'words,chars', mask: 'words' });
+        gsap.from(sp.chars, { yPercent: 115, duration: 0.9, ease: 'power4.out', stagger: 0.018 });
+      }
+      gsap.fromTo(els.filter((el) => !el.classList.contains('split')), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.08, overwrite: true });
     }, { rootMargin: '0px 0px -6% 0px' });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
