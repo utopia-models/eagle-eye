@@ -14,7 +14,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   const eyeCv = document.querySelector('canvas.ee-canvas');
   const slot = document.querySelector('.eye-slot');
   const hero = document.querySelector('.hero');
-  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 1.1 : v === 'c' ? 0.5 : 0.15 });
+  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? (innerWidth < 600 ? 0.8 : 1.1) : v === 'c' ? 0.5 : 0.15 });
   const sand = mountSand({ canvas: sandCv, gsap, reduced });
   const N = sand.N, U = sand.u; window.__ee = { sand, eye };
   // the eye's geometry in page coordinates (the hero sits at the top of the page)
@@ -33,12 +33,13 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
     U.uDrift.value = 4;
     // at rest: dust over the hero and the Wadjet markings (tear line and spiral) in sand under the eye
     const rest = () => {
-      const g = geo(), hb = hero.getBoundingClientRect().bottom + scrollY, f = field(N, innerWidth, hb), m = wadjetMarks(Math.floor(N * .24), g);
-      f.set(m, (N - Math.floor(N * .24)) * 2); return f;
+      const share = innerWidth < 600 ? .34 : .24, nm = Math.floor(N * share);
+      const g = geo(), hb = hero.getBoundingClientRect().bottom + scrollY, f = field(N, innerWidth, hb), m = wadjetMarks(nm, g);
+      f.set(m, (N - nm) * 2); return f;
     };
     sand.move(ground(N), eyeOutline(N, geo()), { attachTo: 1 });
     gsap.timeline({ delay: 0.15 })
-      .to(U.uK, { value: 1, duration: 1.7, ease: 'power2.inOut' })
+      .to(U.uK, { value: 1, duration: innerWidth < 600 ? 1.2 : 1.7, ease: 'power2.inOut' })
       .add(() => { sand.move(eyeOutline(N, geo()), rest(), { attachFrom: 1, attachTo: 1 }); })
       .to(U.uDrift, { value: 6, duration: 2.6, ease: 'sine.inOut' }, '<')
       .to(U.uK, { value: 1, duration: 2.4, ease: 'sine.inOut' }, '<')
@@ -54,7 +55,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
     // the gaze rides the scroll: the eye looks down the page as you go, and sideways with the direction you move
     ScrollTrigger.create({
       start: 0, end: () => innerHeight * 0.9,
-      onUpdate: (self) => { look.ly(-0.25 + 1.25 * self.progress); look.lx(gsap.utils.clamp(-0.6, 0.6, self.getVelocity() / 2500)); },
+      onUpdate: (self) => { look.ly(self.progress); look.lx(gsap.utils.clamp(-0.6, 0.6, self.getVelocity() / 2500)); },
     });
     let flying = false, side = 1, lastWing = null;
     // the wing spreads in the upper band of the screen, above the section that is arriving
@@ -103,13 +104,19 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
       gaps.push(now - last);
       if (gaps.length >= 30 || gaps.reduce((a, b) => a + b, 0) > 800) {
         gaps.sort((a, b) => a - b);
-        if (gaps[gaps.length >> 1] > 34 && !/[?&]q=hi/.test(location.search)) { tier++; eye.degrade(tier); sand.degrade(tier); if (tier === 2) gsap.ticker.remove(watch); }
+        if (gaps[gaps.length >> 1] > 34 && !/[?&]q=hi/.test(location.search)) { tier++; sand.degrade(tier); if (tier === 1) eye.degrade(1); if (tier === 2) { gsap.ticker.remove(watch); lastChance(); } }
         gaps = [];
       }
     }
     last = now;
   };
   gsap.ticker.add(watch);
+  // with the sand still, the eye keeps running unless even that cannot hold ~20 fps; then it becomes a still too
+  function lastChance() {
+    let n = 0, t0 = performance.now();
+    const probe = () => { n++; const dt = performance.now() - t0; if (dt > 1500) { gsap.ticker.remove(probe); if (n / (dt / 1000) < 20) eye.degrade(2); } };
+    gsap.ticker.add(probe);
+  }
 
   let lastW = innerWidth;
   addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; eye.resize(); sand.size(); settle(); });
