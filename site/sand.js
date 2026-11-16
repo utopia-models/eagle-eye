@@ -67,7 +67,9 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
   if (!reduced) gsap.ticker.add(tick);
   function degrade(tier) {
     if (tier === 1) { geometry.setDrawRange(0, Math.floor(N / 2)); renderer.dpr = DPR = 1; u.uDpr.value = 1; u.uSize.value *= 1.3; sizedW = 0; size(); return; }
-    running = false;   // the last frame stays on the opaque canvas
+    running = false;   // still grains; one coalesced redraw per scroll frame keeps page-attached formations in place
+    let queued = false;
+    addEventListener('scroll', () => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; u.uScroll.value = scrollY; draw(); }); }, { passive: true });
   }
   return { N, u, move, draw, size, degrade, pause: (v) => { running = !v; }, seeds };
 }
