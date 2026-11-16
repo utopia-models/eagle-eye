@@ -20,7 +20,7 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
 
   if (reduced) {
     const g = geo(), hb = hero.getBoundingClientRect().bottom + scrollY, rest = field(N, innerWidth, hb), nm = Math.floor(N * .24);
-    rest.set(wadjetMarks(nm, g), (N - nm) * 2); sand.move(rest, rest, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; sand.draw();
+    rest.set(wadjetMarks(nm, g), 0); sand.move(rest, rest, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; sand.draw();
     return;
   }
 
@@ -29,9 +29,9 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
     U.uDrift.value = 4;
     // at rest: dust over the hero and the Wadjet markings (tear line and spiral) in sand under the eye
     const rest = () => {
-      const share = innerWidth < 600 ? .34 : .24, nm = Math.floor(N * share);
+      const share = innerWidth < 600 ? .38 : .3, nm = Math.floor(N * share);
       const g = geo(), hb = hero.getBoundingClientRect().bottom + scrollY, f = field(N, innerWidth, hb), m = wadjetMarks(nm, g);
-      f.set(m, (N - nm) * 2); return f;
+      f.set(m, 0); return f;   // the marks first: a halved draw range (slow devices) keeps them
     };
     sand.move(ground(N), eyeOutline(N, geo()), { attachTo: 1 });
     intro = gsap.timeline({ delay: 0.15 })
@@ -78,6 +78,6 @@ function drawFlourishes(gsap) {
   els.forEach((svg) => {
     const paths = svg.querySelectorAll('path');
     gsap.set(paths, { drawSVG: '0%' });
-    gsap.to(paths, { drawSVG: '100%', duration: 1.6, ease: 'power2.inOut', stagger: 0.08, scrollTrigger: { trigger: svg, start: 'top 88%', once: true } });
+    gsap.to(paths, { drawSVG: '100%', duration: 1.1, ease: 'power2.inOut', stagger: 0.06, scrollTrigger: { trigger: svg, start: 'top 88%', once: true } });
   });
 }
