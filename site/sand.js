@@ -40,7 +40,7 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
   const phone = Math.min(innerWidth, innerHeight) < 600;
   const N = count || (phone ? 2600 : 4800);
   let DPR = Math.min(devicePixelRatio || 1, 1.5);
-  const renderer = new Renderer({ canvas, alpha: false, antialias: false, dpr: DPR, powerPreference: 'high-performance' });
+  const renderer = new Renderer({ canvas, alpha: false, antialias: false, dpr: DPR, preserveDrawingBuffer: true, powerPreference: 'high-performance' });   // a still frame must survive a recomposite (WebKit)
   // opaque, cleared to the page ink, exactly like the Utopia sites: additive grains on a solid ground
   const gl = renderer.gl; gl.clearColor(10 / 255, 10 / 255, 9 / 255, 1);
   const seeds = new Float32Array(N * 4); for (let i = 0; i < seeds.length; i++) seeds[i] = Math.random();
