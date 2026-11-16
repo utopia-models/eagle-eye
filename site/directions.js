@@ -1,0 +1,96 @@
+// Three directions for the eagleeye.sh hero and its atmosphere (html[data-v]). Every one uses the real Eagle Eye
+// (eagle-eye-hero.js) and the Utopia sites' sand (sand.js: OGL grains, C4's shader, GSAP eases).
+//   a  BORN OF SAND   sand lifts off the ground and gathers into the eye's outline; the eye opens inside it and
+//                     the sand lets go into drifting dust. Wadjet flourishes draw themselves in gold as sections arrive.
+//   b  THE FALCON     the eye follows your scroll down the page; at every section a falcon wing of sand sweeps
+//                     across the screen and falls back to dust.
+//   c  THE SUN DISK   the eye opens inside a molten sun disk of sand above the Akhet horizon (C4's motif); the sun
+//                     breathes, and sets as you scroll away.
+import { mountEagleEye, followPointer } from './eagle-eye-hero.js';
+import { mountSand, field, ground, eyeOutline, wing, sunAndHorizon } from './sand.js';
+
+export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
+  const sandCv = document.querySelector('canvas.sand');
+  const eyeCv = document.querySelector('canvas.ee-canvas');
+  const slot = document.querySelector('.eye-slot');
+  const hero = document.querySelector('.hero');
+  const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 1.45 : 0.15 });
+  const sand = mountSand({ canvas: sandCv, gsap, reduced });
+  const N = sand.N, U = sand.u;
+  // the eye's geometry in page coordinates (the hero sits at the top of the page)
+  const geo = () => { const g = eye.geometry(), r = eyeCv.getBoundingClientRect(); return { cx: g.cx + r.left, cy: g.cy + r.top + scrollY, R: g.R }; };
+  const horizon = () => { const r = hero.getBoundingClientRect(); return r.bottom + scrollY - 34; };
+  let settle = () => {};   // re-lays the resting formation after a width change
+
+  if (reduced) {
+    const rest = v === 'c' ? sunAndHorizon(N, geo(), horizon()) : field(N);
+    sand.move(rest, rest, { attachFrom: v === 'c' ? 1 : 0, attachTo: v === 'c' ? 1 : 0 }); U.uK.value = 1; sand.draw();
+    return;
+  }
+
+  if (v === 'a') {
+    followPointer(eye, gsap);
+    U.uDrift.value = 4;
+    sand.move(ground(N), eyeOutline(N, geo()), { attachTo: 1 });
+    gsap.timeline({ delay: 0.15 })
+      .to(U.uK, { value: 1, duration: 2.1, ease: 'power2.inOut' })
+      .add(() => { sand.move(eyeOutline(N, geo()), field(N), { attachFrom: 1, attachTo: 0 }); })
+      .to(U.uDrift, { value: 12, duration: 2.6, ease: 'sine.inOut' }, '<')
+      .to(U.uK, { value: 1, duration: 2.8, ease: 'sine.inOut' }, '<')
+      .to(U.uLum, { value: 0.75, duration: 2.8, ease: 'sine.inOut' }, '<');
+    settle = () => { const f = field(N); sand.move(f, f); U.uK.value = 1; };
+    drawFlourishes(gsap);
+  }
+
+  if (v === 'b') {
+    const look = followPointer(eye, gsap); look.set(false);
+    sand.move(ground(N), field(N));
+    gsap.to(U.uK, { value: 1, duration: 2.6, ease: 'power2.inOut', delay: 0.1 });
+    // the gaze rides the scroll: the eye looks down the page as you go, and sideways with the direction you move
+    ScrollTrigger.create({
+      start: 0, end: () => innerHeight * 0.9,
+      onUpdate: (self) => { look.ly(-0.25 + 1.25 * self.progress); look.lx(gsap.utils.clamp(-0.6, 0.6, self.getVelocity() / 2500)); },
+    });
+    let flying = false, side = 1;
+    const sweep = () => {
+      if (flying) return; flying = true; side = -side;
+      const rest = field(N);
+      sand.move(field(N), wing(N, innerWidth, innerHeight, side));
+      gsap.timeline({ onComplete: () => { flying = false; } })
+        .to(U.uK, { value: 1, duration: 0.95, ease: 'power2.inOut' })
+        .fromTo(U.uSweep, { value: 0 }, { value: 140 * side, duration: 0.95, ease: 'power2.inOut' }, '<')
+        .add(() => { sand.move(wing(N, innerWidth, innerHeight, side), rest); U.uSweep.value = 0; })
+        .to(U.uK, { value: 1, duration: 1.5, ease: 'sine.inOut' });
+    };
+    document.querySelectorAll('main > section:not(.hero)').forEach((s) => ScrollTrigger.create({ trigger: s, start: 'top 70%', onEnter: sweep, onEnterBack: sweep }));
+    settle = () => { const f = field(N); sand.move(f, f); U.uK.value = 1; };
+  }
+
+  if (v === 'c') {
+    followPointer(eye, gsap);
+    U.uDrift.value = 3;
+    sand.move(field(N), sunAndHorizon(N, geo(), horizon()), { attachTo: 1 });
+    gsap.to(U.uK, { value: 1, duration: 2.6, ease: 'power2.inOut', delay: 0.1 });
+    gsap.to(eye.st, { glow: 1, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.6 });
+    gsap.fromTo('.sun-glow', { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 2.6, ease: 'power2.out', delay: 0.3 });
+    // the sun sets as you scroll away: its glow sinks below the horizon and the grains dim
+    gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })
+      .to('.sun-glow', { yPercent: 45, autoAlpha: 0.2, ease: 'none' }, 0)
+      .to(U.uLum, { value: 0.55, ease: 'none' }, 0);
+    settle = () => { const f = sunAndHorizon(N, geo(), horizon()); sand.move(f, f, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; };
+    drawFlourishes(gsap);
+  }
+
+  let lastW = innerWidth;
+  addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; eye.resize(); sand.size(); settle(); });
+}
+
+// Wadjet flourishes (the eye's tear line and spiral, drawn as a gold rule) under each section label
+function drawFlourishes(gsap) {
+  const els = document.querySelectorAll('.flourish');
+  els.forEach((svg) => {
+    const paths = svg.querySelectorAll('path');
+    gsap.set(paths, { drawSVG: '0%' });
+    gsap.to(paths, { drawSVG: '100%', duration: 1.6, ease: 'power2.inOut', stagger: 0.08, scrollTrigger: { trigger: svg, start: 'top 88%', once: true } });
+  });
+}
