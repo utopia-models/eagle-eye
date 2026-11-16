@@ -145,12 +145,12 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     ctx.globalCompositeOperation = 'lighter';
     for (let di = 0; di < lid.length; di += stp) { const d = lid[di]; const e = Math.min(1, .15 + ease((t - .2 - d.t * 1.6) / 1.6)); const x = -1 + 2 * d.t, y = lidY(x, open, d.up);
       const lx = cx + x * lidW, ly = cy + y + d.off * (4 + (1 - Math.abs(x)) * 6) * dk;
-      ctx.globalAlpha = (.55 + .4 * Math.sin(t * 2 + d.tw)) * e * (.5 + .5 * Math.min(1, 1.2 - Math.abs(x) * .6)); const z = 4.2 * d.s * Math.max(.7, dk); ctx.drawImage(d.tw > 3 ? spPale : spGold, lx - z / 2, ly - z / 2, z, z); }
+      ctx.globalAlpha = (.55 + .4 * Math.sin(t * 2 + d.tw)) * e * (.5 + .5 * Math.min(1, 1.2 - Math.abs(x) * .6)); const z = 4.2 * d.s; ctx.drawImage(d.tw > 3 ? spPale : spGold, lx - z / 2, ly - z / 2, z, z); }
     const openB = sm((t - .3) / 2.4) * (1 - st.blink * .35);   // the brow barely moves in a blink
     for (let i = 0; i < 260; i++) { const u = i / 259, e = ease((t - .8 - u * 1.8) / 1.4); if (e <= 0) continue; const x = -1 + 2 * u;
       const by = cy - R * LID_H * openB * Math.pow(1 - x * x, .9) - R * .17 * openB - Math.sin(u * Math.PI) * R * .05;
       const j = Math.sin(i * 12.9898) * 43758.5453, off = (j - Math.floor(j) - .5) * 9 * dk;
-      ctx.globalAlpha = .4 * e * (.6 + .4 * Math.sin(t * 1.5 + i)); const z = 3.2 * Math.max(.7, dk); ctx.drawImage(spGold, cx + x * lidW * .98 - z / 2, by + off - z / 2, z, z); }
+      ctx.globalAlpha = .4 * e * (.6 + .4 * Math.sin(t * 1.5 + i)); const z = 3.2; ctx.drawImage(spGold, cx + x * lidW * .98 - z / 2, by + off - z / 2, z, z); }
     ctx.globalCompositeOperation = 'source-over';
   }
 

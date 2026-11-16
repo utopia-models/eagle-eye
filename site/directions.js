@@ -7,7 +7,7 @@
 //   c  THE SUN DISK   the eye opens inside a molten sun disk of sand above the Akhet horizon (C4's motif); the sun
 //                     breathes, and sets as you scroll away.
 import { mountEagleEye, followPointer } from './eagle-eye-hero.js';
-import { mountSand, field, ground, eyeOutline, wing, sunAndHorizon } from './sand.js';
+import { mountSand, field, ground, eyeOutline, wing, sunAndHorizon, wadjetMarks } from './sand.js';
 
 export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   const sandCv = document.querySelector('canvas.sand');
@@ -31,14 +31,19 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   if (v === 'a') {
     followPointer(eye, gsap);
     U.uDrift.value = 4;
+    // at rest: dust over the hero and the Wadjet markings (tear line and spiral) in sand under the eye
+    const rest = () => {
+      const g = geo(), hb = hero.getBoundingClientRect().bottom + scrollY, f = field(N, innerWidth, hb), m = wadjetMarks(Math.floor(N * .24), g);
+      f.set(m, (N - Math.floor(N * .24)) * 2); return f;
+    };
     sand.move(ground(N), eyeOutline(N, geo()), { attachTo: 1 });
     gsap.timeline({ delay: 0.15 })
       .to(U.uK, { value: 1, duration: 1.7, ease: 'power2.inOut' })
-      .add(() => { sand.move(eyeOutline(N, geo()), field(N), { attachFrom: 1, attachTo: 0 }); })
-      .to(U.uDrift, { value: 12, duration: 2.6, ease: 'sine.inOut' }, '<')
-      .to(U.uK, { value: 1, duration: 2.8, ease: 'sine.inOut' }, '<')
-      .to(U.uLum, { value: 0.75, duration: 2.8, ease: 'sine.inOut' }, '<');
-    settle = () => { const f = field(N); sand.move(f, f); U.uK.value = 1; };
+      .add(() => { sand.move(eyeOutline(N, geo()), rest(), { attachFrom: 1, attachTo: 1 }); })
+      .to(U.uDrift, { value: 6, duration: 2.6, ease: 'sine.inOut' }, '<')
+      .to(U.uK, { value: 1, duration: 2.4, ease: 'sine.inOut' }, '<')
+      .to(U.uLum, { value: 0.85, duration: 2.4, ease: 'sine.inOut' }, '<');
+    settle = () => { const f = rest(); sand.move(f, f, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; };
     drawFlourishes(gsap);
   }
 
@@ -51,16 +56,20 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
       start: 0, end: () => innerHeight * 0.9,
       onUpdate: (self) => { look.ly(-0.25 + 1.25 * self.progress); look.lx(gsap.utils.clamp(-0.6, 0.6, self.getVelocity() / 2500)); },
     });
-    let flying = false, side = 1;
+    let flying = false, side = 1, lastWing = null;
+    // the wing spreads in the upper band of the screen, above the section that is arriving
+    const wingAt = (d) => { const w = wing(N, innerWidth, innerHeight, d), dy = -innerHeight * .2; for (let i = 1; i < w.length; i += 2) w[i] += dy; return w; };
     const sweep = () => {
       if (flying) return; flying = true; side = -side;
       const rest = field(N);
-      sand.move(field(N), wing(N, innerWidth, innerHeight, side));
+      lastWing = wingAt(side); sand.move(field(N), lastWing);
       gsap.timeline({ onComplete: () => { flying = false; } })
-        .to(U.uK, { value: 1, duration: 0.95, ease: 'power2.inOut' })
-        .fromTo(U.uSweep, { value: 0 }, { value: 140 * side, duration: 0.95, ease: 'power2.inOut' }, '<')
-        .add(() => { sand.move(wing(N, innerWidth, innerHeight, side), rest); U.uSweep.value = 0; })
-        .to(U.uK, { value: 1, duration: 1.5, ease: 'sine.inOut' });
+        .to(U.uLum, { value: 0.8, duration: 0.3 }, 0)
+        .to(U.uK, { value: 1, duration: 0.9, ease: 'power2.inOut' }, 0)
+        .fromTo(U.uSweep, { value: 0 }, { value: 90 * side, duration: 0.9, ease: 'power2.inOut' }, 0)
+        .add(() => { sand.move(lastWing, rest); U.uSweep.value = 0; }, '+=0.28')   // the wing holds, then falls to dust
+        .to(U.uK, { value: 1, duration: 1.5, ease: 'sine.inOut' })
+        .to(U.uLum, { value: 1, duration: 1.5 }, '<');
     };
     document.querySelectorAll('main > section:not(.hero)').forEach((s) => ScrollTrigger.create({ trigger: s, start: 'top 70%', onEnter: sweep, onEnterBack: sweep }));
     settle = () => { const f = field(N); sand.move(f, f); U.uK.value = 1; };
@@ -68,19 +77,19 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
 
   if (v === 'c') {
     followPointer(eye, gsap);
-    U.uDrift.value = 3;
+    U.uDrift.value = 3; U.uLum.value = 1.2; U.uField.value = 0.2;
     // sunrise: every grain starts on the horizon (visible from the first frame), then the sun disk rises out of it
-    const g0 = geo(), hz = horizon();
+    const g0 = geo(), hz = horizon(); U.uHz.value = hz;
     const sun = sunAndHorizon(N, g0, hz);
     sand.move(sun.map((val, i) => (i % 2 ? hz + (Math.random() - .5) * 3 : val)), sun, { attachFrom: 1, attachTo: 1 });
     gsap.to(U.uK, { value: 1, duration: 1.8, ease: 'power2.out', delay: 0.05 });
     gsap.to(eye.st, { glow: 0.5, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2.2 });
     gsap.fromTo('.sun-glow', { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 2.6, ease: 'power2.out', delay: 0.3 });
-    // the sun sets as you scroll away: its glow sinks below the horizon and the grains dim
-    gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })
-      .to('.sun-glow', { yPercent: 45, autoAlpha: 0.2, ease: 'none' }, 0)
-      .to(U.uLum, { value: 0.55, ease: 'none' }, 0);
-    settle = () => { const f = sunAndHorizon(N, geo(), horizon()); sand.move(f, f, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; };
+    // the sun sets as you scroll away: the disk sinks into the horizon and its light goes out
+    gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 30%', scrub: 0.6 } })
+      .to(U.uSink, { value: 1, ease: 'none' }, 0)
+      .to('.sun-glow', { yPercent: 40, autoAlpha: 0, ease: 'none' }, 0);
+    settle = () => { const g = geo(), h = horizon(); U.uHz.value = h; const f = sunAndHorizon(N, g, h); sand.move(f, f, { attachFrom: 1, attachTo: 1 }); U.uK.value = 1; };
     drawFlourishes(gsap);
   }
 

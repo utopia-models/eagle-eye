@@ -15,16 +15,21 @@ const FS = `precision highp float; varying float vL; varying float vSeed; unifor
     gl_FragColor = vec4(col, a*clamp(vL, 0.0, 1.5)*0.85); }`;
 
 const VS = `attribute vec2 aFrom; attribute vec2 aTo; attribute vec4 aS;
-  uniform vec2 uRes; uniform float uDpr, uT, uK, uDrift, uLum, uSize, uScroll, uAttachFrom, uAttachTo, uSweep;
+  uniform vec2 uRes; uniform float uDpr, uT, uK, uDrift, uLum, uSize, uScroll, uAttachFrom, uAttachTo, uSweep, uField, uSink, uHz;
   varying float vL; varying float vSeed;
   void main(){
     float k = clamp(uK*1.6 - aS.x*0.6, 0.0, 1.0); k = k*k*(3.0-2.0*k);
-    vec2 a = aFrom - vec2(0.0, uAttachFrom*uScroll), b = aTo - vec2(0.0, uAttachTo*uScroll);
+    float fieldG = step(aS.w, uField);                // a share of grains always drifts in the viewport (dust behind every section)
+    vec2 a = aFrom - vec2(0.0, uAttachFrom*(1.0-fieldG)*uScroll), b = aTo - vec2(0.0, uAttachTo*(1.0-fieldG)*uScroll);
     vec2 p = mix(a, b, k);
     float fly = sin(3.14159*k);                       // in flight, grains lift and stream
     p += vec2(uSweep*fly*(0.6+aS.w), -fly*40.0*aS.y);
     p += vec2(sin(uT*0.31 + aS.y*40.0), cos(uT*0.27 + aS.z*33.0)) * uDrift*(0.35+aS.w);
+    // the sun sets: grains above the horizon sink toward it and go out as they cross it
+    float hz = uHz - uScroll, above = step(p.y, hz - 3.0) * (1.0 - fieldG);
+    p.y += above * uSink * (hz - p.y) * (0.75 + 0.25*aS.x);
     vL = (0.45 + 0.75*aS.w) * uLum * (0.62 + 0.38*sin(uT*1.7 + aS.x*50.0)) * (1.0 + 0.5*fly);
+    vL *= mix(1.0, 0.35, fieldG*step(0.001, uField)) * (1.0 - above*uSink*0.85);
     vSeed = aS.z;
     gl_PointSize = (1.0 + 1.6*aS.y) * uSize * uDpr * (1.0 + 0.4*fly);
     gl_Position = vec4(p.x/uRes.x*2.0-1.0, 1.0-p.y/uRes.y*2.0, 0.0, 1.0);
@@ -42,7 +47,7 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
   const geometry = new Geometry(gl, { aFrom: { size: 2, data: from }, aTo: { size: 2, data: to }, aS: { size: 4, data: seeds } });
   const u = {
     uRes: { value: [innerWidth, innerHeight] }, uDpr: { value: DPR }, uT: { value: 0 }, uK: { value: 0 }, uDrift: { value: 10 },
-    uLum: { value: 1 }, uSize: { value: phone ? 1.5 : 1.75 }, uScroll: { value: 0 }, uAttachFrom: { value: 0 }, uAttachTo: { value: 0 }, uSweep: { value: 0 },
+    uLum: { value: 1 }, uSize: { value: phone ? 1.5 : 1.75 }, uScroll: { value: 0 }, uAttachFrom: { value: 0 }, uAttachTo: { value: 0 }, uSweep: { value: 0 }, uField: { value: 0 }, uSink: { value: 0 }, uHz: { value: 0 },
     uC1: { value: [212 / 255, 169 / 255, 78 / 255] }, uC2: { value: [240 / 255, 210 / 255, 138 / 255] }, uC3: { value: [1, 244 / 255, 214 / 255] },
   };
   const program = new Program(gl, { vertex: VS, fragment: FS, uniforms: u, transparent: true, depthTest: false, depthWrite: false });
@@ -91,8 +96,8 @@ export function eyeOutline(N, g, { LID_W = 1.75, LID_H = 1.16 } = {}) {
   }
   return a;
 }
-// a falcon wing: primaries fan out from the shoulder, each feather a curved stroke of grains
-export function wing(N, W = innerWidth, H = innerHeight, dir = 1) {
+// (old) fan wing
+export function fanWing(N, W = innerWidth, H = innerHeight, dir = 1) {
   const a = new Float32Array(N * 2), sx = dir > 0 ? W * .08 : W * .92, sy = H * .62, F = 11;
   for (let i = 0; i < N; i++) {
     const f = (rand() * F) | 0, t = Math.pow(rand(), .8);
@@ -110,7 +115,7 @@ export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
   const a = new Float32Array(N * 2), { cx, cy, R } = g, Rs = R * 1.62;
   for (let i = 0; i < N; i++) {
     const s = rand(); let x, y;
-    if (s < .42) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .045); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
+    if (s < .3) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .045); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
     else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(.42 + .58 * rand()); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }   // the fill keeps clear of the iris
     else if (s < .66) { const t = -Math.PI * (.08 + rand() * .84), r = Rs * (1.12 + rand() * .55); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r * (1 - .25 * rand()); }   // rays
     else { const u = rand(); x = u * W; y = horizonY + (rand() - .5) * 3 * (1 + 3 * Math.pow(Math.abs(u - .5) * 2, 2)); }
@@ -118,4 +123,45 @@ export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
     a[i * 2] = x; a[i * 2 + 1] = y;
   }
   return a;
+}
+
+// sample N points from a shape drawn on a 2D canvas (the Utopia sites' sampler, C4)
+function sampleShape(N, w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d', { willReadFrequently: true });
+  g.fillStyle = g.strokeStyle = '#fff'; g.lineCap = g.lineJoin = 'round'; draw(g);
+  const d = g.getImageData(0, 0, w, h).data, hit = [];
+  for (let i = 3; i < d.length; i += 16) if (d[i] > 100) hit.push((i - 3) / 4);
+  const a = new Float32Array(N * 2);
+  for (let k = 0; k < N; k++) { const j = hit[(rand() * hit.length) | 0] || 0; a[k * 2] = (j % w) + rand() * 2; a[k * 2 + 1] = Math.floor(j / w) + rand() * 2; }
+  return a;
+}
+// the Wadjet markings under the eye: the falcon's tear line dropping from the lower lid, and the spiral tail
+export function wadjetMarks(N, g) {
+  const { cx, cy, R } = g, S = R / 100;   // drawn in a 400x300 box, the eye's centre at (200, 60), R = 100
+  const pts = sampleShape(N, 400, 300, (c) => {
+    c.lineWidth = 7;
+    c.beginPath(); c.moveTo(160, 172); c.bezierCurveTo(156, 210, 150, 248, 140, 286); c.stroke();                       // tear line
+    c.beginPath(); c.moveTo(224, 174); c.bezierCurveTo(240, 236, 300, 262, 344, 244); c.bezierCurveTo(376, 230, 372, 192, 346, 188);
+    c.bezierCurveTo(326, 186, 318, 206, 332, 214); c.stroke();                                                          // spiral tail
+  });
+  for (let i = 0; i < N; i++) { pts[i * 2] = cx + (pts[i * 2] - 200) * S; pts[i * 2 + 1] = cy + (pts[i * 2 + 1] - 60) * S; }
+  return pts;
+}
+// a Horus falcon wing: covert rows, then a fan of long primaries with separate feather tips, spread from the shoulder
+export function wing(N, W = innerWidth, H = innerHeight, dir = 1) {
+  const span = Math.min(W * 1.05, 1500), k = span / 1000;
+  const pts = sampleShape(N, 1000, 460, (c) => {
+    c.translate(70, 380);
+    for (let f = 0; f < 12; f++) {                                  // primaries and secondaries: long tapered feathers
+      const a = -0.18 - f * 0.105, len = 520 + 330 * Math.sin((f / 11) * Math.PI * .82), wdt = 22 + f * 1.2;
+      c.save(); c.rotate(a); c.beginPath(); c.moveTo(0, -wdt / 2); c.quadraticCurveTo(len * .55, -wdt, len, -2); c.quadraticCurveTo(len * .55, wdt * .55, 0, wdt / 2); c.fill(); c.restore();
+    }
+    c.globalCompositeOperation = 'destination-out'; c.lineWidth = 5;   // gaps between feathers
+    for (let f = 0; f < 12; f++) { const a = -0.18 - f * 0.105 - 0.052; c.save(); c.rotate(a); c.beginPath(); c.moveTo(180, 0); c.lineTo(900, 0); c.stroke(); c.restore(); }
+    c.globalCompositeOperation = 'source-over';
+    c.beginPath(); c.ellipse(150, -120, 210, 120, -0.55, 0, Math.PI * 2); c.fill();   // coverts at the shoulder
+  });
+  const ox = dir > 0 ? (W - span) / 2 : (W + span) / 2, oy = H * .5 - 230 * k;
+  for (let i = 0; i < N; i++) { pts[i * 2] = ox + dir * pts[i * 2] * k; pts[i * 2 + 1] = oy + pts[i * 2 + 1] * k; }
+  return pts;
 }
