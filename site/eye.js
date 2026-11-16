@@ -198,6 +198,7 @@ export function mountEye({ canvas, slot, hero, gsap, ScrollTrigger, reduced }) {
   }
   function degrade() {
     tier++;
+    canvas.dataset.tier = String(tier);
     if (tier === 1) { if (!isPast) geo.setDrawRange(0, Math.floor(N / 2)); maxDpr = 1; u.uBoost.value = 1.45; layout(); return; }
     // still too slow: settle the eye and draw it once, like reduced motion
     frozen = true;
