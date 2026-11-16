@@ -51,7 +51,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
     rot[0] = Math.PI / 2 - (PIPES[LIVE].a0 + PIPES[LIVE].aw / 2);
     { const r1 = PIPES.find((p) => p.ring === 1); rot[1] = -Math.PI / 2 + (r1 ? r1.aw / 2 : 0); }
     const d = PUPIL * R * 2.5; Object.assign(shade.style, { width: d + 'px', height: d + 'px', left: (sr.width - d) / 2 + 'px', top: (sr.height - d) / 2 + 'px' });
-    if (reduced || frozen) frame(performance.now());
+    if (reduced || frozen) settle();
   }
 
   const rnd = (a, b) => a + Math.random() * (b - a);
@@ -69,14 +69,24 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   const st = { blink: 0, lx: 0, ly: 0, glow: 0 };
   let t0 = performance.now() + start * 1000, last = performance.now(), visible = true;
 
+  // a still (reduced motion, or a device that cannot hold the frame rate): clear fully, then run 24 frames so the
+  // trails reach the same steady state the live eye shows
+  function settle() {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const n0 = performance.now(); last = n0; for (let k = 1; k <= 40; k++) frame(n0 + k * 33);
+  }
   function frame(now) {
     const t = Math.max(0, (now - t0) / 1000), dt = Math.min(.05, (now - last) / 1000); last = now;
+    const stp = lite ? 2 : 1;
     const open = sm((t - .3) / 2.4) * (1 - st.blink);
     const intro = Math.max(ease(t / 3.2) * .6, sm((t - .3) / 2.4));
     const gx = st.lx * R * .1, gy = st.ly * R * .08;   // the gaze: pupil, iris dust and highlight move together
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = 'source-over';
     // additive light needs an opaque ground (on a transparent canvas the grains come out several times dimmer):
     // black, and the canvas is screen-blended onto the sand, so black adds nothing and the box never shows
+    // like the live renderer, the clear runs at the alpha the brow dust left (~.1-.4): what stays is the grains' light
+    // trail, which is where the live eye's brightness and its streaked iris come from. Copied as is.
     ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
     const bl = ctx.createRadialGradient(cx, cy, R * .2, cx, cy, R * 1.25);
@@ -98,7 +108,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
       ctx.lineWidth = 1; ctx.strokeStyle = 'rgb(243,220,154)'; ctx.globalAlpha = (.10 + .5 * a) * intro;
       ctx.beginPath(); ctx.arc(ix, iy, r0 * R, a0, a1); ctx.stroke(); ctx.beginPath(); ctx.arc(ix, iy, r1 * R, a0, a1); ctx.stroke();
     }
-    const stp = lite ? 2 : 1;
+
     for (let fi = 0; fi < fibres.length; fi += stp) { const f = fibres[fi]; const e = ease((t - f.del * .7) / 2.2); if (e <= 0) continue; const a = f.a + Math.sin(t * .1 + f.tw) * .01, r0 = f.r * R * e, r1 = (f.r + f.l) * R * e;
       ctx.globalAlpha = (.03 + .03 * Math.sin(t * .8 + f.tw)) * e; ctx.strokeStyle = '#d9b35b'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(ix + Math.cos(a) * r0, iy + Math.sin(a) * r0); ctx.lineTo(ix + Math.cos(a) * r1, iy + Math.sin(a) * r1); ctx.stroke(); }
     const rim = (r, al, lw, x, y) => { ctx.globalAlpha = al * intro; ctx.lineWidth = lw; ctx.strokeStyle = '#f3dc9a'; ctx.beginPath(); ctx.arc(x, y, r * R, 0, TAU); ctx.stroke(); };
@@ -151,7 +161,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   if (document.fonts) document.fonts.ready.then(resize);
   new ResizeObserver(() => { if (slot.getBoundingClientRect().width !== lastSlotW) { lastSlotW = slot.getBoundingClientRect().width; resize(); } }).observe(slot);
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { rootMargin: '80px' }).observe(canvas);
-  if (reduced) { t0 = -9e5; frame(performance.now()); return { st, resize, geometry: () => ({ cx, cy, R, lidW }), degrade() {} }; }
+  if (reduced) { t0 = -9e5; settle(); return { st, resize, geometry: () => ({ cx, cy, R, lidW }), degrade() {} }; }
   gsap.ticker.add(tick);
 
   // blink every few seconds, sometimes twice
@@ -162,7 +172,7 @@ export function mountEagleEye({ canvas, slot, gsap, reduced = false, start = 0 }
   // a device that cannot hold the frame rate: 1x pixels, then a still eye (fully open, drawn once)
   function degrade(tier) {
     if (tier === 1) { dprCap = 1; resize(); return; }   // keep every grain: the eye is the hero
-    frozen = true; blink.kill(); st.blink = 0; t0 = performance.now() - 9e5; frame(performance.now());
+    frozen = true; blink.kill(); st.blink = 0; t0 = performance.now() - 9e5; settle();
   }
   return { st, resize, degrade, geometry: () => ({ cx, cy, R, lidW, W, H }) };
 }
