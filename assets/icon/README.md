@@ -1,6 +1,10 @@
 # Eagle Eye app icon
 
-The Eye of Horus (the wedjat from `site/assets/mark.svg`) drawn in the gold sand of live.utopiamodels.ai, on ink `#0a0a09`. The sand is not a texture: it uses the live site's own grain shader (`live.js`), ported to numpy in `src/sand.py`. Grains run `#d4a94e` → `#f0d28a` → `#fff4d6`, with additive blending, one grain in five a pearl glint, a molten swirling sun-disk pupil and an amber bloom.
+Horus: a falcon head in the live.utopiamodels.ai gold sand on ink `#0a0a09`, with the Eye of Horus cut into it — brow, almond eye with a sealed gold pupil, kohl tail, the teardrop (the falcon's malar stripe, which is where the wedjat marking comes from) and the spiral. Chosen from six concepts (`review/concepts-a-f.png`); concept B, the Gold Amulet, is kept as an alternate mark in `assets/brand/alt-gold-amulet/`.
+
+The sand is the live site's grain shader (`live.js`) ported to numpy in `src/sand.py`, over a beaten-gold plate so the head reads solid at 48 dp. Every concept lives in `src/concepts.py`; `src/build.py <out> <concept>` writes the whole set below, and `src/svgmask.py <concept> <out.svg>` writes the vector favicon from the same drawing calls.
+
+At 16–32 px the favicon is flat gold: the whole head on an ink margin with only the eye and teardrop (no brow, tail or spiral), and the 16 px one is drawn on the pixel grid (`Horus.FAV16`).
 
 | File | Use |
 |---|---|
@@ -15,10 +19,9 @@ The Eye of Horus (the wedjat from `site/assets/mark.svg`) drawn in the gold sand
 | `web/favicon.ico` | 16 (drawn on the pixel grid) + 32 + 48 |
 | `web/favicon-16.png`, `favicon-32.png`, `favicon-48.png` | the same favicons as PNG files |
 | `web/apple-touch-icon.png` | 180×180, opaque |
-| `web/favicon-mark-transparent.png` | the flat-gold small-size mark with no tile |
+| `web/favicon-1024.png` | the flat small-size mark on its tile, 1024 (the source of `site/favicon.svg`) |
 | `splash/splash-icon-1024.png`, `splash/splash-mark-512.png` | the splash mark (transparent); use it on background `#0a0a09` |
 
-At 16–48 px the favicon is a flat-gold simplified wedjat on an ink tile: eye, lid-cut pupil, teardrop and tail stub. Sand grain turns to mud at that size, and the ink tile keeps it readable on both light and dark tabs.
 
 ## Expo (`app.json`)
 
@@ -57,15 +60,17 @@ At 16–48 px the favicon is a flat-gold simplified wedjat on an ink tile: eye, 
 ```
 
 ```html
-<link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="icon" href="/favicon.ico?v=3" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 ```
 
 ## Regenerate
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install pillow numpy scipy
-cd assets/icon/src && ../../../.venv/bin/python build.py ../   # rewrites every file above
+cd assets/icon/src && ../../../.venv/bin/python build.py ../ horus   # rewrites every file above
+../../../.venv/bin/python svgmask.py horus ../../../site/favicon.svg
 ```
 
-`review/` holds the round-1 candidate sheet, the winner, every output under its platform mask, and the mock Pixel home screen at true size (1 px = 1 dp, 48 dp icons).
+`review/` holds the A-F concept sheet, the Horus review sheet (master, 48 dp circle and squircle, favicons on dark and light tabs) and the mock Pixel home screen at true size (1 px = 1 dp) and at device resolution.
