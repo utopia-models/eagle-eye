@@ -1,5 +1,5 @@
 // Eagle Eye site: Lenis smooth scroll on GSAP's ticker, SplitText hero, ScrollTrigger reveals,
-// NumberFlow stats, the sand eye (eye.js), the copy button and the live GitHub star count.
+// NumberFlow stats, the hero (directions.js), the copy button and the live GitHub star count.
 const { gsap, ScrollTrigger, SplitText, Lenis } = window;
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -68,12 +68,8 @@ if (!gsap || !ScrollTrigger) {
     window.__lenis = lenis;
   }
 
-  // the eye: html[data-v] picks one of the directions (the real Eagle Eye + the Utopia sand); otherwise the sand mark
-  const canvas = document.querySelector('.sand');
-  const V = root.dataset.v;
-  (V
-    ? import('./directions.js').then(({ mountDirection }) => mountDirection(V, { gsap, ScrollTrigger, reduced }))
-    : import('./eye.js').then(({ mountEye }) => mountEye({ canvas, slot: document.querySelector('.eye-slot'), hero: document.querySelector('.hero'), gsap, ScrollTrigger, reduced })))
+  // the hero: the real Eagle Eye born of the Utopia sand (directions.js)
+  import('./directions.js').then(({ mountDirection }) => mountDirection(root.dataset.v || 'a', { gsap, ScrollTrigger, reduced }))
     .then(() => root.classList.add('js-sand'))
     .catch((e) => { console.error(e); root.classList.add('no-sand'); });
 

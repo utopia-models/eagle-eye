@@ -97,37 +97,6 @@ export function eyeOutline(N, g, { LID_W = 1.75, LID_H = 1.16 } = {}) {
   }
   return a;
 }
-// (old) fan wing
-export function fanWing(N, W = innerWidth, H = innerHeight, dir = 1) {
-  const a = new Float32Array(N * 2), sx = dir > 0 ? W * .08 : W * .92, sy = H * .62, F = 11;
-  for (let i = 0; i < N; i++) {
-    const f = (rand() * F) | 0, t = Math.pow(rand(), .8);
-    const ang = (-.95 + f * .085) , len = W * (.52 + .3 * Math.sin((f / (F - 1)) * Math.PI * .9));
-    const bend = .35 * t * t;
-    const x = sx + dir * Math.cos(ang - bend) * len * t, y = sy + Math.sin(ang - bend) * len * t * .62;
-    const wdt = (1 - t) * 10 + 2;
-    a[i * 2] = x + (rand() - .5) * wdt; a[i * 2 + 1] = y + (rand() - .5) * wdt;
-  }
-  return a;
-}
-// the sun disk behind the eye (a molten ring and a thin fill) and the Akhet horizon below it
-export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
-  // Akhet: the sun disk sits on the horizon with the eye inside it; disk grains below the horizon join the line
-  const a = new Float32Array(N * 2), { cx, cy, R } = g, Rs = R * 2.0;   // the corona sits outside the lids: the dark round the eye stays dark
-  for (let i = 0; i < N; i++) {
-    const s = rand(); let x, y;
-    if (s < .3) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .045); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
-    else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * (.86 + .14 * Math.sqrt(rand())); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }   // molten limb, clear of the lids
-    else if (s < .66) { const t = -Math.PI * (.08 + rand() * .84), r = Rs * (1.12 + rand() * .55); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r * (1 - .25 * rand()); }   // rays
-    else { const u = rand(); x = u * W; y = horizonY + (rand() - .5) * 3 * (1 + 3 * Math.pow(Math.abs(u - .5) * 2, 2)); }
-    if (s >= .3 && s < .6 && rand() < .55) {   // part of the fill lies across the disk, outside the lid almond
-      for (let tries = 0; tries < 8; tries++) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(rand()); const px = Math.cos(t) * r, py = Math.sin(t) * r, u = px / (R * 1.75);
-        if (Math.abs(u) >= 1 || Math.abs(py) > R * 1.16 * Math.pow(1 - u * u, .9) + R * .25) { x = cx + px; y = cy + py; break; } } }
-    if (y > horizonY + 2 && s < .66) { y = horizonY + (rand() - .5) * 3; }
-    a[i * 2] = x; a[i * 2 + 1] = y;
-  }
-  return a;
-}
 
 // sample N points from a shape drawn on a 2D canvas (the Utopia sites' sampler, C4)
 function sampleShape(N, w, h, draw) {
@@ -149,24 +118,5 @@ export function wadjetMarks(N, g) {
     c.bezierCurveTo(326, 186, 318, 206, 332, 214); c.stroke();                                                          // spiral tail
   });
   for (let i = 0; i < N; i++) { pts[i * 2] = cx + (pts[i * 2] - 200) * S; pts[i * 2 + 1] = cy + (pts[i * 2 + 1] - 60) * S; }
-  return pts;
-}
-// a Horus falcon wing, spread: a fan of long primaries with separate tips (longest at the outer edge), coverts at the shoulder
-export function wing(N, W = innerWidth, H = innerHeight, dir = 1) {
-  const k = Math.min(W * .92, 1300) / 1000;
-  const ang = (f) => -0.05 - f * 0.073, len = (f) => 380 + 540 * Math.pow(1 - f / 11, .7);
-  const pts = sampleShape(N, 1000, 520, (c) => {
-    c.translate(60, 470);
-    for (let f = 0; f < 12; f++) {
-      const a = ang(f), L = len(f), wd = 26 + f * 1.5;
-      c.save(); c.rotate(a); c.beginPath(); c.moveTo(0, -wd / 2); c.quadraticCurveTo(L * .6, -wd * .9, L, -3); c.quadraticCurveTo(L * .6, wd * .5, 0, wd / 2); c.fill(); c.restore();
-    }
-    c.globalCompositeOperation = 'destination-out'; c.lineWidth = 9;
-    for (let f = 0; f < 11; f++) { const a = (ang(f) + ang(f + 1)) / 2; c.save(); c.rotate(a); c.beginPath(); c.moveTo(250, 0); c.lineTo(1000, 0); c.stroke(); c.restore(); }
-    c.globalCompositeOperation = 'source-over';
-    c.save(); c.rotate(-0.42); c.beginPath(); c.ellipse(170, -10, 210, 70, 0, 0, Math.PI * 2); c.fill(); c.restore();   // coverts
-  });
-  const ox = (W - 1000 * k) / 2, oy = H * .5 - 300 * k;
-  for (let i = 0; i < N; i++) { const x = pts[i * 2] * k; pts[i * 2] = dir > 0 ? ox + x : W - ox - x; pts[i * 2 + 1] = oy + pts[i * 2 + 1] * k; }
   return pts;
 }
