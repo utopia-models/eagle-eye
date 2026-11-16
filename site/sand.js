@@ -34,14 +34,15 @@ export function mountSand({ canvas, gsap, reduced = false, count }) {
   const phone = Math.min(innerWidth, innerHeight) < 600;
   const N = count || (phone ? 3200 : 6500);
   const DPR = Math.min(devicePixelRatio || 1, 2);
-  const renderer = new Renderer({ canvas, alpha: true, antialias: false, dpr: DPR, premultipliedAlpha: false, powerPreference: 'high-performance' });
-  const gl = renderer.gl; gl.clearColor(0, 0, 0, 0);
+  const renderer = new Renderer({ canvas, alpha: false, antialias: false, dpr: DPR, powerPreference: 'high-performance' });
+  // opaque, cleared to the page ink, exactly like the Utopia sites: additive grains on a solid ground
+  const gl = renderer.gl; gl.clearColor(10 / 255, 10 / 255, 9 / 255, 1);
   const seeds = new Float32Array(N * 4); for (let i = 0; i < seeds.length; i++) seeds[i] = Math.random();
   const from = new Float32Array(N * 2), to = new Float32Array(N * 2);
   const geometry = new Geometry(gl, { aFrom: { size: 2, data: from }, aTo: { size: 2, data: to }, aS: { size: 4, data: seeds } });
   const u = {
     uRes: { value: [innerWidth, innerHeight] }, uDpr: { value: DPR }, uT: { value: 0 }, uK: { value: 0 }, uDrift: { value: 10 },
-    uLum: { value: 1 }, uSize: { value: phone ? 1.15 : 1.3 }, uScroll: { value: 0 }, uAttachFrom: { value: 0 }, uAttachTo: { value: 0 }, uSweep: { value: 0 },
+    uLum: { value: 1 }, uSize: { value: phone ? 1.5 : 1.75 }, uScroll: { value: 0 }, uAttachFrom: { value: 0 }, uAttachTo: { value: 0 }, uSweep: { value: 0 },
     uC1: { value: [212 / 255, 169 / 255, 78 / 255] }, uC2: { value: [240 / 255, 210 / 255, 138 / 255] }, uC3: { value: [1, 244 / 255, 214 / 255] },
   };
   const program = new Program(gl, { vertex: VS, fragment: FS, uniforms: u, transparent: true, depthTest: false, depthWrite: false });
@@ -99,12 +100,15 @@ export function wing(N, W = innerWidth, H = innerHeight, dir = 1) {
 }
 // the sun disk behind the eye (a molten ring and a thin fill) and the Akhet horizon below it
 export function sunAndHorizon(N, g, horizonY, W = innerWidth) {
-  const a = new Float32Array(N * 2), { cx, cy, R } = g, Rs = R * 2.05;
+  // Akhet: the sun disk sits on the horizon with the eye inside it; disk grains below the horizon join the line
+  const a = new Float32Array(N * 2), { cx, cy, R } = g, Rs = R * 1.62;
   for (let i = 0; i < N; i++) {
     const s = rand(); let x, y;
-    if (s < .45) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .05); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
-    else if (s < .7) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(rand()); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
-    else { x = rand() * W; y = horizonY + (rand() - .5) * 4 * (1 + 2 * Math.pow(Math.abs(x / W - .5) * 2, 3)); }
+    if (s < .42) { const t = rand() * Math.PI * 2, r = Rs * (1 + (rand() - .5) * .045); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
+    else if (s < .6) { const t = rand() * Math.PI * 2, r = Rs * Math.sqrt(rand()); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r; }
+    else if (s < .66) { const t = -Math.PI * (.08 + rand() * .84), r = Rs * (1.12 + rand() * .55); x = cx + Math.cos(t) * r; y = cy + Math.sin(t) * r * (1 - .25 * rand()); }   // rays
+    else { const u = rand(); x = u * W; y = horizonY + (rand() - .5) * 3 * (1 + 3 * Math.pow(Math.abs(u - .5) * 2, 2)); }
+    if (y > horizonY + 2 && s < .66) { y = horizonY + (rand() - .5) * 3; }
     a[i * 2] = x; a[i * 2 + 1] = y;
   }
   return a;

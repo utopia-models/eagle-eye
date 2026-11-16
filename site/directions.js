@@ -16,10 +16,10 @@ export function mountDirection(v, { gsap, ScrollTrigger, reduced }) {
   const hero = document.querySelector('.hero');
   const eye = mountEagleEye({ canvas: eyeCv, slot, gsap, reduced, start: v === 'a' ? 1.45 : 0.15 });
   const sand = mountSand({ canvas: sandCv, gsap, reduced });
-  const N = sand.N, U = sand.u;
+  const N = sand.N, U = sand.u; window.__ee = { sand, eye };
   // the eye's geometry in page coordinates (the hero sits at the top of the page)
   const geo = () => { const g = eye.geometry(), r = eyeCv.getBoundingClientRect(); return { cx: g.cx + r.left, cy: g.cy + r.top + scrollY, R: g.R }; };
-  const horizon = () => { const r = hero.getBoundingClientRect(); return r.bottom + scrollY - 34; };
+  const horizon = () => { const g = geo(); return g.cy + g.R * 1.3; };   // just under the lower lid
   let settle = () => {};   // re-lays the resting formation after a width change
 
   if (reduced) {
