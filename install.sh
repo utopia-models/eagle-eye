@@ -11,7 +11,7 @@
 #   EAGLE_EYE_REF=main     branch or tag to install    (default: main)
 #   EAGLE_EYE_NO_SERVE=1   install only, do not start the server
 #
-# Licensed under the Apache License 2.0. Source: https://github.com/utopia-models/eagle-eye
+# Licensed under the MIT License. Source: https://github.com/utopia-models/eagle-eye
 set -eu
 
 main() {

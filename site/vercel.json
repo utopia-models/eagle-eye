@@ -8,11 +8,6 @@
       "permanent": false
     },
     {
-      "source": "/p/tyler",
-      "destination": "https://eagle.utopiamodels.ai/",
-      "permanent": false
-    },
-    {
       "source": "/p/:name",
       "destination": "https://eagle.utopiamodels.ai/p/:name",
       "permanent": false

@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "description": "One eye on every agent: the open-source screen for your Claude Code agents.",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
     "check": "node scripts/layout-check.mjs http://localhost:8000/ shots"
   },
   "devDependencies": { "playwright": "^1.64.0" }
