@@ -1,0 +1,194 @@
+{
+ "updated": "2026-11-18T12:00:00Z",
+ "campaign_steps": [
+  {
+   "id": "li_connect",
+   "label": "LinkedIn connect"
+  },
+  {
+   "id": "li_dm",
+   "label": "LinkedIn DM"
+  },
+  {
+   "id": "cold_email",
+   "label": "Cold email"
+  },
+  {
+   "id": "referral",
+   "label": "Referral intro",
+   "per": "company"
+  }
+ ],
+ "companies": {
+  "northwind": {
+   "name": "Northwind Labs",
+   "campaign": {
+    "people": [
+     {
+      "slug": "ada-example",
+      "name": "Ada Example",
+      "title": "VP Engineering",
+      "steps": {
+       "li_connect": {
+        "s": "accepted",
+        "at": "2026-11-16T15:02:00Z"
+       },
+       "li_dm": {
+        "s": "sent",
+        "at": "2026-11-17T16:10:00Z",
+        "text": "Hi Ada, saw the Northwind agent platform launch. We build something close; a 90-second demo is here."
+       },
+       "cold_email": {
+        "s": "planned"
+       }
+      }
+     },
+     {
+      "slug": "ben-sample",
+      "name": "Ben Sample",
+      "title": "Recruiter",
+      "steps": {
+       "li_connect": {
+        "s": "sent",
+        "at": "2026-11-16T15:05:00Z"
+       },
+       "li_dm": {
+        "s": "planned",
+        "why": "after li connect is accepted"
+       },
+       "cold_email": {
+        "s": "replied",
+        "at": "2026-11-17T09:30:00Z",
+        "subject": "Re: agents at Northwind",
+        "text": "Happy to chat Thursday."
+       }
+      }
+     }
+    ],
+    "company_steps": {
+     "referral": {
+      "s": "none"
+     }
+    },
+    "last": {
+     "at": "2026-11-17T16:10:00Z",
+     "what": "LinkedIn DM to Ada Example"
+    },
+    "vsl": [],
+    "skipped": []
+   }
+  },
+  "globex": {
+   "name": "Globex Robotics",
+   "campaign": {
+    "people": [
+     {
+      "slug": "cy-demo",
+      "name": "Cy Demo",
+      "title": "Head of Platform",
+      "steps": {
+       "li_connect": {
+        "s": "sent",
+        "at": "2026-11-17T12:00:00Z"
+       },
+       "li_dm": {
+        "s": "planned"
+       },
+       "cold_email": {
+        "s": "waiting on VSL",
+        "until": "2026-11-18T12:00:00Z"
+       }
+      }
+     }
+    ],
+    "company_steps": {
+     "referral": {
+      "s": "planned"
+     }
+    },
+    "last": {
+     "at": "2026-11-17T12:00:00Z",
+     "what": "LinkedIn connect to Cy Demo"
+    },
+    "vsl": [],
+    "skipped": []
+   }
+  },
+  "initech": {
+   "name": "Initech Cloud",
+   "campaign": {
+    "people": [
+     {
+      "slug": "dee-placeholder",
+      "name": "Dee Placeholder",
+      "title": "CTO",
+      "steps": {
+       "li_connect": {
+        "s": "failed",
+        "at": "2026-11-15T10:00:00Z",
+        "why": "note limit reached"
+       },
+       "li_dm": {
+        "s": "planned"
+       },
+       "cold_email": {
+        "s": "sent",
+        "at": "2026-11-16T08:00:00Z",
+        "subject": "Your pipeline, one screen",
+        "text": "Hi Dee, a short note about watching every agent on one screen."
+       }
+      }
+     },
+     {
+      "slug": "eli-fake",
+      "name": "Eli Fake",
+      "title": "Staff Engineer",
+      "steps": {
+       "li_connect": {
+        "s": "accepted",
+        "at": "2026-11-16T09:00:00Z"
+       },
+       "li_dm": {
+        "s": "sent",
+        "at": "2026-11-16T09:40:00Z",
+        "text": "Thanks for connecting, Eli."
+       },
+       "cold_email": {
+        "s": "planned"
+       }
+      }
+     },
+     {
+      "slug": "fay-made-up",
+      "name": "Fay Made-up",
+      "title": "Engineering Manager",
+      "steps": {
+       "li_connect": {
+        "s": "planned"
+       },
+       "li_dm": {
+        "s": "planned"
+       },
+       "cold_email": {
+        "s": "planned"
+       }
+      }
+     }
+    ],
+    "company_steps": {
+     "referral": {
+      "s": "sent",
+      "at": "2026-11-15T20:00:00Z"
+     }
+    },
+    "last": {
+     "at": "2026-11-16T09:40:00Z",
+     "what": "LinkedIn DM to Eli Fake"
+    },
+    "vsl": [],
+    "skipped": []
+   }
+  }
+ },
+ "apps": []
+}

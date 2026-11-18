@@ -28,7 +28,7 @@ python3 -m http.server 8000      # or: npx serve .
 # open http://localhost:8000
 ```
 
-Everything you see comes from `demo/data.json`, which is made-up sample data.
+Everything you see comes from `demo/data.json`, which is made-up sample data. Every campaign, person and step has its own page at `/campaigns.html`, fed by `demo/campaigns.json` (also made up).
 
 ## Plug in your agents
 
