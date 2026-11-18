@@ -2,3 +2,4 @@ node_modules/
 shots/
 __pycache__/
 check.log
+design/baseline/_diff/
