@@ -1,0 +1,50 @@
+# ui-visual-record — re-records design/baseline/ from main after a merge (utopia-models/knowledge#14826).
+# The baseline IS the last passing build: no human approves it. This job runs only on a push to main that changes UI
+# files, serves the repo's static web root (WEB_ROOT, default `web`), records both viewports and commits the PNGs back
+# as the bot. It is never run by hand to quiet a red check. Canonical copy: _infra/ci/ui-gate/workflow-record.yml.
+name: ui-visual-record
+on:
+  push:
+    branches: [main]
+    paths: ["*.html", "site/**", "design/ui-gate.json", "scripts/ui-visual.mjs"]
+permissions:
+  contents: write
+concurrency:
+  group: ui-visual-record
+  cancel-in-progress: false
+env:
+  WEB_ROOT: .
+jobs:
+  record:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Install the gate (outside the repo)
+        run: |
+          d="$RUNNER_TEMP/ui-gate"; mkdir -p "$d"; cp scripts/ui-visual.mjs "$d/"
+          printf '{"private":true,"type":"module","dependencies":{"playwright":"1.64.0","pngjs":"7.0.0","pixelmatch":"6.0.0"}}' > "$d/package.json"
+          (cd "$d" && npm install --no-audit --no-fund --silent)
+          if [ -d /srv/ms-playwright/chromium-1248 ] && [ -d /srv/ms-playwright/webkit-2370 ]; then
+            echo "PLAYWRIGHT_BROWSERS_PATH=/srv/ms-playwright" >> "$GITHUB_ENV"
+          else
+            (cd "$d" && npx playwright install --with-deps chromium webkit)
+          fi
+      - name: Serve and record
+        run: |
+          port=$((20000 + RANDOM % 20000))
+          nohup npx --yes serve@14 -l "$port" "$WEB_ROOT" > "$RUNNER_TEMP/serve.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/serve.pid"
+          for i in $(seq 1 60); do curl -sf -o /dev/null "http://127.0.0.1:$port/" && break; sleep 1; done
+          node "$RUNNER_TEMP/ui-gate/ui-visual.mjs" record "http://127.0.0.1:$port"
+          kill "$(cat "$RUNNER_TEMP/serve.pid")" 2>/dev/null || true
+      - name: Commit the new baseline
+        run: |
+          rm -rf design/baseline/_diff
+          git add design/baseline
+          git diff --cached --quiet && { echo "baseline unchanged"; exit 0; }
+          git -c user.name=github-actions[bot] -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -m "ui baseline: record the last passing build"
+          git push origin HEAD:main
