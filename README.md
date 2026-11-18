@@ -18,6 +18,10 @@ desk. At every size HUNTS and ROOSTS sit side by side on top, and the eye takes 
 
 ![Eagle Eye at 1920x1080 on the demo feed](docs/eagle-eye-1920.png)
 
+## How it fits together
+
+![Agents feed adapters, adapters write a JSON feed, Eagle Eye draws it](docs/architecture.svg)
+
 ## Run it on the demo feed
 
 No build, no dependencies, no account. The one-liner above, or by hand:
@@ -64,4 +68,4 @@ npm run check     # 6 sizes x 3 browsers: fails on any overlap, anything off scr
 Eagle Eye is the screen Utopia Models watches its own fleet of Claude Code agents on, released with the UI and a
 demo feed only. No real data and no credentials ship in this repository.
 
-Licensed under the [Apache License 2.0](LICENSE). Made by [Utopia Models, Inc.](https://utopiamodels.ai)
+Licensed under the [MIT License](LICENSE). Made by [Utopia Models, Inc.](https://utopiamodels.ai)
