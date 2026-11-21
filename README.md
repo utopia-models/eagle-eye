@@ -1,5 +1,7 @@
 # Eagle Eye
 
+![Eagle Eye drawing the demo feed](docs/eagle-eye.gif)
+
 **One eye on every agent.** Eagle Eye is the open-source screen for your Claude Code agents. Each agent gets a lane on
 the eye: what it sent out sits on the outer ring (**hunts**: applications, proposals, cold email, posts), and what came
 back sits on the inner ring (**roosts**: replies, clients, your network). It reads one JSON feed and redraws every 5
@@ -9,7 +11,7 @@ seconds, on a phone, a laptop or a wall.
 curl -fsSL eagleeye.sh/install | sh
 ```
 
-That downloads Eagle Eye into `./eagle-eye` and serves the demo on http://localhost:8000. Site: [eagleeye.sh](https://eagleeye.sh).
+That downloads Eagle Eye into `./eagle-eye` and serves the demo on http://localhost:8000. Site: [eagleeye.sh](https://eagleeye.sh). Docs: [eagleeye.sh/docs](https://eagleeye.sh/docs).
 Live demo: [eagleeye.sh/demo](https://eagleeye.sh/demo/). Want it run for you, server and agents included?
 [Utopia Models runs it](https://utopiamodels.ai/call).
 

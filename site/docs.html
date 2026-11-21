@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Docs: Eagle Eye</title>
+<meta name="description" content="Install Eagle Eye, plug in your agents, and write the feed it reads.">
+<link rel="canonical" href="https://eagleeye.sh/docs">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="doc">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="rail" id="top">
+  <a class="logo" href="/" aria-label="Eagle Eye home"><img src="/assets/logo-horus.svg" alt="" width="25" height="25"></a>
+  <nav aria-label="Docs" id="nav">
+    <a href="#install"><span>[1]</span><span>Install</span></a>
+    <a href="#lanes"><span>[2]</span><span>Hunts and roosts</span></a>
+    <a href="#adapters"><span>[3]</span><span>Plug in your agents</span></a>
+    <a href="#feed"><span>[4]</span><span>Feed format</span></a>
+    <a href="#config"><span>[5]</span><span>config.js</span></a>
+    <a href="#check"><span>[6]</span><span>Check the layout</span></a>
+    <a href="/"><span>[7]</span><span>Home</span></a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Menu" aria-controls="nav" aria-expanded="false">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h14M3 13h14"/></svg>
+  </button>
+</header>
+<a class="gh" href="https://github.com/utopia-models/eagle-eye" aria-label="Eagle Eye on GitHub">
+  <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-text">
+      <h1 id="hero-title">Docs</h1>
+      <p class="lead">Eagle Eye reads one JSON feed and redraws every 5 seconds. Install it, run it on the demo feed, then write a feed from your own agents.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="install">
+    <h2 id="install">Install</h2>
+    <div class="sec-body">
+      <p class="sec-lead">One line. It downloads Eagle Eye into <code>./eagle-eye</code> and serves the demo on <code>http://localhost:8000</code>.</p>
+      <pre><code>curl -fsSL eagleeye.sh/install | sh</code></pre>
+      <p>Running it again updates the app files and keeps your <code>config.js</code>. Options, as environment variables:</p>
+      <pre><code>EAGLE_EYE_DIR=path     where to install            (default: ./eagle-eye)
+EAGLE_EYE_PORT=8000    port for the local server   (default: 8000)
+EAGLE_EYE_REF=main     branch or tag to install    (default: main)
+EAGLE_EYE_NO_SERVE=1   install only, do not start the server</code></pre>
+      <h3>By hand</h3>
+      <p>No build, no dependencies, no account.</p>
+      <pre><code>git clone https://github.com/utopia-models/eagle-eye &amp;&amp; cd eagle-eye
+python3 -m http.server 8000      # or: npx serve .
+# open http://localhost:8000</code></pre>
+      <p>Everything you see first comes from <code>demo/data.json</code>, which is made-up sample data. Every campaign, person and step has its own page at <code>/campaigns.html</code>, fed by <code>demo/campaigns.json</code> (also made up). The same demo runs at <a class="u" href="/demo/">eagleeye.sh/demo</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="lanes">
+    <h2 id="lanes">Hunts and roosts</h2>
+    <div class="sec-body">
+      <p class="sec-lead">Each agent gets a lane on the eye. What it sent out sits on the outer ring; what came back sits on the inner ring.</p>
+      <ul class="dots">
+        <li><strong>Hunts</strong> (ring 0): applications, proposals, cold email, posts. Each hunt shows what was sent and what was answered.</li>
+        <li><strong>Roosts</strong> (ring 1): replies, clients, your network. Each roost shows its rows.</li>
+      </ul>
+      <p>It fits whatever screen it is on, with no scroll bar: a phone, a laptop, a 1080p wall, an ultrawide, or half of a desk. At every size hunts and roosts sit side by side on top, and the eye takes the room below them.</p>
+      <img src="/assets/architecture.svg" alt="Agents feed adapters, adapters write a JSON feed, Eagle Eye draws it" width="900" height="220" loading="lazy">
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="adapters">
+    <h2 id="adapters">Plug in your agents</h2>
+    <div class="sec-body">
+      <p class="sec-lead">Give each agent a lane. Have it append one row per action to a CSV ledger, or write the feed JSON directly.</p>
+      <ol>
+        <li>Write a feed in the <a class="u" href="#feed">feed shape</a>. The reference adapter turns a CSV ledger (one row per application or status change) into a feed.</li>
+        <li>Point <code>feed</code> in <a class="u" href="#config">config.js</a> at it, and name your lanes in <code>pipes</code>.</li>
+        <li>Re-run the adapter on a schedule: cron, a systemd timer, a serverless function. The page picks up changes within 5 seconds, with no reload.</li>
+      </ol>
+      <pre><code># ledger.csv, one row per action, in time order
+ts,lane,org,role,status
+2026-11-02 10:00,job_boards,Northwind,Backend engineer,applied
+2026-11-05 16:20,job_boards,Northwind,Backend engineer,interview
+
+python3 adapters/csv_feed.py ledger.csv &gt; data.json
+python3 adapters/csv_feed.py --self-test</code></pre>
+      <p>Statuses the adapter counts: <code>found</code>, <code>applied</code>, <code>replied</code>, <code>screen</code>, <code>interview</code>, <code>offer</code>, <code>signed</code>, <code>rejected</code> (a rejection counts as a reply). Any adapter that writes the same JSON works: a CRM export, an ATS API, an inbox count. Source: <a class="u" href="https://github.com/utopia-models/eagle-eye/blob/main/adapters/csv_feed.py">adapters/csv_feed.py</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="feed">
+    <h2 id="feed">Feed format</h2>
+    <div class="sec-body">
+      <p class="sec-lead">Eagle Eye polls one JSON document every 5 seconds. Anything that can write this shape can drive the screen: a cron job, a serverless function, a database view.</p>
+      <pre><code>{
+  "updated": "2026-11-15T09:00:00Z",          // when your adapter measured it
+  // funnel totals: every key named in config.js `stages` and `key4`
+  "applied": 214, "replied": 31, "interviews": 7, "offers": 2,
+  "hunts": {                                   // one entry per ring-0 lane, keyed by `hk`
+    "job_boards": {
+      "sent": 214,                             // what you sent out (outer ring)
+      "answered": 31,                          // what came back (inner ring)
+      "status": "live",                        // live | partial | empty
+      "reason": "...",                         // shown instead of numbers when empty
+      "window": "last 30 days", "what": "...", "source": "...",
+      "last_action": {"ts": "2026-11-15T08:41:00Z", "event": "applied"}
+    }
+  },
+  "roosts": {                                  // one entry per ring-1 lane, keyed by `rk`
+    "clients": {
+      "rows": [{"name": "Northwind Labs", "hunt": "referrals",
+                "stage": "contract", "contracts": 1, "paid": "$4,800"}],
+      "reason": "..."                          // shown when rows is empty
+    }
+  }
+}</code></pre>
+      <h3 id="rules">Rules the UI keeps, so your adapter should too</h3>
+      <ul class="dots">
+        <li><strong>Never send a zero you did not count.</strong> A lane you cannot measure gets <code>"sent": null, "status": "empty"</code> and a <code>reason</code>; the screen shows the reason, dimmed, instead of a fake 0.</li>
+        <li><strong>A failed measurement writes nothing.</strong> Keep the last good document rather than replacing it with an empty one.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="config">
+    <h2 id="config">config.js</h2>
+    <div class="sec-body">
+      <p class="sec-lead">Everything in <code>config.js</code> is optional except a feed and at least one lane.</p>
+      <pre><code>window.EAGLE_EYE = {
+  feed: 'demo/data.json',   // any URL that returns the feed JSON
+  // ring 0 = a hunt, read from feed.hunts[hk]
+  // ring 1 = a roost, read from feed.roosts[rk].rows
+  // w = the lane's share of its ring
+  pipes: [
+    {id:'job-boards', ring:0, hk:'job_boards', name:'Job boards', w:3},
+    {id:'cold-email', ring:0, hk:'cold_email', name:'Cold email', w:2},
+    {id:'clients',    ring:1, rk:'clients',    name:'Clients',    w:1},
+  ],
+};</code></pre>
+      <p>The full file, with funnel stages and per-lane links: <a class="u" href="https://github.com/utopia-models/eagle-eye/blob/main/config.js">config.js on GitHub</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="check">
+    <h2 id="check">Check the layout</h2>
+    <div class="sec-body">
+      <p class="sec-lead">Six sizes in three browsers. It fails on any overlap, anything off screen, or a scroll bar.</p>
+      <pre><code>npm i &amp;&amp; npx playwright install chromium webkit firefox
+python3 -m http.server 8000 &amp;
+npm run check</code></pre>
+      <p>Licensed under the <a class="u" href="https://github.com/utopia-models/eagle-eye/blob/main/LICENSE">MIT License</a>. Questions and fixes: <a class="u" href="https://github.com/utopia-models/eagle-eye/issues">GitHub issues</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <nav class="foot-nav" aria-label="Footer">
+    <a href="/"><span>[ ]</span><span>Home</span></a>
+    <a href="/demo/"><span>[ ]</span><span>Demo</span></a>
+    <a href="https://github.com/utopia-models/eagle-eye"><span>[ ]</span><span>GitHub</span></a>
+    <a href="https://github.com/utopia-models/eagle-eye/blob/main/LICENSE"><span>[ ]</span><span>License</span></a>
+    <a href="/privacy"><span>[ ]</span><span>Privacy</span></a>
+  </nav>
+  <div class="foot-main"><div class="wordmark" aria-hidden="true">eagle eye</div></div>
+  <p class="copy-line">©2026 Utopia Models, Inc.</p>
+</footer>
+
+<script src="/site.js" defer></script>
+</body>
+</html>
