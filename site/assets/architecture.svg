@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" font-family="system-ui,sans-serif" font-size="14">
+<rect width="900" height="220" fill="#0d0b08"/>
+<g fill="#1a150d" stroke="#d9b36a" stroke-width="1.5">
+<rect x="30" y="70" width="190" height="80" rx="10"/><rect x="270" y="70" width="190" height="80" rx="10"/>
+<rect x="510" y="70" width="170" height="80" rx="10"/><rect x="730" y="70" width="140" height="80" rx="10"/></g>
+<g fill="#f3e3b8" text-anchor="middle">
+<text x="125" y="105">Your agents</text><text x="125" y="128" font-size="12" fill="#b99a5a">Claude Code, scripts, CRM</text>
+<text x="365" y="105">adapters/*.py</text><text x="365" y="128" font-size="12" fill="#b99a5a">CSV, API, inbox → JSON</text>
+<text x="595" y="105">data.json</text><text x="595" y="128" font-size="12" fill="#b99a5a">the feed (docs/FEED.md)</text>
+<text x="800" y="105">Eagle Eye</text><text x="800" y="128" font-size="12" fill="#b99a5a">redraws every 5 s</text></g>
+<g stroke="#d9b36a" stroke-width="2" fill="#d9b36a"><path d="M220 110H262M460 110H502M680 110H722"/>
+<path d="M262 104l8 6-8 6zM502 104l8 6-8 6zM722 104l8 6-8 6z" stroke="none"/></g>
+</svg>
