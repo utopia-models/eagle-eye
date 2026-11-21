@@ -2,7 +2,7 @@
   "name": "eagle-eye",
   "version": "0.1.0",
   "private": true,
-  "description": "One eye on every agent: the open-source screen for your Claude Code agents.",
+  "description": "The #1 open-source networking machine. The open alternative to Apollo and Clay, designed for AI agents.",
   "license": "MIT",
   "scripts": {
     "start": "python3 -m http.server 8000",

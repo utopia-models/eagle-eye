@@ -2,8 +2,10 @@
 
 ![Eagle Eye drawing the demo feed](docs/eagle-eye.gif)
 
-**One eye on every agent.** Eagle Eye is the open-source screen for your Claude Code agents. Each agent gets a lane on
-the eye: what it sent out sits on the outer ring (**hunts**: applications, proposals, cold email, posts), and what came
+## The #1 Open-Source Networking Machine
+
+The open alternative to Apollo and Clay, designed for AI agents. Eagle Eye puts your whole
+network on one screen: what you send out sits on the outer ring (**hunts**: applications, proposals, cold email, posts), and what came
 back sits on the inner ring (**roosts**: replies, clients, your network). It reads one JSON feed and redraws every 5
 seconds, on a phone, a laptop or a wall.
 
