@@ -15,7 +15,7 @@ curl -fsSL eagleeye.sh/install | sh
 
 That downloads Eagle Eye into `./eagle-eye` and serves the demo on http://localhost:8000. Site: [eagleeye.sh](https://eagleeye.sh). Docs: [eagleeye.sh/docs](https://eagleeye.sh/docs).
 Live demo: [eagleeye.sh/demo](https://eagleeye.sh/demo/). Want it run for you, server and agents included?
-[Utopia Models runs it](https://utopiamodels.ai/call).
+[See what's included](https://services.utopiamodels.ai/#eagle-eye).
 
 It fits whatever screen it is on, with no scroll bar: a phone, a laptop, a 1080p wall, an ultrawide, or half of a
 desk. At every size HUNTS and ROOSTS sit side by side on top, and the eye takes the room below them.

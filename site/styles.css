@@ -134,6 +134,12 @@ main, .foot-main { margin-left: 289.6px; padding: 82px 24px 0 16px; max-width: 1
 .band h2 { margin-top: 12px; font-size: 28px; line-height: 32px; letter-spacing: -.01em; }
 .band p { margin-top: 16px; font: 400 18px/25.2px var(--sans); color: var(--card-muted); }
 .band .btn { margin-top: 24px; background: #fafafa; color: #0c0c0c; }
+.band .btns { margin-top: 24px; }
+.band .btns .btn { margin-top: 0; }
+.band .btn-2 { background: transparent; color: var(--card-text); box-shadow: inset 0 0 0 1px var(--card-muted); }
+.band .band-faq { margin-top: 28px; font-size: 15px; line-height: 24px; }
+.band .band-faq strong { color: var(--card-text); font-weight: 500; }
+.band .band-faq a { color: var(--card-text); }
 
 /* footer: rail links + outline wordmark + copyright */
 .foot { position: relative; margin-top: 72px; padding-bottom: 32px; }
