@@ -1,0 +1,12 @@
+# Eagle Eye's Upwork lane feed (knowledge#14038): upwork_feed.py reads the upwork agent's ledger (its job_read rows
+# are dev@'s Upwork job alerts, written by mail_watch.py) and proposals.db, and PUTs one JSON to KV `upwork` (eagle-eye-data), served at eagle.utopiamodels.ai/upwork.json.
+# Runs as the `upwork` user on Nova. Install (as upwork): cp upwork-eagle-feed.{service,timer} ~/.config/systemd/user/ &&
+#   systemctl --user daemon-reload && systemctl --user enable --now upwork-eagle-feed.timer
+# Probe: systemctl --user list-timers upwork-eagle-feed.timer; journalctl --user -u upwork-eagle-feed -n 3 -o cat
+[Unit]
+Description=Eagle Eye Upwork feed (ledger + proposals.db -> KV upwork)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/dev/eagle-eye/packages/core/upwork_feed.py
+TimeoutStartSec=180
