@@ -255,7 +255,7 @@
   // ---- take-over (knowledge#18939): FULL VSL / INTRO VSL on a hunt. FULL stops the intro countdown, claims the job and loads its script into Vizier
   // (POST /api/take -> take_api.py on Ra). The state line polls GET /api/take every 3 s and counts the intro timer down every second.
   const takeLabel = s => !s || !s.found ? "no package yet" : s.take === "full" && !s.claimed_at && s.state !== "sent" && s.state !== "recording" ? "Full VSL picked: waiting for Tyler"
-    : s.state === "waiting" || s.state === "due" ? (s.remaining_s > 0 ? "Intro sends in " : "Intro sends now") : s.label || s.state;
+    : s.state === "waiting" || s.state === "due" ? (s.remaining_s > 0 ? "Intro sends in " : "Intro sends now") : s.label || (s.state === "not_ready" ? "package still building" : s.state);
   function takeBody(job, s) {
     const on = k => s && s.take === k ? " on" : "";
     const chip = s && s.found ? `<span class="ed-sub ${s.state === "claimed" || s.take === "full" ? "gold" : ""}" data-take-label data-send-at="${esc(s.send_at || "")}">${esc(takeLabel(s))}</span>` : sub("not ready: pick now, it builds first");
