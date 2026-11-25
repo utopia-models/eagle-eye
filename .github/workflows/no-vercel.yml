@@ -1,0 +1,28 @@
+name: no-vercel
+# knowledge#19515: Vercel is retired. Fails a PR (or a push to main) that adds a Vercel config, deploy step or
+# doctrine mention. Predicate and exemptions: .github/no-vercel/lint-no-vercel.sh (copied from utopia-models/knowledge).
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: no-vercel-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - name: Nothing added brings Vercel back
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          bash .github/no-vercel/test-lint-no-vercel.sh
+          bash .github/no-vercel/lint-no-vercel.sh "$BASE...$HEAD_SHA"
