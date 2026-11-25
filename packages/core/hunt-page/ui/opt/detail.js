@@ -254,7 +254,7 @@
 
   // ---- take-over (knowledge#18939): FULL VSL / INTRO VSL on a hunt. FULL stops the intro countdown, claims the job and loads its script into Vizier
   // (POST /api/take -> take_api.py on Ra). The state line polls GET /api/take every 3 s and counts the intro timer down every second.
-  const takeLabel = s => !s || !s.found ? "no package yet" : s.take === "full" && s.state !== "sent" && s.state !== "recording" && s.state !== "claimed" ? "Full VSL picked: waiting for Tyler"
+  const takeLabel = s => !s || !s.found ? "no package yet" : s.take === "full" && !s.claimed_at && s.state !== "sent" && s.state !== "recording" ? "Full VSL picked: waiting for Tyler"
     : s.state === "waiting" || s.state === "due" ? (s.remaining_s > 0 ? "Intro sends in " : "Intro sends now") : s.label || s.state;
   function takeBody(job, s) {
     const on = k => s && s.take === k ? " on" : "";
@@ -264,16 +264,18 @@
     return `<div class="ed-row" data-take-job="${esc(job)}"><button type="button" class="ed-sub ed-vslchip${on("full")}" data-take="full">FULL VSL</button>
       <button type="button" class="ed-sub ed-vslchip${on("intro")}" data-take="intro">INTRO VSL</button>${chip}${voice}${sc}</div>`;
   }
-  const takeFetch = (job, init) => fetch("/api/take" + (init ? "" : "?job=" + encodeURIComponent(job)), init).then(x => x.json()).catch(() => null);
+  // view=1: this hunt is open and visible, so "full VSL on this one" by voice means it
+  const takeFetch = (job, init) => fetch("/api/take" + (init ? "" : "?job=" + encodeURIComponent(job) + (document.visibilityState === "visible" ? "&view=1" : "")), init).then(x => x.json()).catch(() => null);
   function takeRefresh() {
     const el = document.querySelector("[data-take-job]"); if (!el) return;
     takeFetch(el.dataset.takeJob).then(s => { const cur = document.querySelector("[data-take-job]"); if (s && cur && cur.dataset.takeJob === el.dataset.takeJob) cur.outerHTML = takeBody(el.dataset.takeJob, s); });
   }
   setInterval(takeRefresh, 3000);
   setInterval(() => document.querySelectorAll("[data-take-label][data-send-at]").forEach(l => {
-    if (!l.dataset.sendAt || !/^Intro sends in/.test(l.textContent)) return;
+    const m = /^(Intro sends in|FULL, record within) /.exec(l.textContent);
+    if (!l.dataset.sendAt || !m) return;
     const s = Math.max(0, Math.round((Date.parse(l.dataset.sendAt) - Date.now()) / 1000));
-    l.textContent = s ? "Intro sends in " + String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0") : "Intro sends now";
+    l.textContent = s ? m[1] + " " + String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0") : "Intro sends now";
   }), 1000);
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-take]"); if (!b) return;
