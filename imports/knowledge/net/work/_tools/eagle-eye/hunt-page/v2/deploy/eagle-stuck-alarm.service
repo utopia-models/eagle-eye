@@ -1,9 +1,0 @@
-# Alarm when a hunt row sits in one stage past its budget (knowledge#18576). Read-only; fleetmails the Architect.
-[Unit]
-Description=Eagle Eye stuck-row alarm (stage budgets)
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/python3 /home/architect/dev/utopia-models/eagle-eye-v2/send/stuck_alarm.py
-SuccessExitStatus=1
-TimeoutStartSec=120

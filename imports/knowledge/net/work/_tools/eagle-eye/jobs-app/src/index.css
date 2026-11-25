@@ -1,5 +1,0 @@
-@tailwind base;@tailwind components;@tailwind utilities;
-:root{--background:40 14% 3%;--foreground:41 42% 82%;--primary:41 62% 60%;--primary-foreground:40 14% 3%;--secondary:40 18% 9%;--secondary-foreground:41 22% 55%;
---muted:40 18% 9%;--muted-foreground:41 22% 55%;--accent:41 40% 14%;--accent-foreground:41 62% 70%;--destructive:12 38% 38%;--destructive-foreground:12 60% 90%;
---border:41 30% 20%;--input:41 30% 28%;--ring:41 62% 60%;--radius:.375rem}
-body{background:hsl(var(--background));color:hsl(var(--foreground));font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
