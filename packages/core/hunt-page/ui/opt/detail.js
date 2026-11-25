@@ -352,8 +352,8 @@
     // ---- cards ----
     const C = [];
 
-    // Take over (knowledge#18939): only a job post that is not sent yet
-    if (r.type === "job" && (P?.job || r.contact?.job) && !r.tl?.vsl?.sent_at) {
+    // Take over (knowledge#18939): an Upwork or job-post row with a job id, not sent yet. Upwork rows are type "upwork", not "job"
+    if ((r.type === "upwork" || r.type === "job") && (P?.job || r.contact?.job) && !r.tl?.vsl?.sent_at) {
       const tj = String(P?.job || r.contact.job);
       C.push(card("take", "video", "Take over", null, takeBody(tj, null), sub("full VSL stops the intro")));
       setTimeout(takeRefresh, 0);
