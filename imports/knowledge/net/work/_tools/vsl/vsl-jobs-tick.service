@@ -1,0 +1,6 @@
+[Unit]
+Description=Upwork VSL job pipeline tick (knowledge#16293): scan leads without a take, stage packages, report status
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/dev/utopia-models/knowledge/net/work/_tools/vsl/vsl_jobs.py tick

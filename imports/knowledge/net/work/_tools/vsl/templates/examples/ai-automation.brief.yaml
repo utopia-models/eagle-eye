@@ -1,0 +1,30 @@
+# Example brief (test fixture, not a real client's post): the AI Automation take, client-first. The signals are the phrases a post
+# like this would carry; vsl_template.py never invents one, a missing slot is an error naming the brief path to set.
+job:
+  title: "AI Automation Engineer"
+signals:
+  channel: job board
+  phrases:
+    - "AI agents that handle invoicing and email"
+    - "a human approving every step"
+    - "nothing executes until a person approves"
+    - "an audit log of every action"
+  outcome: "invoices and email handled by AI agents with a person approving every step"
+  fear: "an agent acting on its own with no one watching"
+  stack: "Next.js, the Anthropic API, QuickBooks"
+  questions:
+    - q: "How would you keep a person in control of what the agents do?"
+      ask: "how a person stays in control of what the agents do"
+      keys: [approves]
+      answer: "Every action waits in an approval queue until a person approves it"
+take:
+  first_name: Sam
+  artifact: "invoicing and email workflow"
+  flow:
+    - "A billing request email arrives in your inbox, and the coordinator routes it to the invoice step"
+    - "The invoice step extracts the line items with Claude, and code computes the totals, so you never rely on a model for arithmetic"
+    - "Nothing executes until a person approves, so you approve the invoice in the queue"
+    - "The audit log records who approved what, and when, which is the audit log of every action you asked for"
+  proof: "I built this same approve-then-execute pattern for a client who needed a person to sign off on each payment, and every payment since has gone through it"
+  milestones: "the inbox routing, then the approval queue, then the QuickBooks sync"
+  next_build: "the QuickBooks and Gmail integration behind this same approval gate"

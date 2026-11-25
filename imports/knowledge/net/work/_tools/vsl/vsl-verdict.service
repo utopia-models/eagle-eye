@@ -1,0 +1,17 @@
+[Unit]
+Description=VSL post-take verdict: a finished OBS recording gets RE-RECORD <part> or NEXT within 60 s (Part of #14969)
+After=network-online.target
+
+[Service]
+Type=simple
+# user eagle on Ra. The tool runs from its own clean detached clone (the unit keeps it at origin/main every 5 min).
+Environment=VSL_VERDICT_ROOT=%h/.local/share/vsl-verdict/knowledge
+Environment=VSL_VERDICT_ASR_PY=/opt/voice-v3/venv/bin/python
+ExecStart=/usr/bin/python3 %h/.local/share/vsl-verdict/knowledge/net/work/_tools/vsl/vsl_verdict.py watch
+Restart=always
+RestartSec=5
+CPUWeight=800
+Nice=0
+
+[Install]
+WantedBy=default.target

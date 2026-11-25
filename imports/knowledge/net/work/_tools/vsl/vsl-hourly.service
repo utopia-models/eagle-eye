@@ -1,0 +1,6 @@
+[Unit]
+Description=VSL build hourly line: tokens and minutes per package and per stage, plus the load guard's number (knowledge#17280)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/dev/utopia-models/knowledge/net/work/vsl/package/arch4.py hourly

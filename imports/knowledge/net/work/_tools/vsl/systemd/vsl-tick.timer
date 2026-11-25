@@ -1,0 +1,10 @@
+[Unit]
+Description=vsl agent cycle every 2 min, around the clock (knowledge#17978)
+
+[Timer]
+OnBootSec=60
+OnUnitInactiveSec=120
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

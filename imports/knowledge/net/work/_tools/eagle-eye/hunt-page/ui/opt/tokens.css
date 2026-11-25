@@ -1,0 +1,48 @@
+/* Eagle Eye palette (11-21 ~9:00 PM): primary gold #9C8452 (Tyler: "The 9c gold?"), drawn as metal per the Rolex-site research: neutral surfaces, the only gold fill is the metal Record, outlined badges, polished tab hairline.
+   Why the change: gold is a gloss term. People call a surface "gold" only when it has specular highlights
+   (Okazawa, Koida & Komatsu 2011, J. Vision 11(8):4). A flat field of one champagne value (L 0.73, C 0.08,
+   OKLCH h 84) has no highlight, so on pure black it reads as khaki/beige, and when a laptop is warm-shifted it reads yellow.
+   What's copied (Rolex crown SVG, rolex.com live): the gold is SHADED. Its dark stops turn toward copper
+   (#7B4F36 h50, #684C34, #79593A) and its light stops toward pale yellow (#A37E2C -> #DFAB3A gradient tokens).
+   Gold stays a mark: lines, text, logo. Big fills use neutrals (Rolex: green; AP, Patek: black/white).
+   So this scale is HUE-ROTATED: 6-8 lean bronze (h 64-70), 9 is Tyler's #BFA46F, 10-12 lean pale (h 85-90).
+   1-5 are near-neutral, so hover and selected surfaces no longer tint the page khaki. */
+:root{
+  /* gold: 1-5 near-neutral surfaces · 6-7 bronze borders · 8 deep bronze · 9 champagne (Tyler 11-21, C) · 10-11 text · 12 highlight */
+  --gold-1:#060504; --gold-2:#0c0b09; --gold-3:#15120f; --gold-4:#1c1915; --gold-5:#24201b;
+  --gold-6:#33281c; --gold-7:#4f3d29; --gold-8:#6f5434; --gold-9:#9c8452; --gold-10:#ab9361;
+  --gold-11:#a89067; --gold-12:#d9cdb3;
+  /* the metal: the one way gold is used as a FILL (Rolex gradient-gold, from/to, plus the crown's copper shadow) */
+  --gold-metal:linear-gradient(180deg,#cdb98c 0%,#9c8452 48%,#6b4e2e 100%);
+  --gold-hair:linear-gradient(90deg,transparent,#906d44 15%,#efe6cc 50%,#906d44 85%,transparent); /* 1px rules */
+
+  /* ink: cool neutral (OKLCH h 255, C .003). A cool grey next to the gold makes the gold look warmer (simultaneous contrast). ink-10 = Tyler's #8F8F8F */
+  --ink-1:#000000; --ink-2:#090a0b; --ink-3:#111213; --ink-4:#161719; --ink-5:#1d1e1f;
+  --ink-6:#28292a; --ink-7:#343537; --ink-8:#4c4d4f; --ink-9:#6b6c6d; --ink-10:#8f8f8f;
+  --ink-11:#b6b7b9; --ink-12:#eaebed;
+  /* sage green (Tyler 11-21): success / Ready */
+  --green-9:#3e7d5a; --green-10:#4a8f69; --green-11:#79b393;
+
+  --white:#fff; /* only for third-party logo plates */
+  --glow:0 0 0 1px var(--gold-8),0 0 14px -2px color-mix(in srgb,var(--gold-9) 45%,transparent);
+  color-scheme:dark;
+}
+
+/* ===== USAGE RULES as code. These selectors live in index.html <style>, shared.css and detail.css.
+   Move each rule into its file when this is adopted. Rule: gold = line, text, logo, ONE metal CTA. Never a tint. ===== */
+/* 1. Surfaces stay neutral: hover/selected/chips use ink, not gold-2/3 tints */
+.hrow:hover{background:var(--ink-2)!important;box-shadow:0 6px 18px -10px var(--ink-1),inset 2px 0 0 var(--gold-9)!important}
+.num{background:transparent!important;box-shadow:inset 0 0 0 1px var(--ink-6)!important}
+.num b{color:var(--gold-11)!important}
+.tb.upwork{background:transparent!important;border-color:var(--ink-7)!important}
+.pill.ok,.vsl,.vsl.recorded{background:transparent!important}
+.hover\:bg-gold\/10:hover{background:var(--ink-3)!important}
+/* 2. Borders: neutral by default, bronze only to mark gold-owned things */
+:root{--line2:var(--ink-7);--color-line2:var(--ink-7)}
+.vsl{border-color:var(--gold-7)!important}
+/* 3. The only gold FILL is the primary action, and it's the shaded metal, never flat #BFA46F */
+.vsl.record,.ed-sub.s-ready-to-record,.ed-sub.s-staged,.ed-sub.s-record{background:var(--gold-metal)!important;border-color:#6b4e2e!important;color:#0b0906!important;box-shadow:inset 0 1px 0 rgba(255,250,235,.55),inset 0 -1px 0 rgba(0,0,0,.25)!important}
+/* 4. Badges are outlined, never solid: Funding becomes gold text on a bronze hairline */
+.tb.funding,.ed-tb.funding{color:var(--gold-11)!important;background:transparent!important;border-color:var(--gold-8)!important}
+/* 5. The active tab underline is a polished hairline, not a flat bar */
+.tabs button[aria-selected=true]{border-bottom-color:transparent!important;border-image:var(--gold-hair) 1!important}

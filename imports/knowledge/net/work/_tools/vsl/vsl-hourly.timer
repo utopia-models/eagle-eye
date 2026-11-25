@@ -1,0 +1,9 @@
+[Unit]
+Description=VSL build hourly report
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

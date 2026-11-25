@@ -1,0 +1,13 @@
+# FALLBACK path for outward-send facts -> Eagle Eye (the main path is push at the source: ledger.append -> eagle_emit).
+# inotify on each fact file; any write starts eagle-facts.service, which delivers the new lines idempotently.
+# Install: cp deploy/eagle-facts.{path,service} ~/.config/systemd/user/ && systemctl --user enable --now eagle-facts.path
+[Unit]
+Description=Eagle Eye facts fallback: watch the Upwork ledger and the hunt-send log
+
+[Path]
+PathModified=/home/upwork/.claude/state/net/upwork/ledger.jsonl
+PathModified=/home/architect/dev/utopia-models/eagle-eye-v2/send/state/send.log
+Unit=eagle-facts.service
+
+[Install]
+WantedBy=default.target

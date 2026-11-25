@@ -1,0 +1,10 @@
+{
+  "stagger_rows":   {"ms": [40, 60],  "lib": "motion",         "what": "table/list rows enter staggered"},
+  "kpi_countup":    {"s": [0.8, 1.2], "lib": "@number-flow/react", "what": "KPI numbers count up"},
+  "skeleton_swap":  {"s": [0.4, 0.7], "lib": "shadcn skeleton", "what": "skeleton to content"},
+  "ai_stream":      {"cps": [30, 60], "lib": "motion/cult-ui",  "what": "AI text streams in"},
+  "cmdk_palette":   {"lib": "cmdk",  "what": "Cmd+K palette opened on camera"},
+  "chart_draw":     {"lib": "recharts/tremor", "what": "charts draw in"},
+  "toast_per_action": {"lib": "sonner", "what": "a toast on every action"},
+  "live_status":    {"lib": "css/motion", "what": "pulsing status dots and hover polish"}
+}

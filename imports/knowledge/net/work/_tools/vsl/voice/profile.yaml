@@ -1,0 +1,10 @@
+# The ONE voice source of the VSL system (knowledge#18736). Every body render reads this file;
+# VERIFY (voice/voice_profile.py check) fails a render whose sidecar names another profile id or reference hash.
+# `picked: false` until Tyler picks from the blind-test card; then Eagle sets model/ref and the hash.
+picked: false
+id: null            # e.g. tyler-<model>-<ref sha8>
+model: null         # one of voice/adapters.py ADAPTERS
+reference: null     # path to Tyler's clean reference wav (the old tyler-ref.wav is NOT the reference)
+reference_sha256: null
+energy: 0.7         # model-neutral 0..1, mapped per adapter (exaggeration / emotion weight / ...)
+target_lufs: -16

@@ -1,0 +1,15 @@
+# knowledge#18939: the hunt page's FULL VSL / INTRO VSL tap. Loopback only; eagle-ui's server.py proxies /api/take here.
+# The intro timer + due-intro send are NOT a separate unit: oneshot-auto-serve's tick() already calls due_intros() (autosend.py) every 20 s.
+# Install as upwork:  cp this to ~/.config/systemd/user/ ; systemctl --user daemon-reload ; systemctl --user enable --now vsl-take-api
+# Needs group fleet-vizier-write for vizier-put.sh (/etc/vizier/write-secret). Probe:  curl -s '127.0.0.1:8799/take?job=<digits>'
+[Unit]
+Description=Hunt page take-over API (FULL VSL / INTRO VSL), loopback
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 %h/oneshot/kb-v2/net/work/_tools/vsl/take_api.py 8799
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

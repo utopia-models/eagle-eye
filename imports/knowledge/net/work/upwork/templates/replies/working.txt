@@ -1,0 +1,1 @@
+Hi {{first_name}}, I am working on {{what}} now. Done so far: {{done}}. Next: {{next}}, by {{time}}.

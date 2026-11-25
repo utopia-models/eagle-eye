@@ -1,0 +1,16 @@
+# Beat 1: what they asked for, in their words. The quoted phrase on screen is the proof a person read it; never announce it.
+id: hook
+version: 1
+part: {title: "Hook: what they asked for", seconds: 10, cue: "Their post (or site, profile, last message) on screen, the key phrase highlighted."}
+slots:
+  first_name: {from: take.first_name}
+  p1: {from: signals.phrases.0, required: true}
+  p2: {from: signals.phrases.1, required: true}
+  p3: {from: signals.phrases.2, required: true}
+lines:
+  - ["{first_name}, you asked for {p1}.", "You asked for {p1}."]
+  - ["You wrote {p2}."]
+  - ["You also wrote {p3}."]
+outline:
+  - "<First name>, you asked for <Phrase 1, verbatim from their text>."
+  - "You wrote <Phrase 2, verbatim>."

@@ -1,0 +1,9 @@
+[Unit]
+Description=Upwork VSL job pipeline tick every 5 minutes (acceptance: staged within 15 min of a new lead)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target

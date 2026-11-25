@@ -1,0 +1,15 @@
+# Beat 3: their flow, shown on their stack, on sample data.
+id: flow
+version: 1
+part: {title: "Their flow, shown", seconds: 45, cue: "Your {artifact} on screen, running on sample data."}
+slots:
+  artifact: {from: take.artifact, required: true, note: "their thing, in their noun: 'dashboard', 'invoice workflow'"}
+  flow: {from: take.flow, required: true, list: true, note: "2+ spoken sentences, step by step, in their terms"}
+lines:
+  - ["(Horus) Here is your {artifact} running, on sample data."]
+  - {each: flow, text: ["{item}."]}
+outline:
+  - "(Horus) Here is your <their artifact> running, on sample data."
+  - "You wrote <their requirement>. This is <that screen or step>."
+  - "<Step two of their flow, in their terms and on their stack.>"
+  - "<Step three: the output they asked for.>"

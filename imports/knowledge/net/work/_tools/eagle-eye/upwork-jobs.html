@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eagle Eye · Upwork jobs</title>
+<!-- shadcn/ui, unmodified: Table, Badge, Sheet and the Magic UI Shimmer Button (magicui.design/r/shimmer-button.json) class strings are copied verbatim from the registry
+     (https://ui.shadcn.com/r/styles/new-york/{table,badge,button,sheet}.json) and styled by Tailwind, with shadcn's own theme
+     variables set to the Utopia gold (design/tokens.json). No custom widgets, no hand-written component CSS. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{border:'hsl(var(--border))',input:'hsl(var(--input))',ring:'hsl(var(--ring))',background:'hsl(var(--background))',foreground:'hsl(var(--foreground))',primary:{DEFAULT:'hsl(var(--primary))',foreground:'hsl(var(--primary-foreground))'},secondary:{DEFAULT:'hsl(var(--secondary))',foreground:'hsl(var(--secondary-foreground))'},destructive:{DEFAULT:'hsl(var(--destructive))',foreground:'hsl(var(--destructive-foreground))'},muted:{DEFAULT:'hsl(var(--muted))',foreground:'hsl(var(--muted-foreground))'},accent:{DEFAULT:'hsl(var(--accent))',foreground:'hsl(var(--accent-foreground))'}},keyframes:{'shimmer-slide':{to:{transform:'translate(calc(100cqw - 100%), 0)'}},'spin-around':{'0%':{transform:'translateZ(0) rotate(0)'},'15%, 35%':{transform:'translateZ(0) rotate(90deg)'},'65%, 85%':{transform:'translateZ(0) rotate(270deg)'},'100%':{transform:'translateZ(0) rotate(360deg)'}}},animation:{'shimmer-slide':'shimmer-slide var(--speed) ease-in-out infinite alternate','spin-around':'spin-around calc(var(--speed) * 2) infinite linear'},borderRadius:{lg:'var(--radius)',md:'calc(var(--radius) - 2px)',sm:'calc(var(--radius) - 4px)'}}}}</script>
+<style type="text/tailwindcss">
+:root{--background:40 14% 3%;--foreground:41 42% 82%;--primary:41 62% 60%;--primary-foreground:40 14% 3%;--secondary:40 18% 9%;--secondary-foreground:41 22% 55%;
+--muted:40 18% 9%;--muted-foreground:41 22% 55%;--accent:41 62% 60% / .12;--accent-foreground:41 62% 70%;--destructive:12 38% 38%;--destructive-foreground:12 60% 90%;
+--border:41 62% 60% / .16;--input:41 62% 60% / .3;--ring:41 62% 60%;--radius:.375rem}
+body{font-family:Inter,system-ui,sans-serif}
+</style></head>
+<body class="bg-background text-foreground antialiased"><main class="mx-auto max-w-6xl p-4">
+<div class="flex items-center justify-between gap-3 pb-4"><div><a href="/" class="text-xs tracking-widest text-primary">&larr; EAGLE EYE</a><h1 class="text-2xl font-semibold tracking-wide text-primary" style="font-family:'Cormorant Garamond',Georgia,serif">Upwork jobs</h1>
+<p class="text-sm text-muted-foreground">Triage every unsent fit job, newest first: FULL or INTRO VSL per job. Apply within 6 hours of posting; a proposal goes out only when its VSL is recorded.</p></div>
+<button id="refresh" type="button" style="--spread:90deg;--shimmer-color:#d9b35b;--radius:6px;--speed:3s;--cut:0.05em;--bg:rgba(0,0,0,1)" class="group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden [border-radius:var(--radius)] border border-primary/60 px-6 py-3 whitespace-nowrap text-primary font-medium tracking-widest [background:var(--bg)] transform-gpu transition-transform duration-300 ease-in-out active:translate-y-px">
+<div class="-z-30 blur-[2px] [container-type:size] absolute inset-0 overflow-visible"><div class="animate-shimmer-slide absolute inset-0 aspect-[1] h-[100cqh] rounded-none [mask:none]"><div class="animate-spin-around absolute -inset-full w-auto [translate:0_0] rotate-0 [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))]"></div></div></div>
+REFRESH
+<div class="absolute inset-0 size-full rounded-2xl px-4 py-1.5 text-sm font-medium shadow-[inset_0_-8px_10px_#ffffff1f] transform-gpu transition-all duration-300 ease-in-out group-hover:shadow-[inset_0_-6px_10px_#ffffff3f] group-active:shadow-[inset_0_-10px_10px_#ffffff3f]"></div>
+<div class="absolute inset-[var(--cut)] -z-20 [border-radius:var(--radius)] [background:var(--bg)]"></div></button></div>
+<div id="tabs" class="flex gap-2 pb-3 text-sm"></div>
+<div class="relative w-full overflow-auto rounded-md border"><table id="t" class="w-full caption-bottom text-sm"></table></div>
+<p id="foot" class="mt-4 text-sm text-muted-foreground"></p></main>
+<div id="ov" class="fixed inset-0 z-50 bg-black/80 hidden"></div>
+<aside id="sh" role="dialog" aria-modal="true" aria-labelledby="st" class="fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out duration-300 inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm translate-x-full overflow-auto invisible">
+<button id="x" class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" aria-label="Close">&times;</button>
+<div class="flex flex-col space-y-2 text-center sm:text-left"><h2 id="st" class="text-lg font-semibold text-foreground"></h2><p id="sd" class="text-sm text-muted-foreground"></p></div><dl id="sb" class="mt-4 grid grid-cols-[6rem_1fr] gap-2 text-sm"></dl></aside>
+<script>
+const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=t=>t?new Date(t).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'-';
+// shadcn class strings, verbatim from the registry
+const BADGE='inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2';
+const VAR={default:'border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80',secondary:'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+ destructive:'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',outline:'text-foreground'};
+const HEAD='h-10 px-2 text-left align-middle font-medium text-muted-foreground', CELL='p-2 align-middle', ROW='border-b transition-colors hover:bg-muted/50 cursor-pointer';
+const badge=(t,v='outline',title='',x='')=>`<div class="${BADGE} ${VAR[v]} ${x}" title="${esc(title)}">${esc(t)}</div>`;
+const GREEN='border-green-500/40 text-green-400', AMBER='border-amber-400/40 text-amber-300';
+// Target: apply within 6 h of posting. green < 6 h, amber 6-24 h, grey older.
+function age(t){const h=t?(Date.now()-Date.parse(t))/36e5:NaN; if(!isFinite(h)) return badge('-','outline','no posted time yet');
+ const x=h<1?Math.max(1,Math.round(h*60))+' min':h<48?(Math.round(h*10)/10)+' h':Math.round(h/24)+' d';
+ return h<6?badge(x,'outline','on target: under 6 h',GREEN):h<24?badge(x,'outline','6 to 24 h since posting',AMBER):badge(x,'secondary','older than a day');}
+const L=(u,t)=>u?`<a class="text-primary underline-offset-4 hover:underline" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(t||u)}</a>`:'';
+const STAT={'Proposal Drafting':['default',''],'Awaiting Reply':['outline','border-primary/50 text-primary'],'In Conversation':['default','bg-green-500 text-black'],'Won':['default','bg-green-500 text-black'],'Lost':['destructive',''],'Passed':['secondary',''],'Awaiting VSL':['outline',AMBER],'Awaiting Demo':['outline',AMBER]};
+let UP=null, ROWS=[], PICKS={}, TAB='triage';
+function rows(){ const M=(UP.matches||[]).map(m=>({id:'m'+m.key,at:m.postedAt,title:m.title||m.key,why:(m.why||[]).slice(0,2).join(' · '),posted:m.postedAt,
+   demo:m.demo,owner:m.owner,vsl:m.vsl,script:m.vslScript,status:m.statusWord||m.status,noVsl:false,m,sheet:'m'}));
+ const A=(UP.applied||[]).filter(a=>TAB==='noreply'?a.noReply:!a.noReply).map(a=>({id:'a'+a.key,at:(a.job&&a.job.posted)||a.sentAt,title:a.title||a.key,why:'',posted:a.job&&a.job.posted,demo:a.demo,owner:'upwork',
+   vsl:!!(a.vsl&&(a.vsl.recorded||a.vsl.attached)),script:false,status:a.statusWord||'Awaiting Reply',noVsl:!!(a.pipeline&&a.pipeline.noVsl),a,sheet:'a'}));
+ return (TAB==='noreply'?[]:M).concat(A).sort((x,y)=>Date.parse(y.at||0)-Date.parse(x.at||0)); }
+const BTN='inline-flex items-center justify-center rounded-md border px-3 py-1 text-xs font-semibold tracking-wide transition-colors hover:bg-primary/20 focus:outline-none focus:ring-2 focus:ring-ring';
+const ON='!bg-primary !text-primary-foreground border-transparent';
+function tabs(){ const f=(UP&&UP.funnel)||{}, n=(UP&&UP.triage||[]).length;
+ $('tabs').innerHTML=[['triage','Triage ('+n+')'],['jobs','Sent / matched'],['noreply','No reply ('+(f.noReply||0)+')']].map(([k,t])=>`<button type="button" data-tab="${k}" class="${BTN} ${TAB===k?ON:''}">${t}</button>`).join('')+
+  (f.sent!=null?`<span class="ml-auto self-center text-xs text-muted-foreground">Funnel: ${f.sent} sent · ${f.active} active · ${f.noReply} no reply after 7 d</span>`:''); }
+$('tabs').onclick=e=>{const b=e.target.closest('[data-tab]'); if(b){TAB=b.dataset.tab; paint();}};
+async function pickTake(key,take){ PICKS[key]={key,take,by:'button'}; paint();
+ try{const r=await fetch('/triage/pick',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({key,take})}); if(!r.ok) throw new Error(r.status); PICKS[key]=await r.json();}
+ catch(e){ delete PICKS[key]; paint(); alert('Pick not saved ('+e.message+'). Try again.'); } }
+// Intro auto-send countdown (knowledge#18249): ticks every second from send_at; READY jobs only (the builder's autosend block); FULL VSL stops it.
+function cd(r){const a=r.autosend; if(r.pick==='full') return badge('Full VSL picked','outline','Tyler records this one: the intro will not auto-send',AMBER);
+ if(!a||a.state==='not_ready') return badge('not ready','secondary',a&&a.hold?'held: '+a.hold:'the package is not READY yet');
+ if(a.hold) return badge('held: '+a.hold.replace('_',' '),'destructive','closed or private job, or the intro MP4 is missing');
+ if(a.state==='waiting'||a.state==='due'){const s=Math.max(0,Math.round((Date.parse(a.send_at)-Date.now())/1000));
+  return `<span data-sendat="${esc(a.send_at)}">${badge(s?'Intro sends in '+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'):'Intro sends now','outline','',s?GREEN:AMBER)}</span>`;}
+ return badge(a.label||a.state,'secondary');}
+setInterval(()=>{ if(UP&&TAB==='triage'&&document.querySelector('[data-sendat]')) paint(); },1000);
+function paintTriage(){ const T=(UP.triage||[]).map(r=>Object.assign({},r,PICKS[r.key]?{pick:PICKS[r.key].take,pickBy:PICKS[r.key].by}:{}));
+ const th=['Job','Posted','Fit','Budget','Package','Intro send','Take'].map(c=>`<th class="${HEAD}">${c}</th>`).join('');
+ $('t').innerHTML=`<thead class="[&_tr]:border-b"><tr class="border-b">${th}</tr></thead><tbody>`+(T.length?T.map(r=>`<tr class="border-b" data-key="${esc(r.key)}"><td class="${CELL}"><div class="font-medium">${L(r.url,r.title)}</div><div class="text-xs text-muted-foreground">${esc(r.key.slice(-6))}</div></td>`+
+  `<td class="${CELL}">${age(r.postedAt)}</td><td class="${CELL}">${r.fit==null?badge('unscored','secondary'):badge(r.fit,'outline')}</td><td class="${CELL} text-xs">${esc(r.budget)}</td><td class="${CELL}">${badge(r.package,'secondary')}</td><td class="${CELL}">${cd(r)}</td>`+
+  `<td class="${CELL} whitespace-nowrap"><button type="button" data-take="full" class="${BTN} ${r.pick==='full'?ON:''}">FULL VSL</button> <button type="button" data-take="intro" class="${BTN} ${r.pick==='intro'?ON:''}">INTRO VSL</button>${r.pick&&r.pickBy==='voice'?' '+badge('by voice','secondary'):''}</td></tr>`).join(''):`<tr><td class="${CELL} text-muted-foreground" colspan="7">No unsent fit jobs.</td></tr>`)+'</tbody>';
+ $('foot').textContent='Unsent fit jobs, newest posted first. Picks feed the one-shot queue (picked jobs build first). Say "full 1435" or "intro 2046" to Eagle for the same.';}
+$('t').addEventListener('click',e=>{const b=e.target.closest('button[data-take]'); if(!b) return; e.stopPropagation(); pickTake(b.closest('tr').dataset.key,b.dataset.take);},true);
+function paint(){ if(!UP) return; tabs(); if(TAB==='triage') return paintTriage(); ROWS=rows();
+ const th=['Job','Posted','Demo','VSL','Status'].map(c=>`<th class="${HEAD}">${c}</th>`).join('');
+ $('t').innerHTML=`<thead class="[&_tr]:border-b"><tr class="border-b">${th}</tr></thead><tbody class="[&_tr:last-child]:border-0">`+(ROWS.length?ROWS.map(r=>{
+  const demo=r.demo&&r.demo.url&&(r.demo.ready||r.demo.live)?L(r.demo.url,'ready ↗'):r.demo&&r.demo.slug?badge('building','secondary')+`<div class="text-xs text-muted-foreground">owner: ${esc(r.owner)}</div>`:badge('none','outline');
+  const vsl=r.vsl?badge('recorded','outline','',GREEN):r.script?badge('script ready','outline','',AMBER):badge('none',r.noVsl?'destructive':'outline');
+  return `<tr class="${ROW}${r.noVsl?' bg-destructive/15':''}" tabindex="0" data-id="${esc(r.id)}"><td class="${CELL}"><div class="font-medium">${esc(r.title)}</div>${r.why?`<div class="text-xs text-muted-foreground">${esc(r.why)}</div>`:''}`+
+   `${r.noVsl?`<div class="mt-1">${badge('SENT WITHOUT A VSL','destructive')}</div>`:''}</td><td class="${CELL}">${age(r.posted)}</td><td class="${CELL}">${demo}</td><td class="${CELL}">${vsl}</td>`+
+   `<td class="${CELL}">${badge(r.status,STAT[r.status]?STAT[r.status][0]:'secondary','',STAT[r.status]?STAT[r.status][1]:'')}</td></tr>`}).join(''):`<tr><td class="${CELL} text-muted-foreground" colspan="5">No matched jobs yet.</td></tr>`)+'</tbody>';
+ $('foot').textContent=UP.computedAt?'Read from the upwork agent ledger '+fmt(UP.computedAt)+'.':'';}
+function openSheet(title,desc,rs){ $('st').textContent=title; $('sd').textContent=desc;
+ $('sb').innerHTML=rs.filter(r=>r[1]).map(r=>`<dt class="text-muted-foreground">${r[0]}</dt><dd class="break-words">${r[1]}</dd>`).join('');
+ $('ov').classList.remove('hidden'); $('sh').classList.remove('translate-x-full','invisible'); $('x').focus();}
+const closeSheet=()=>{$('ov').classList.add('hidden'); $('sh').classList.add('translate-x-full','invisible');};
+function pick(e){const tr=e.target.closest('tr[data-id]'); if(!tr) return; const r=ROWS.find(x=>x.id===tr.dataset.id); if(!r) return;
+ if(r.m){const m=r.m; openSheet(r.title,m.statusWord+' · owner: '+m.owner,[['Job',L(m.url,'Upwork post')],['Posted',esc(fmt(m.postedAt))],['Demo',m.demo&&m.demo.ready?L(m.demo.url):m.demo&&m.demo.slug?'building: '+esc(m.demo.slug):'none'],
+   ['Run-sheet',esc(m.runsheet||'')],['VSL',m.vsl?'recorded':m.vslScript?'script ready':'none'],['Why it fits',esc((m.why||[]).join(' · '))],['Note',esc(m.note)]]);}
+ else{const a=r.a; openSheet(r.title,'Sent '+fmt(a.sentAt),[['Job',L(a.url,'Upwork post')],['Status',esc(a.status)],['Bid',a.bid!=null?'$'+esc(a.bid):''],['Demo',a.demo&&a.demo.url?L(a.demo.url):''],
+   ['VSL',a.vsl&&a.vsl.file?esc(a.vsl.file):a.vsl&&a.vsl.attached?'attached':'none'],['Next',esc(a.next)]]);}}
+$('t').onclick=pick; $('t').onkeydown=e=>{if(e.key==='Enter') pick(e)}; $('x').onclick=$('ov').onclick=closeSheet; addEventListener('keydown',e=>{if(e.key==='Escape') closeSheet()});
+$('refresh').onclick=()=>location.reload();
+async function load(){try{const r=await fetch('/upwork.json?'+Date.now(),{cache:'no-store'}); if(r.ok) UP=await r.json();}catch(e){} try{const r=await fetch('/triage-picks.json?'+Date.now(),{cache:'no-store'}); if(r.ok) PICKS=await r.json();}catch(e){} paint();}
+load(); setInterval(load,60000); setInterval(paint,60000);
+</script></body></html>

@@ -1,0 +1,10 @@
+[Unit]
+Description=VSL verifier dead-man check, every minute (runs as chief on Ra)
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=60s
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

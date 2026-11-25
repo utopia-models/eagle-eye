@@ -1,0 +1,6 @@
+[Unit]
+Description=Copy the Upwork sent-ledger rows to Ra for vsl-archive (knowledge#16475)
+
+[Service]
+Type=oneshot
+ExecStart=%h/dev/utopia-models/knowledge/net/work/_tools/vsl/sync-upwork-ledger.sh

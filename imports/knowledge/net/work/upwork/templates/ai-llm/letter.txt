@@ -1,0 +1,18 @@
+Hey, I built a first version of your {{his agent / assistant / RAG, in the post's words}} for this post and recorded a short video of it; it's attached. It runs under 90 seconds: your post, the first build running, and one question for you.
+
+In the video I walk through your post, {{the models, tools and data he named}}, and how I'd wire them together. {{3-4 sentences: his spec in HIS terms. Name each repo, tool and number from the post; say what keeps working and what changes. Quote his own rule back to him.}}
+
+In 2026 I built an intake pipeline that reads emailed invoices into a checked Google Sheet, 70 of 70 fields correct on ten test invoices, and today I run Claude agents in Python in production.
+
+I've started a live build: {{the agent / retrieval step}} answering on my own Linux server against {{his real documents / sample tickets}}, {{the eval set from his examples}} behind tests, and {{the tool calls or the UI he named}}. {{What arrives next and when.}}
+
+I'm building my Upwork profile, and with the depth I have in LLM agents and Python I can deliver this efficiently, so I'm bidding ${{fixed post: under the low end of his budget; hourly post: 10 an hour}}. I run Utopia Models, Inc., an engineering agency.
+
+When we get on a call, I'll have several questions for you. A few examples:
+- I'd ship it as a Docker container under systemd, set up by an Ansible playbook so the box rebuilds in one command. How do you deploy to {{his host}} today?
+- Which model and key do you want it on: {{Claude / OpenAI / his choice}} under your account, or mine during the build?
+- Can you share {{10-20 real examples}} so the eval set is your data, not mine?
+
+The next build is {{the module named in the video}}, and I can start it the day you reply.
+
+Tyler Youk, Utopia Models, Inc.

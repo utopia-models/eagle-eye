@@ -1,0 +1,6 @@
+[Unit]
+Description=VSL nightly end-to-end dry run (knowledge#15113): 10 s take, QA, report only; FAIL files a board alert
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/dev/utopia-models/knowledge/net/work/_tools/horus/vsl_dryrun.py

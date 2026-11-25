@@ -1,0 +1,10 @@
+[Unit]
+Description=VSL archive every 2 min (a finished take is on Ra with its sidecar inside the 5 min the acceptance names)
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=2min
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

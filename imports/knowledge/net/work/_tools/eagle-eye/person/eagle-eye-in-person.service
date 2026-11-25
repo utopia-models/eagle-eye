@@ -1,0 +1,8 @@
+[Unit]
+Description=Eagle Eye In Person finder: local meetups and career fairs for Osman and Claire (knowledge#14303)
+
+[Service]
+Type=oneshot
+Environment=PLAYWRIGHT_BROWSERS_PATH=%h/.cache/ms-playwright
+ExecStart=/bin/sh -c 'export CHROMIUM_PATH=$(ls -d %h/.cache/ms-playwright/chromium-*/chrome-linux64/chrome | tail -1); for p in osman claire; do %h/.local/share/eagle-eye-person/venv/bin/python %h/.local/share/eagle-eye-person/in_person_find.py $p; done'
+TimeoutStartSec=600

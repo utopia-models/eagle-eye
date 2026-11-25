@@ -1,0 +1,20 @@
+# The hunt trigger as a real service (Architect 11-22, Tyler card 20:58): a new targeted Upwork job starts its package build within ~20 s,
+# the process restarts itself, liveness is one command. Replaces oneshot-auto.timer (disable it: `systemctl --user disable --now oneshot-auto.timer`).
+# Install as upwork:  cp this to ~/.config/systemd/user/ ; systemctl --user daemon-reload ; systemctl --user enable --now oneshot-auto-serve
+# Liveness:  python3 ~/oneshot/kb-v2/net/work/_tools/vsl/oneshot_auto.py live      (exit 0 + age_s < 90 = ticking)
+# Proof per job:  oneshot_auto.py timeline <slug>   (targeted_at, package_valid_at, staged_on_laptop_at, minutes; target <= 10)
+# KillMode=process: the builds `tick` spawns (start_new_session) must survive a service restart.
+[Unit]
+Description=One-shot hunt trigger: scan the Eagle Eye feed every 20 s, start package builds (Restart=always)
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 %h/oneshot/kb-v2/net/work/_tools/vsl/oneshot_auto.py serve 20
+Restart=always
+RestartSec=5
+KillMode=process
+StandardOutput=append:%h/.claude/state/net/oneshot-auto/serve.log
+StandardError=append:%h/.claude/state/net/oneshot-auto/serve.log
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,8 @@
+[Unit]
+Description=VSL verifier dead-man: red + one fleetmail to the Architect when 3 heartbeats are missed (knowledge#17280)
+
+[Service]
+Type=oneshot
+# exit 1 while red is the signal; the fleetmail goes out once per outage (marker file), not every minute
+SuccessExitStatus=0 1
+ExecStart=/usr/bin/python3 %h/dev/utopia-models/knowledge/net/work/vsl/package/arch4.py deadman

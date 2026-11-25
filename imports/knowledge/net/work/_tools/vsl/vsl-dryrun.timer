@@ -1,0 +1,9 @@
+[Unit]
+Description=VSL dry run every night, before Tyler's first take
+
+[Timer]
+OnCalendar=*-*-* 04:30:00 America/Denver
+Persistent=true
+
+[Install]
+WantedBy=timers.target
