@@ -1,0 +1,56 @@
+# Eagle Eye library
+
+> Playbooks, meta prompts, templates, research and copy rules. Plain Markdown and YAML; any LLM or human can read them.
+
+## authors
+- [authors](authors.yaml)
+
+## changelog
+- [Library changelog](CHANGELOG.md)
+
+## copy-rules
+- [Letter caveats - phrases a proposal never carries](copy-rules/letter-caveats.yaml)
+- [Cold email - plain text, one ask, no tracking](copy-rules/outbound-email.yaml)
+- [Upwork circumvention - what a pre-contract message or document never carries](copy-rules/upwork-circumvention.yaml)
+- [Video script (VSL) rules - spoken scripts for a 45-70 second engineer video](copy-rules/video-script.yaml)
+
+## playbook
+- [Client close and delivery - from "yes" to a paid, delivered, retained client](playbooks/client-close-and-delivery.md)
+- [Cold apply and cold outreach campaign - volume with a gate in front of every send](playbooks/cold-apply-campaign.md)
+- [Founder one-shot - your engineer in 14 days, built from their open role](playbooks/founder-oneshot.md)
+- [Upwork one-shot - answer a job post with a letter, a demo and a video](playbooks/upwork-oneshot.md)
+
+## prompt
+- [Copy reviewer - judge a script or message against its real source](prompts/copy-reviewer.md)
+- [Letter writer - the cover letter that carries a video and a demo](prompts/letter-writer.md)
+- [MVP planner - the beats.json for a per-job demo video](prompts/mvp-planner.md)
+- [Offer and SOW writer - fills the client-kit deal record](prompts/offer-sow-writer.md)
+- [Proposal writer - a one-page outcome proposal for a named buyer](prompts/proposal-writer.md)
+- [Video reviewer - does the picture show what the narration says (mismatch review)](prompts/video-reviewer.md)
+- [VSL script writer - the spoken script of a 90-second engineer video](prompts/vsl-script-writer.md)
+
+## readme
+- [Eagle Eye library - read me first](README.md)
+
+## registry
+- [One row per folder: what it holds and who maintains it. `library_index.py build` generates index.json from the files themselves.](registry.yaml)
+
+## research
+- [Cold email mechanics - what to copy, what the evidence is](research/cold-email-mechanics.md)
+- [Demo motion patterns - what moves in a product demo video, with durations](research/demo-motion-patterns.md)
+- [Library design - formats, layout, index and overlay for an agent-neutral knowledge base](research/library-design.md)
+- [Core plus systems - how a small open core hosts outreach systems as plugins](research/plugin-architecture.md)
+- [UI libraries for per-job demo apps](research/ui-libraries.md)
+- [Upwork contract terms that shape our documents - circumvention, fees, escrow](research/upwork-contract-terms.md)
+- [VSL 100x speed - three pipeline designs for a 10-minute build](research/vsl-speed.md)
+
+## sources
+- [External sources index - where our material comes from](sources/INDEX.md)
+
+## template
+- [Follow-up cadence - one message per person per day](templates/follow-up.md)
+- [MSA - master services agreement for off-platform clients](templates/msa.md)
+- [Offer - one page: result, guarantee, price, timeline](templates/offer.md)
+- [Onboarding - access list and intake questions](templates/onboarding.md)
+- [Statement of work - milestones with acceptance lines](templates/sow.md)
+- [Upwork-safe offer and SOW variants - no contact words, platform governs payment](templates/upwork-safe.md)

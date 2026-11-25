@@ -1,0 +1,43 @@
+{% include "_head.j2" %}
+<h1>Professional Services Agreement</h1>
+<div class="sub">{{ d.id }} · between {{ d.provider.name }} and {{ d.client.name }} · {{ d.date }}</div>
+<table class="kv">
+<tr><td>Provider</td><td>{{ d.provider.name }} ("Provider")</td></tr>
+<tr><td>Client</td><td>{{ d.client.name }}, {{ d.client.about }} ("Client")</td></tr>
+<tr><td>Effective date</td><td>{{ d.date }}</td></tr>
+<tr><td>Governing document</td><td>This Agreement and the attached Statement of Work. If they differ, the Statement of Work controls for scope, dates and price, and this Agreement controls for everything else.</td></tr>
+<tr><td>Governing law</td><td>State of Colorado, United States</td></tr>
+</table>
+<p class="foot">Structure follows the Common Paper Professional Services Agreement (CC BY 4.0). Plain-language by design: each clause says what it means.</p>
+<h2>1. Definitions</h2>
+<p><b>"Services"</b> means the work in the Statement of Work. <b>"Deliverables"</b> means what the Provider hands over under it: the software, data and proposals. <b>"Client Materials"</b> means the information, documents, accounts and access the Client provides. <b>"Confidential Information"</b> means non-public information one side shares with the other that is marked or reasonably understood to be confidential, including Client Materials and bid pricing.</p>
+<h2>2. Services and standard of work</h2>
+<p>The Provider performs the Services described in the Statement of Work in a professional and workmanlike manner, with reasonable skill and care, and uses staff and tools suited to the work. The Provider decides how the Services are performed. The Client may ask for updates at any time.</p>
+<h2>3. Client responsibilities</h2>
+<p>The Client provides the access and information listed in the Statement of Work in time for the Provider to meet its dates, and keeps it accurate. The Client reviews and signs every bid it submits; the Client decides whether to submit it.</p>
+<h2>4. Fees and payment</h2>
+<p>The fees are fixed in the Statement of Work: ${{ d.price }} in {{ d.milestones|length }} milestones. Invoices are due in 15 days after the milestone is accepted. Late amounts carry interest of 1% a month. Fees do not include taxes, which the Client bears unless the law places them on the Provider. The Provider pays its own server and AI costs during the {{ d.timeframe }}.</p>
+<h2>5. Acceptance</h2>
+<p>The Client has five business days after each delivery to accept it or to list in writing what is missing against the Statement of Work. The Provider fixes the listed items and resends, and the same period applies again. A Deliverable is accepted if the Client does not respond within the period, or when the Client uses it to submit a bid.</p>
+<h2>6. Ownership and licence</h2>
+<p>{{ d.ownership }} On acceptance of each Deliverable, the Provider assigns to the Client all rights in it, except that the Provider keeps its general tools, templates, methods and know-how and grants the Client a perpetual, royalty-free licence to any of them embedded in a Deliverable. The Client grants the Provider a licence to use Client Materials only to perform the Services.</p>
+<h2>7. Confidentiality</h2>
+<p>Each side uses the other's Confidential Information only for this Agreement, protects it with at least reasonable care, and shares it only with people who need it and are bound to keep it confidential. This does not cover information that is public through no fault of the receiving side, was already known to it, was independently developed, or must be disclosed by law (with notice where allowed). These duties last two years after the Agreement ends, and for as long as a trade secret remains one.</p>
+<h2>8. Data and security</h2>
+<p>The Provider accesses Client accounts and email only for the Services, only with the access the Client grants, and stops when the Client withdraws it. The Provider does not sell Client data. On request after the Agreement ends, the Provider deletes its copies of Client Materials and confirms it in writing, except where the law requires it to keep them.</p>
+<h2>9. Warranties and disclaimer</h2>
+<p>The Provider warrants that it has the right to enter this Agreement, that the Services will be performed as stated in clause 2, and that Deliverables will not knowingly infringe a third party's rights. {{ d.no_guarantee }} Except as stated here, the Services are provided without other warranties, and the Provider does not warrant uninterrupted operation of third-party systems such as government portals.</p>
+<h2>10. Indemnity</h2>
+<p>The Provider defends the Client against a third-party claim that a Deliverable, as delivered, infringes that party's intellectual property, and pays resulting damages and costs the court awards, if the Client promptly notifies the Provider and lets it control the defence. The Client defends the Provider against a third-party claim arising from Client Materials or from a bid the Client submitted, on the same terms.</p>
+<h2>11. Limit of liability</h2>
+<p>Neither side is liable to the other for lost profits, lost contracts or indirect or consequential damages. Each side's total liability under this Agreement is capped at the fees paid and payable under it. These limits do not apply to breach of confidentiality, indemnity obligations, wilful misconduct, or liability the law does not allow to be limited.</p>
+<h2>12. Term and termination</h2>
+<p>The Agreement starts on the effective date and runs for the minimum period in the Statement of Work. {{ d.after_minimums }} Either side may end it for the other's material breach that is not fixed within 10 days of written notice. On any ending, the Client pays for Milestones accepted and for work in progress in proportion to its completion, the Provider hands over all Deliverables and work in progress, and clauses 6 to 11 and 14 continue.</p>
+<h2>13. Independent contractor</h2>
+<p>The Provider is an independent contractor. Neither side is the other's employee, partner or agent, and neither can bind the other.</p>
+<h2>14. General</h2>
+<p><b>Disputes.</b> The sides first try to settle a dispute by talking within 15 days of written notice; failing that, the courts of Colorado have jurisdiction. <b>Notices</b> are in writing to the addresses each side gives the other. <b>Assignment</b> needs the other side's written consent. <b>Entire agreement.</b> This Agreement and the Statement of Work are the whole agreement and change only in writing signed by both sides. <b>Severability.</b> If part is unenforceable, the rest stands. <b>Counterparts.</b> Electronic signatures count.</p>
+<h2>Signatures</h2>
+<div class="sig"><div><div class="line"></div><div class="lab">{{ d.provider.signer }}, {{ d.provider.title }}<br>{{ d.provider.name }}<br>Date:</div></div>
+<div><div class="line"></div><div class="lab">{{ d.client.full_name }}<br>{{ d.client.name }}<br>Date:</div></div></div>
+<p class="foot">Off-platform clients only. For Upwork clients use the Upwork-safe Statement of Work.</p>

@@ -1,0 +1,15 @@
+id: copy-rules.upwork-circumvention
+title: Upwork circumvention - what a pre-contract message or document never carries
+kind: copy-rules
+version: 1.0.0
+tags: [upwork, circumvention, contract, lint]
+description: "Upwork's User Agreement bars moving a client off the platform before and around a contract. Findings: URLs, contact details, off-platform channels and payment. Sources are in research/upwork-contract-terms.md."
+mode: forbid
+checks:
+  - {name: url, pattern: 'https?://|www\.|\b[a-z0-9-]+\.(?:com|ai|io|net|org|co|shop|app|dev|me|us)\b'}
+  - {name: email-address, pattern: '[\w.+-]+@[\w-]+\.[\w.]+'}
+  - {name: phone-number, pattern: '(?<!\d)(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]\d{3}[ .-]\d{4}(?!\d)'}
+  - {name: contact-exchange, pattern: '\b(?:email|e-mail|text|call|message|dm|contact|reach)\s+(?:me|us)\b|\b(?:my|our)\s+(?:email|phone|number|whatsapp|telegram|skype|linkedin|gmail)\b'}
+  - {name: off-platform-channel, pattern: '\b(?:whatsapp|telegram|skype|signal|discord|slack|zoom|google meet|hangouts|gmail|linkedin)\b'}
+  - {name: off-platform-payment, pattern: '\b(?:paypal|venmo|zelle|cash ?app|wire transfer|bank transfer|ach|direct payment|pay (?:me|us) directly|crypto|bitcoin|check|cheque|invoice)\b'}
+  - {name: off-platform-words, pattern: '\b(?:off[- ]?platform|outside (?:of )?upwork|off upwork|bypass|avoid (?:the )?(?:fee|fees)|skip (?:the )?(?:fee|fees)|take (?:this|it) offline)\b'}

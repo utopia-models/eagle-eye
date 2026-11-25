@@ -1,0 +1,490 @@
+[
+ {
+  "id": "library.changelog",
+  "title": "Library changelog",
+  "kind": "changelog",
+  "tags": [
+   "changelog"
+  ],
+  "path": "CHANGELOG.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "library.readme",
+  "title": "Eagle Eye library - read me first",
+  "kind": "readme",
+  "tags": [
+   "library",
+   "index",
+   "start-here"
+  ],
+  "path": "README.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "authors",
+  "title": "authors",
+  "kind": "authors",
+  "tags": [],
+  "path": "authors.yaml",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "copy-rules.letter-caveats",
+  "title": "Letter caveats - phrases a proposal never carries",
+  "kind": "copy-rules",
+  "tags": [
+   "upwork",
+   "proposal",
+   "letter",
+   "lint",
+   "copy-rules"
+  ],
+  "path": "copy-rules/letter-caveats.yaml",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "copy-rules.outbound-email",
+  "title": "Cold email - plain text, one ask, no tracking",
+  "kind": "copy-rules",
+  "tags": [
+   "cold-email",
+   "outbound",
+   "lint",
+   "copy-rules"
+  ],
+  "path": "copy-rules/outbound-email.yaml",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "copy-rules.upwork-circumvention",
+  "title": "Upwork circumvention - what a pre-contract message or document never carries",
+  "kind": "copy-rules",
+  "tags": [
+   "upwork",
+   "circumvention",
+   "contract",
+   "lint",
+   "copy-rules"
+  ],
+  "path": "copy-rules/upwork-circumvention.yaml",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "copy-rules.video-script",
+  "title": "Video script (VSL) rules - spoken scripts for a 45-70 second engineer video",
+  "kind": "copy-rules",
+  "tags": [
+   "vsl",
+   "script",
+   "video",
+   "lint",
+   "copy-rules"
+  ],
+  "path": "copy-rules/video-script.yaml",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "playbook.client-close-and-delivery",
+  "title": "Client close and delivery - from \"yes\" to a paid, delivered, retained client",
+  "kind": "playbook",
+  "tags": [
+   "close",
+   "delivery",
+   "onboarding",
+   "sow",
+   "follow-up",
+   "retention",
+   "playbooks"
+  ],
+  "path": "playbooks/client-close-and-delivery.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "playbook.cold-apply-campaign",
+  "title": "Cold apply and cold outreach campaign - volume with a gate in front of every send",
+  "kind": "playbook",
+  "tags": [
+   "cold-email",
+   "outbound",
+   "applications",
+   "campaign",
+   "deliverability",
+   "playbooks"
+  ],
+  "path": "playbooks/cold-apply-campaign.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "playbook.founder-oneshot",
+  "title": "Founder one-shot - your engineer in 14 days, built from their open role",
+  "kind": "playbook",
+  "tags": [
+   "founder",
+   "offer",
+   "vsl",
+   "outbound",
+   "high-ticket",
+   "playbooks"
+  ],
+  "path": "playbooks/founder-oneshot.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "playbook.upwork-oneshot",
+  "title": "Upwork one-shot - answer a job post with a letter, a demo and a video",
+  "kind": "playbook",
+  "tags": [
+   "upwork",
+   "oneshot",
+   "vsl",
+   "proposal",
+   "freelance",
+   "playbooks"
+  ],
+  "path": "playbooks/upwork-oneshot.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.copy-reviewer",
+  "title": "Copy reviewer - judge a script or message against its real source",
+  "kind": "prompt",
+  "tags": [
+   "copy",
+   "review",
+   "judge",
+   "vsl",
+   "letter",
+   "prompts"
+  ],
+  "path": "prompts/copy-reviewer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.letter-writer",
+  "title": "Letter writer - the cover letter that carries a video and a demo",
+  "kind": "prompt",
+  "tags": [
+   "upwork",
+   "letter",
+   "proposal",
+   "cover-letter",
+   "prompts"
+  ],
+  "path": "prompts/letter-writer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.mvp-planner",
+  "title": "MVP planner - the beats.json for a per-job demo video",
+  "kind": "prompt",
+  "tags": [
+   "mvp",
+   "demo",
+   "video",
+   "beats",
+   "motion",
+   "prompts"
+  ],
+  "path": "prompts/mvp-planner.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.offer-sow-writer",
+  "title": "Offer and SOW writer - fills the client-kit deal record",
+  "kind": "prompt",
+  "tags": [
+   "offer",
+   "sow",
+   "contract",
+   "client-kit",
+   "prompts"
+  ],
+  "path": "prompts/offer-sow-writer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.proposal-writer",
+  "title": "Proposal writer - a one-page outcome proposal for a named buyer",
+  "kind": "prompt",
+  "tags": [
+   "proposal",
+   "offer",
+   "outbound",
+   "founder",
+   "prompts"
+  ],
+  "path": "prompts/proposal-writer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.video-reviewer",
+  "title": "Video reviewer - does the picture show what the narration says (mismatch review)",
+  "kind": "prompt",
+  "tags": [
+   "video",
+   "review",
+   "gemini",
+   "mismatch",
+   "qa",
+   "prompts"
+  ],
+  "path": "prompts/video-reviewer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "prompt.vsl-script-writer",
+  "title": "VSL script writer - the spoken script of a 90-second engineer video",
+  "kind": "prompt",
+  "tags": [
+   "vsl",
+   "video",
+   "script",
+   "upwork",
+   "prompts"
+  ],
+  "path": "prompts/vsl-script-writer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "registry",
+  "title": "One row per folder: what it holds and who maintains it. `library_index.py build` generates index.json from the files themselves.",
+  "kind": "registry",
+  "tags": [],
+  "path": "registry.yaml",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.cold-email-mechanics",
+  "title": "Cold email mechanics - what to copy, what the evidence is",
+  "kind": "research",
+  "tags": [
+   "cold-email",
+   "outbound",
+   "deliverability",
+   "video",
+   "benchmarks",
+   "research"
+  ],
+  "path": "research/cold-email-mechanics.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.demo-motion-patterns",
+  "title": "Demo motion patterns - what moves in a product demo video, with durations",
+  "kind": "research",
+  "tags": [
+   "motion",
+   "demo",
+   "video",
+   "ui",
+   "research"
+  ],
+  "path": "research/demo-motion-patterns.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.library-design",
+  "title": "Library design - formats, layout, index and overlay for an agent-neutral knowledge base",
+  "kind": "research",
+  "tags": [
+   "library",
+   "markdown",
+   "dotprompt",
+   "mcp",
+   "llms-txt",
+   "index",
+   "research"
+  ],
+  "path": "research/library-design.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.plugin-architecture",
+  "title": "Core plus systems - how a small open core hosts outreach systems as plugins",
+  "kind": "research",
+  "tags": [
+   "architecture",
+   "plugin",
+   "eagle-eye",
+   "overlay",
+   "license",
+   "research"
+  ],
+  "path": "research/plugin-architecture.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.ui-libraries",
+  "title": "UI libraries for per-job demo apps",
+  "kind": "research",
+  "tags": [
+   "ui",
+   "mvp",
+   "shadcn",
+   "motion",
+   "demo",
+   "research"
+  ],
+  "path": "research/ui-libraries.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.upwork-contract-terms",
+  "title": "Upwork contract terms that shape our documents - circumvention, fees, escrow",
+  "kind": "research",
+  "tags": [
+   "upwork",
+   "contract",
+   "terms",
+   "circumvention",
+   "escrow",
+   "fees",
+   "research"
+  ],
+  "path": "research/upwork-contract-terms.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.vsl-speed",
+  "title": "VSL 100x speed - three pipeline designs for a 10-minute build",
+  "kind": "research",
+  "tags": [
+   "vsl",
+   "speed",
+   "pipeline",
+   "render",
+   "design",
+   "research"
+  ],
+  "path": "research/vsl-speed.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "sources.index",
+  "title": "External sources index - where our material comes from",
+  "kind": "sources",
+  "tags": [
+   "sources",
+   "index",
+   "citations",
+   "sources"
+  ],
+  "path": "sources/INDEX.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.follow-up",
+  "title": "Follow-up cadence - one message per person per day",
+  "kind": "template",
+  "tags": [
+   "follow-up",
+   "client-kit",
+   "cadence",
+   "templates"
+  ],
+  "path": "templates/follow-up.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.msa",
+  "title": "MSA - master services agreement for off-platform clients",
+  "kind": "template",
+  "tags": [
+   "msa",
+   "contract",
+   "client-kit",
+   "legal",
+   "templates"
+  ],
+  "path": "templates/msa.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.offer",
+  "title": "Offer - one page: result, guarantee, price, timeline",
+  "kind": "template",
+  "tags": [
+   "offer",
+   "client-kit",
+   "close",
+   "templates"
+  ],
+  "path": "templates/offer.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.onboarding",
+  "title": "Onboarding - access list and intake questions",
+  "kind": "template",
+  "tags": [
+   "onboarding",
+   "client-kit",
+   "access",
+   "templates"
+  ],
+  "path": "templates/onboarding.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.sow",
+  "title": "Statement of work - milestones with acceptance lines",
+  "kind": "template",
+  "tags": [
+   "sow",
+   "client-kit",
+   "contract",
+   "templates"
+  ],
+  "path": "templates/sow.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "template.upwork-safe",
+  "title": "Upwork-safe offer and SOW variants - no contact words, platform governs payment",
+  "kind": "template",
+  "tags": [
+   "upwork",
+   "offer",
+   "sow",
+   "client-kit",
+   "circumvention",
+   "templates"
+  ],
+  "path": "templates/upwork-safe.md",
+  "origin": "public",
+  "version": "1.0.0"
+ }
+]

@@ -1,0 +1,18 @@
+id: copy-rules.video-script
+title: Video script (VSL) rules - spoken scripts for a 45-70 second engineer video
+kind: copy-rules
+version: 1.0.0
+tags: [vsl, script, video, lint]
+description: "Mechanical rules a script must pass before anyone records or renders it. Numbers are the contract values in effect at library version 1.0.0; the checker reads them from here."
+length: {seconds_min: 45, seconds_max: 70, words_per_second: 2.0, row_words_min: 6, row_words_max: 14}
+readability: {max_flesch_kincaid_grade: 8}
+mode: forbid
+checks:
+  - {name: hype, pattern: '\b(?:amazing|super|basically|a bunch of|incredible|game[- ]?changer|revolutionary)\b'}
+  - {name: hedge, pattern: '\bI think\b|\bseems like\b|\bkind of\b|\bsort of\b'}
+  - {name: stranger-address, pattern: '\bwhoever runs this\b|\bthe person who posted\b|\bfor whoever\b'}
+  - {name: first-version, pattern: '\bfirst version\b|\bI just built this for you\b'}
+  - {name: question-mark, pattern: '\?'}
+  - {name: spoken-price, pattern: '\$\s?\d'}
+require:
+  - {name: contractions, pattern: "\\b\\w+['’](?:m|ll|ve|re|d|s|t)\\b", why: spoken English uses contractions}
