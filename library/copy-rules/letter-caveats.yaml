@@ -1,0 +1,27 @@
+id: copy-rules.letter-caveats
+title: Letter caveats - phrases a proposal never carries
+kind: copy-rules
+version: 1.0.0
+tags: [upwork, proposal, letter, lint]
+description: "A proposal volunteers nothing that could disqualify it. Each pattern is a case-insensitive regex; one hit fails the draft."
+mode: forbid
+checks:
+  - {name: hedge-honest, pattern: '\bhonest(?:ly)?\b'}
+  - {name: cant, pattern: '\bi\s+can[''’]?t\b|\bi\s+cannot\b'}
+  - {name: not-sure, pattern: '\bnot\s+sure\b'}
+  - {name: above-budget, pattern: '\babove\s+(?:your|the)\s+budget\b'}
+  - {name: outside-my, pattern: '\boutside\s+(?:of\s+)?my\b'}
+  - {name: however, pattern: '\bhowever\b|\bunfortunately\b'}
+  - {name: new-to-me, pattern: '\bnew\s+to\s+me\b|\bno\s+experience\b'}
+  - {name: havent-done, pattern: '\bi\s+haven[''’]?t\s+(?:used|worked|done|built)\b'}
+  - {name: cant-promise, pattern: '\bcan[''’]?t\s+(?:promise|guarantee)\b'}
+  - {name: candour-markers, pattern: '\bto\s+be\s+(?:fair|frank|transparent|upfront)\b|\bfull\s+disclosure\b'}
+  - {name: usual-rate, pattern: '\bmy\s+(?:usual|normal|standard)\s+rate\b'}
+  - {name: self-gating-dont-have, pattern: '\b(?:i|we)\s+(?:don[''’]?t|do\s+not)\s+(?:have|currently|usually|normally|typically)\b'}
+  - {name: self-gating-unable, pattern: '\b(?:i[''’]?m|i\s+am|we[''’]?re|we\s+are)\s+(?:unable|not\s+(?:able|available|familiar|an?\s+expert|a\s+specialist))\b'}
+  - {name: self-gating-specialty, pattern: '\b(?:not|isn[''’]?t|aren[''’]?t)\s+(?:really\s+)?(?:my|our)\s+(?:specialty|specialisation|specialization|area|strength|focus)\b'}
+  - {name: self-gating-small, pattern: '\bonly\s+(?:a\s+)?(?:small|one[-\s]person|solo|two[-\s]person)\b|\blimited\s+(?:availability|experience|capacity|bandwidth)\b'}
+  - {name: conditional, pattern: '\b(?:depend(?:s|ing)\s+on|subject\s+to|contingent\s+on|assuming|provided\s+that)\b'}
+  - {name: timezone-gap, pattern: '\b(?:time\s*zone|timezone)\s+(?:difference|gap|mismatch)\b'}
+require:
+  - {name: attachment-line, pattern: '\b(?:attached|attachment|attaching|video|demo)\b', why: the letter says the video or demo is attached}

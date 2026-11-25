@@ -1,0 +1,43 @@
+{% include "_head.j2" %}
+<h1>Statement of Work</h1>
+<div class="sub">{{ d.id }} · {{ d.engagement }} · {{ d.date }}</div>
+<table class="kv">
+<tr><td>Provider</td><td>{{ d.provider.name }}, represented by {{ d.provider.signer }}, {{ d.provider.title }}</td></tr>
+<tr><td>Client</td><td>{{ d.client.name }} ({{ d.client.about }}), represented by {{ d.client.full_name }}</td></tr>
+<tr><td>Fixed price</td><td>${{ d.price }} in {{ d.milestones|length }} milestones{% for m in d.milestones %}{{ ", " if not loop.first else ": " }}${{ m.amount }} for Milestone {{ m.n }}{% endfor %}</td></tr>
+<tr><td>Term</td><td>{{ d.timeframe|capitalize }} minimum. {{ d.minimums }} are minimums; the Provider may deliver more, and may run past the two weeks where needed to meet them.</td></tr>
+<tr><td>Payment</td><td>{% if upwork %}Payment and escrow run on Upwork and the Upwork terms govern them.{% else %}Each milestone is paid on acceptance as set out in the Agreement.{% endif %}</td></tr>
+</table>
+<h2>1. Purpose</h2>
+<p>The Provider will deliver {{ d.result }}. This Statement of Work states exactly what is delivered, by when, and how the Client accepts it.</p>
+<h2>2. Milestone summary</h2>
+<table><tr><th>No.</th><th>Deliverable</th><th>Due</th><th>Amount</th></tr>
+{% for m in d.milestones %}<tr><td>{{ m.n }}</td><td>{{ m.title }}</td><td>{{ m.due }}</td><td>${{ m.amount }}</td></tr>{% endfor %}
+<tr><th colspan="3">Total</th><th>${{ d.price }}</th></tr></table>
+<h2>3. Milestone detail</h2>
+{% for m in d.milestones %}<h3>Milestone {{ m.n }}: {{ m.title }} (${{ m.amount }}, due {{ m.due }})</h3>
+<table class="kv"><tr><td>Work</td><td><ol>{% for i in m.steps %}<li>{{ i }}</li>{% endfor %}</ol></td></tr>
+<tr><td>Accepted when</td><td>{{ m.acceptance }}</td></tr>
+<tr><td>Acceptance period</td><td>The Client has five business days after delivery to accept or to list in writing what is missing. The Provider fixes what is listed and resends. Delivery that matches the "Accepted when" row is accepted.</td></tr></table>
+{% endfor %}
+<h2>4. Delivery guarantee</h2>
+<p>{{ d.guarantee }} {{ d.no_guarantee }}</p>
+<h2>5. Client responsibilities</h2>
+<p>The dates above depend on the Client providing the following. Each day of delay in providing an item moves the dependent due date by one day.</p>
+<ol>{% for a in d.access %}<li>{{ a }}</li>{% endfor %}</ol>
+<p>{{ d.stipulation }}</p>
+<h2>6. Assumptions and exclusions</h2>
+<ul><li>Quotes come from manufacturers and suppliers the Provider contacts; their prices and lead times are theirs. A line without a received quote is marked <i>estimated</i> in the proposal.</li>
+<li>The Provider prepares proposals; the Client reviews and submits them under the Client's own registrations and signature.</li>
+<li>Awards are decided by the buyer. The Provider does not guarantee that a bid is won.</li>
+<li>Work outside this Statement of Work is quoted separately and starts only when the Client agrees to it in writing (see Change control).</li></ul>
+<h2>7. Change control</h2>
+<p>Either side may propose a change to scope, dates or price. A change takes effect only when both sides agree to it in writing, stating its effect on scope, dates and price. Feedback rounds under Milestone 2 are not changes; they are part of the scope.</p>
+<h2>8. Ownership</h2>
+<p>{{ d.ownership }}{% if not upwork %} Each side keeps the other's non-public information confidential and uses it only for this work.{% endif %}</p>
+<h2>9. After the minimums</h2>
+<p>{{ d.after_minimums }}</p>
+<h2>10. Signatures</h2>
+<p>By signing, each side agrees to this Statement of Work.</p>
+<div class="sig"><div><div class="line"></div><div class="lab">{{ d.provider.signer }}, {{ d.provider.title }}<br>{{ d.provider.name }}<br>Date:</div></div>
+<div><div class="line"></div><div class="lab">{{ d.client.full_name }}<br>{{ d.client.name }}<br>Date:</div></div></div>

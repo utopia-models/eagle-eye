@@ -1,0 +1,14 @@
+id: copy-rules.outbound-email
+title: Cold email - plain text, one ask, no tracking
+kind: copy-rules
+version: 1.0.0
+tags: [cold-email, outbound, lint]
+description: "Mechanics for a first-touch cold email. Pattern checks are lint; the rest are reviewer rules in playbooks/cold-apply-campaign.md."
+length: {words_max_touch1: 90}
+mode: forbid
+checks:
+  - {name: tracking-pixel, pattern: '<img[^>]+(?:width|height)=["'']?1\b|utm_|open-?track'}
+  - {name: html-markup, pattern: '<(?:b|i|div|span|table|a)\b'}
+  - {name: link-in-touch-1, pattern: 'https?://', scope: touch-1}
+  - {name: exclamation-pile, pattern: '!{2,}'}
+  - {name: spam-words, pattern: '\b(?:free money|act now|limited time|100% guaranteed|click here)\b'}

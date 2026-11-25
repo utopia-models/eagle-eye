@@ -1,0 +1,17 @@
+name: library
+on:
+  pull_request:
+    paths: ["library/**"]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pyyaml
+      - run: python3 library/copy_lint.py --self-test
+      - name: no private text in public paths
+        run: python3 library/library_index.py check
+      - name: index and llms.txt are fresh
+        run: |
+          python3 library/library_index.py build
+          git diff --exit-code library/index.json library/llms.txt

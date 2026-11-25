@@ -1,0 +1,11 @@
+# One row per folder: what it holds and who maintains it. `library_index.py build` generates index.json from the files themselves.
+version: 1.0.0
+kinds:
+  playbook:    {dir: playbooks,   what: "steps, standards, examples for one motion"}
+  prompt:      {dir: prompts,     what: "portable meta prompts with {{var}} placeholders"}
+  template:    {dir: templates,   what: "documents a client or buyer receives"}
+  research:    {dir: research,    what: "dated reports with sources"}
+  copy-rules:  {dir: copy-rules,  what: "checks as data, read by copy_lint.py"}
+  sources:     {dir: sources,     what: "index of external sources; paid material only in the private overlay"}
+overlay: {repo: eagle-eye-utopia, path: library/, private_paths: ["sources/fazio"]}
+consumers: [vsl, eagle, atlas, upwork]

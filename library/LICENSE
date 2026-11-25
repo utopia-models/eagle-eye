@@ -1,0 +1,3 @@
+Library text (everything under library/ except the two .py files): Creative Commons Attribution 4.0 International, https://creativecommons.org/licenses/by/4.0/
+Code (library_index.py, copy_lint.py): the licence of the repository that contains this folder.
+Third-party material is cited in sources/INDEX.md and is not covered by this licence.

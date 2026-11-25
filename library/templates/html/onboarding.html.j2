@@ -1,0 +1,6 @@
+{% include "_head.j2" %}
+<h1>Onboarding: {{ d.client.name }}</h1>
+<div class="sub">{{ d.id }} · {{ d.date }}</div>
+<h2>Access we need, in order</h2><ol>{% for a in d.access %}<li>{{ a }}</li>{% endfor %}</ol>
+<h2>Questions</h2><ol>{% for q in d.questions %}<li>{{ q }}</li>{% endfor %}</ol>
+<h2>Next</h2><p>{{ d.next_meeting }}.</p>
