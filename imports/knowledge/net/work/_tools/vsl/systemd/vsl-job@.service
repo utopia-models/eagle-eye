@@ -1,0 +1,14 @@
+[Unit]
+Description=VSL job %i, fully isolated (own dir, Xvfb display, Chrome profile, ports, processes) (knowledge#18932)
+
+[Service]
+Slice=vsl.slice
+Type=oneshot
+UMask=0002
+Environment=VSL_JOBS_ROOT=/var/tmp/vsl-jobs
+# per-job caps: one job cannot stall another. MemoryMax must equal VSL_JOB_MB in vsl_pool.py (the placement unit).
+MemoryMax=3500M
+CPUQuota=300%
+TasksMax=2048
+ExecStart=/bin/sh -c 'exec /usr/bin/python3 %h/kb/net/work/_tools/vsl/vsl_pool.py run %i --take "$(cut -d" " -f1 /var/tmp/vsl-jobs/%i/take.arg)" $(cut -s -d" " -f2- /var/tmp/vsl-jobs/%i/take.arg)'
+TimeoutStartSec=1200

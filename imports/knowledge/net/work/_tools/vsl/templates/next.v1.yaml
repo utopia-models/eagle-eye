@@ -1,0 +1,13 @@
+# Beat 5: one next step, the last spoken sentence.
+id: next
+version: 1
+part: {title: "One next step", seconds: 10, cue: "Their milestone list, or their calendar."}
+slots:
+  milestones: {from: take.milestones, note: "the items on their own list, in their order"}
+  next_build: {from: take.next_build, required: true, note: "the module they named"}
+lines:
+  - ["Your first milestone is {milestones}."]
+  - ["The next build is {next_build}, and I can start it the day you reply."]
+outline:
+  - "Your first milestone is <the items on their own list, in their order>."
+  - "The next build is <module they named>, and I can start it the day you reply."

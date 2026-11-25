@@ -1,0 +1,18 @@
+# The SEND step on Ra (systemd --user, architect). Install: cp deploy/hunt-send.service ~/.config/systemd/user/ && systemctl --user enable --now hunt-send
+# Every 60 s: take landed in /srv/vsl -> Recorded in Eagle Eye; newest take settled 10 min -> viewer + email from tyler@ +
+# queued LinkedIn/call; tyler@ replies on our threads -> answered toward utopiamodels.ai/call. Holds (no send) while the
+# public viewer cannot be published (R2 secret not on Ra).
+[Unit]
+Description=hunt-send: one-shot send + watch + reply loop
+After=network-online.target eagle-server.service
+
+[Service]
+WorkingDirectory=/home/architect/dev/utopia-models/eagle-eye-v2/send
+ExecStart=/usr/bin/python3 /home/architect/dev/utopia-models/eagle-eye-v2/send/hunt_send.py loop --ws tyler --store /srv/vsl --settle 600 --every 60
+Environment=PYTHONUNBUFFERED=1
+MemoryMax=900M
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=default.target

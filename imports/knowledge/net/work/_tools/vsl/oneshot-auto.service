@@ -1,0 +1,6 @@
+[Unit]
+Description=One-shot auto-start: a new Upwork hunt row starts its package build (Tyler 2026-11-22 6:45 AM ET)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/dev/utopia-models/knowledge/net/work/_tools/vsl/oneshot_auto.py tick

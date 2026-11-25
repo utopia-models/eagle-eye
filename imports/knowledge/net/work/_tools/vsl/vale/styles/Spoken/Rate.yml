@@ -1,0 +1,15 @@
+extends: existence
+message: "rate/apology language: price belongs in the bid field, not the video ('%s'; Tyler 2026-11-17 1:28 AM)."
+level: error
+ignorecase: true
+tokens:
+  - bidding low
+  - bid low
+  - low bid
+  - discount\w*
+  - cheap\w*
+  - affordable rate
+  - my rate
+  - for a lower price
+  - I know I am
+  - I understand that we are

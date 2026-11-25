@@ -1,0 +1,18 @@
+extends: existence
+message: "Filler '%s' weakens a spoken claim; cut it or give the number."
+level: warning
+ignorecase: true
+tokens:
+  - literally
+  - actually
+  - really
+  - very
+  - pretty much
+  - kind of
+  - sort of
+  - stuff
+  - things like that
+  - I think
+  - seems like
+  - maybe
+  - just

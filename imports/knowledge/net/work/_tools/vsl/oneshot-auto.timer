@@ -1,0 +1,10 @@
+[Unit]
+Description=One-shot auto-start tick (scan the Eagle Eye feed for new Upwork rows, build the oldest, refresh the stage clocks)
+
+[Timer]
+OnCalendar=*-*-* *:*:30
+AccuracySec=5s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

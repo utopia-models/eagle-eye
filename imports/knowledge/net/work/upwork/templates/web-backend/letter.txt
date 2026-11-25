@@ -1,0 +1,18 @@
+Hey, I built a first version of your {{his API / app, in the post's words}} for this post and recorded a short video of it; it's attached. It runs under 90 seconds: your post, the first build running, and one question for you.
+
+In the video I walk through your post, {{his stack and the endpoints or pages he named}}, and how I'd build it. {{3-4 sentences: his spec in HIS terms. Name each repo, tool and number from the post; say what keeps working and what changes. Quote his own rule back to him.}}
+
+I built FastAPI services and PostgreSQL schema validation for a 24/7 network operations center, and today I run Next.js and Python backends in production.
+
+I've started a live build: {{the first endpoints / pages}} running on my own Linux server against {{his sample data / sandbox keys}}, {{the data model}} behind unit tests, and {{the integration he named: Stripe, auth, webhooks}}. {{What arrives next and when.}}
+
+I'm building my Upwork profile, and with the depth I have in {{his domain}} backends and {{his language/framework}} I can deliver this efficiently, so I'm bidding ${{fixed post: under the low end of his budget; hourly post: 10 an hour}}. I run Utopia Models, Inc., an engineering agency.
+
+When we get on a call, I'll have several questions for you. A few examples:
+- I'd ship it as a Docker container under systemd, set up by an Ansible playbook so the box rebuilds in one command. How do you deploy to {{his host}} today?
+- Is {{his database}} already holding production data, or do I set the schema from scratch?
+- Which account owns {{the third-party service}}: yours, or one I set up and hand over?
+
+The next build is {{the module named in the video}}, and I can start it the day you reply.
+
+Tyler Youk, Utopia Models, Inc.

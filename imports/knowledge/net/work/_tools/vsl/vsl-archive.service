@@ -1,0 +1,9 @@
+[Unit]
+Description=VSL archive: laptop recordings -> Ra (sha256) -> Drive (md5) -> prune the laptop (knowledge#15179)
+
+[Service]
+Type=oneshot
+# horus on Ra. The tool lives in its own clean detached worktree (horus's vsl worktree carries his uncommitted work, so a checkout there aborts).
+Environment=EAGLE_UPWORK_LEDGER=%h/.local/share/vsl-archive/upwork-ledger.jsonl
+ExecStart=/usr/bin/python3 %h/.local/share/vsl-archive/knowledge/net/work/_tools/vsl/vsl_archive.py sync --once
+TimeoutStartSec=3h

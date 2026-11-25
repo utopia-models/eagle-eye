@@ -1,0 +1,4 @@
+# packages are downloaded by `vale sync`; only Spoken/ is ours
+styles/*
+!styles/Spoken
+.spoken-*.md

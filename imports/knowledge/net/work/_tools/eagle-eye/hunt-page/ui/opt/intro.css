@@ -1,0 +1,24 @@
+/* Eagle Eye startup intro + live top-bar eye (owned by opt/intro.js). */
+/* Cover until intro.js decides (first frame never flashes an unstyled page); self-removes at 1.2 s if the module never runs. */
+html:not(.ee-ready)::after{content:"";position:fixed;inset:0;z-index:2147483000;background:#000;pointer-events:none;animation:ee-cover-off 0s 1.2s forwards}
+@keyframes ee-cover-off{to{visibility:hidden}}
+/* the old CSS lid intro is replaced by this module */
+#intro{display:none!important}
+
+#ee-intro{position:fixed;inset:0;z-index:2147483001;display:block;width:100vw;height:100vh;pointer-events:auto;contain:strict;background:transparent}
+#ee-intro.ee-pass{pointer-events:none}
+
+.ee-mark{position:relative;display:inline-block;flex:none;line-height:0}
+.ee-mark>canvas,.ee-mark>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+/* docs.utopiamodels.ai AkhetLive rule, copied: [data-akhet]:has(canvas[data-on]) [data-akhet-still]{opacity:0} + transition-opacity 500ms */
+/* the still under the canvas is the OLD ringed eye (eye.png): it is a size placeholder only and never shows */
+#mark,.ee-mark>img{opacity:0!important}
+
+@media (prefers-reduced-motion:reduce){
+  html::after{display:none}
+  #ee-intro{display:none}
+}
+
+/* living background (intro.js mountBackground): behind every in-flow box; body goes transparent so it shows */
+#ee-bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;display:block}
+html.ee-has-bg body{background:transparent!important}

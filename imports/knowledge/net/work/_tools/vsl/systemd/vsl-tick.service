@@ -1,0 +1,7 @@
+[Unit]
+Description=vsl agent cycle: scan, build the next package, hand due intros to upwork, publish the OCC row (knowledge#17978)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/kb/net/work/_tools/vsl/vsl_agent.py tick
+TimeoutStartSec=170

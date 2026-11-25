@@ -1,0 +1,12 @@
+extends: existence
+message: "Unprofessional phrase '%s': say the technical fact instead (Tyler 2026-11-17, 'very unprofessional and non-technical')."
+level: error
+ignorecase: true
+tokens:
+  - helpers?
+  - first version
+  - for whoever runs this job
+  - basically
+  - amazing
+  - super
+  - a bunch of

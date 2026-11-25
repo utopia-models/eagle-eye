@@ -1,0 +1,9 @@
+[Unit]
+Description=Eagle Eye drift audit, nightly 03:30 MT
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 America/Denver
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+{
+  "dashboard-analytics": {"stack": "tremor+recharts", "template": "tremorlabs/template-dashboard", "extra": ["number-flow", "motion"]},
+  "crm-pipeline":        {"stack": "shadcn+motion", "template": "satnaing/shadcn-admin", "extra": ["cmdk", "sonner"]},
+  "ai-chat-agent":       {"stack": "cult-ui+kokonut-ui", "template": "shadcn blocks", "extra": ["motion", "sonner"]},
+  "marketplace":         {"stack": "heroui+motion", "template": "shadcn blocks", "extra": ["sonner"]},
+  "internal-tool":       {"stack": "shadcn+motion", "template": "Kiranism/next-shadcn-dashboard-starter", "extra": ["cmdk", "sonner", "number-flow"]},
+  "mobile-app":          {"stack": "magic-ui+motion", "template": "shadcn blocks", "extra": ["device-mockup"]},
+  "voice-agent":         {"stack": "magic-ui+react-bits", "template": "shadcn blocks", "extra": ["gsap", "motion"]},
+  "data-pipeline":       {"stack": "tremor+recharts", "template": "Kiranism/next-shadcn-dashboard-starter", "extra": ["motion", "sonner"]}
+}

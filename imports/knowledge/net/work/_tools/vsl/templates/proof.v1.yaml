@@ -1,0 +1,13 @@
+# Beat 4: one line of proof, and each of their questions answered. Our work appears here and nowhere else.
+id: proof
+version: 1
+part: {title: "One line of proof", seconds: 15, cue: "Their question or milestone list on screen."}
+slots:
+  questions: {from: signals.questions, list: true}
+  proof: {from: take.proof, required: true, note: "one true sentence of past work that is the answer: what, for whom, with what result"}
+lines:
+  - {each: questions, text: ["You asked {ask}.", "{answer}."]}
+  - ["{proof}."]
+outline:
+  - "You asked <their question, in their words>."
+  - "<One true sentence of past work that is the answer: what was built, for whom, with what result.>"

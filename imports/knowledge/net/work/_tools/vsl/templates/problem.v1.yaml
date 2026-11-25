@@ -1,0 +1,26 @@
+# Beat 2: their problem, back to them (Saraev: at least half the script diagnoses and paraphrases the problem).
+id: problem
+version: 1
+part: {title: "Their problem, back to them", seconds: 30, cue: "Their diagnosis on screen: their list, their numbers, their stack."}
+slots:
+  fear: {from: signals.fear}
+  outcome: {from: signals.outcome, required: true}
+  stack: {from: signals.stack}
+  p4: {from: signals.phrases.3}
+  p5: {from: signals.phrases.4}
+  p6: {from: signals.phrases.5}
+  p7: {from: signals.phrases.6}
+  p8: {from: signals.phrases.7}
+lines:
+  - ["You said {fear}, so that is where the demo starts."]
+  - ["The result you are after is {outcome}."]
+  - ["You also wrote {p4}."]
+  - ["You wrote {p5}."]
+  - ["You wrote {p6}."]
+  - ["You wrote {p7}."]
+  - ["You wrote {p8}."]
+  - ["Your stack is {stack}, and that is what the demo runs on."]
+outline:
+  - "You said <their Fear, verbatim>, so <what you will see next removes it>."
+  - "The result you are after is <their outcome, in their sentence>."
+  - "You also wrote <Phrase 4, verbatim>."

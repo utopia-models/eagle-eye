@@ -1,0 +1,9 @@
+[Unit]
+Description=Eagle Eye per-person feeds: each person's ledger -> KV eagle-eye-data p/<person> (knowledge#13617)
+
+[Service]
+Type=oneshot
+Environment=CLIENT_DESK_DIR=%h/.local/share/eagle-eye-person/client-desk
+ExecStart=/usr/bin/python3 %h/.local/share/eagle-eye-person/person_feed.py claire --push
+ExecStart=/usr/bin/python3 %h/.local/share/eagle-eye-person/person_feed.py osman --push
+TimeoutStartSec=120

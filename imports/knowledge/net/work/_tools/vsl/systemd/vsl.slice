@@ -1,0 +1,6 @@
+[Unit]
+Description=All VSL jobs: at most 3 x MemoryMax, never the whole box (knowledge#18932)
+
+[Slice]
+MemoryMax=11G
+CPUQuota=900%

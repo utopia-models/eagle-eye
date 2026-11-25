@@ -1,0 +1,18 @@
+Hey, I built a first version of your {{his tool / fix, in the post's words}} for this post and recorded a short video of it; it's attached. It runs under 90 seconds: your post, the first build running, and one question for you.
+
+In the video I walk through your post, {{his repo and the files his issue lives in}}, and how I'd {{fix/extend}} it. {{3-4 sentences: his spec in HIS terms. Name each repo, tool and number from the post; say what keeps working and what changes. Quote his own rule back to him.}}
+
+In 2022 I wrote Python listeners for Solana events, and today I run Python and TypeScript services in production on my own Linux server.
+
+I've started a live build: {{his repo}} forked and building on my own Linux server with {{the failing case / the new command}} reproduced in a test, {{the fix or the feature}} behind unit tests, and {{the CI check that proves it}}. {{What arrives next and when.}}
+
+I'm building my Upwork profile, and with the depth I have in {{his language}} codebases and {{his build tooling}} I can deliver this efficiently, so I'm bidding ${{fixed post: under the low end of his budget; hourly post: 10 an hour}}. I run Utopia Models, Inc., an engineering agency.
+
+When we get on a call, I'll have several questions for you. A few examples:
+- I'd ship it as a tagged release with a CI job that runs the test suite on every pull request. How do you release today?
+- Which {{language/runtime}} version do your users run, so I pin the tests to it?
+- Do you want the change as one pull request against main, or split by feature?
+
+The next build is {{the module named in the video}}, and I can start it the day you reply.
+
+Tyler Youk, Utopia Models, Inc.

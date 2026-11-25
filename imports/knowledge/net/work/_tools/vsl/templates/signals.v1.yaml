@@ -1,0 +1,21 @@
+# The Signals block: what the client said, verbatim. Every beat below is written out of it; script_check.py reads it.
+# Beat order copied from Nick Saraev's job-post Looms (generic-agency-script.md `copied_from:`), Tyler card 2026-11-21.
+id: signals
+version: 1
+copied_from: "Nick Saraev https://www.youtube.com/watch?v=GbRcMN_-b2s (job-post Loom) and https://www.youtube.com/watch?v=1Jn0gSxlT30 (real Looms)"
+min_phrases: 3
+slots:
+  channel: {from: signals.channel, default: "job board"}
+  phrases: {from: signals.phrases, required: true, list: true, note: "3+ verbatim phrases from their post, site or message"}
+  outcome: {from: signals.outcome, required: true, note: "the result they want, in their sentence"}
+  fear: {from: signals.fear, note: "what they are afraid of, in their words"}
+  deadline: {from: signals.deadline}
+  stack: {from: signals.stack}
+  budget: {from: signals.budget}
+  last_message: {from: signals.last_message}
+  questions: {from: signals.questions, list: true, note: "[{q, ask, keys, answer}]: q verbatim, ask = how it is spoken, keys = words the answer must contain, answer = one spoken sentence"}
+do_not_say:
+  - "Anything about how my own business runs: no agent count, no automation of my own work, no dashboard of mine. A word the client used first is theirs to say back."
+  - "Any URL, a contact detail, a price, \"VSL\", the employer."
+  - "That we have seen their code or data, unless they shared it. Sample data is \"sample\"."
+  - "\"We can do ...\" or any capability-first line. A second ask. The only ask is the last line."

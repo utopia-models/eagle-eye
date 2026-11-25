@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Campaigns · Eagle Eye</title>
+<!-- Every campaign, every person, every step, from the one feed (knowledge#15269, ask 113 "see all campaign data").
+     Live: /apps.json (companies[k].campaign, built by apps_feed.py campaign()). Demo: ?feed=demo/campaigns.json (made-up rows).
+     The header counts and the rows come from the same pass over the feed, so the count on the page IS the count in the data. -->
+<style>
+:root{--bg:#070706;--panel:#0d0c0a;--gold:#d9b35b;--pale:#f3dc9a;--ink:#e9dcc0;--dim:#a39778;--line:rgba(217,179,91,.16);--ok:#7fd49a;--warn:#d9a05b;--bad:#e08a7a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:14px 16px 72px}
+a{color:var(--gold)}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-height:44px}
+h1{margin:0;font:400 20px Cinzel,Georgia,serif;letter-spacing:.16em;color:var(--pale)}
+.back{color:var(--gold);text-decoration:none;font-size:12px;letter-spacing:.2em;min-height:44px;display:inline-flex;align-items:center}
+.sum{margin:8px 0 14px;color:var(--dim)}.sum b{color:var(--pale);font-weight:500}
+.roll{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:16px}
+.roll div{border:1px solid var(--line);background:var(--panel);padding:8px 10px;border-radius:3px}
+.roll h3{margin:0 0 4px;font:400 11px Cinzel,Georgia,serif;letter-spacing:.14em;color:var(--gold)}
+.roll span{display:inline-block;margin:0 8px 0 0;font-variant-numeric:tabular-nums;font-size:12px}
+input{width:100%;max-width:360px;background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:10px;border-radius:3px;min-height:44px;margin-bottom:10px}
+details.co{border:1px solid var(--line);background:var(--panel);border-radius:3px;margin-bottom:6px}
+details.co>summary{cursor:pointer;padding:10px 12px;display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;min-height:44px}
+details.co>summary b{color:var(--pale);font-weight:500}.dim{color:var(--dim);font-size:12px}
+table{width:100%;border-collapse:collapse;table-layout:fixed}td,th{overflow-wrap:anywhere}
+th,td{text-align:left;padding:6px 12px;border-top:1px solid rgba(217,179,91,.08);vertical-align:top;font-size:13px}
+th{font:400 10px Cinzel,Georgia,serif;letter-spacing:.14em;color:var(--dim)}
+.cs{display:inline-block;max-width:100%;padding:1px 7px;border-radius:9px;border:1px solid var(--line);font-size:12px;overflow-wrap:anywhere}
+.cs-go{color:var(--pale)}.cs-ok{color:var(--ok);border-color:rgba(127,212,154,.4)}.cs-bad{color:var(--bad)}.cs-wait{color:var(--warn)}.cs-pl{color:var(--dim)}
+.tx{color:var(--dim);font-size:12px;margin-top:3px;white-space:pre-wrap}
+.none{padding:30px 0;color:var(--dim)}
+.sh{font:400 12px Cinzel,Georgia,serif;letter-spacing:.24em;color:var(--gold);margin:26px 0 8px}
+@media(max-width:700px){th:nth-child(2),td:nth-child(2){display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="back" id="back" href="/">← EAGLE EYE</a><h1>CAMPAIGNS</h1></header>
+<p class="sum" id="sum">Loading…</p>
+<div class="roll" id="roll"></div>
+<input id="q" type="search" placeholder="Filter by company or person" aria-label="Filter campaigns">
+<div id="list"></div>
+<h2 class="sh">SENDS</h2>
+<p class="sum" id="sends-sum"></p>
+<div id="sends"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s), esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const Q=new URLSearchParams(location.search), FEED=Q.get('feed')||'/apps.json', WHO=Q.get('p');
+if(Q.get('feed')) $('#back').href='./';
+const STC={sent:'cs-go',accepted:'cs-ok',replied:'cs-ok',planned:'cs-pl',none:'cs-pl',skipped:'cs-pl',failed:'cs-bad'};
+const bucket=s=>{ s=String(s||'planned'); return /^waiting|^written/.test(s)?'waiting':s; };
+const day=iso=>iso?String(iso).slice(0,16).replace('T',' ')+'Z':'';
+let D=null;
+// one pass: companies that have a campaign, their people, and one row per (person, step)
+function model(d){
+  const steps=d.campaign_steps||[], lab=id=>(steps.find(s=>s.id===id)||{label:id}).label, cos=[], tot={companies:0,people:0,rows:0}, per={};
+  for(const [k,c] of Object.entries(d.companies||{})){
+    const camp=c&&c.campaign; if(!camp) continue;
+    const name=c.name||c.co||((d.apps||[]).find(a=>a.k===k)||{}).co||k, rows=[];
+    for(const p of camp.people||[]) for(const [id,v] of Object.entries(p.steps||{})) rows.push({p,id,v:v||{}});
+    for(const [id,v] of Object.entries(camp.company_steps||{})) rows.push({p:null,id,v:v||{}});
+    cos.push({k,name,camp,rows}); tot.companies++; tot.people+=(camp.people||[]).length; tot.rows+=rows.length;
+    for(const r of rows){ const o=per[r.id]=per[r.id]||{}; const b=bucket(r.v.s); o[b]=(o[b]||0)+1; }
+  }
+  cos.sort((a,b)=>(b.camp.last&&b.camp.last.at||'').localeCompare(a.camp.last&&a.camp.last.at||'')||a.name.localeCompare(b.name));
+  return {cos,tot,per,lab};
+}
+function render(){
+  const m=model(D), f=($('#q').value||'').trim().toLowerCase();
+  $('#sum').innerHTML=`<b>${m.tot.companies}</b> campaigns · <b>${m.tot.people}</b> people · <b>${m.tot.rows}</b> steps · feed ${esc(day(D.updated))}`;
+  $('#sum').dataset.rows=m.tot.rows; $('#sum').dataset.people=m.tot.people; $('#sum').dataset.companies=m.tot.companies;
+  $('#roll').innerHTML=Object.entries(m.per).map(([id,o])=>`<div><h3>${esc(m.lab(id).toUpperCase())}</h3>`+Object.entries(o).map(([s,n])=>`<span class="cs ${STC[s]||'cs-wait'}">${esc(s)} ${n}</span>`).join(' ')+`</div>`).join('');
+  const shown=m.cos.filter(c=>!f||c.name.toLowerCase().includes(f)||c.camp.people.some(p=>String(p.name).toLowerCase().includes(f)));
+  $('#list').innerHTML=shown.length?shown.map((c,i)=>{
+    const sent=c.rows.filter(r=>/^(sent|accepted|replied)$/.test(r.v.s)).length;
+    return `<details class="co" data-co="${esc(c.k)}" data-rows="${c.rows.length}"${shown.length<=3?' open':''}><summary><b>${esc(c.name)}</b><span class="dim">${(c.camp.people||[]).length} people · ${c.rows.length} steps · ${sent} sent${c.camp.last?' · last: '+esc(c.camp.last.what)+' '+esc(day(c.camp.last.at)):''}</span></summary>`+
+      `<table><thead><tr><th>PERSON</th><th>TITLE</th><th>STEP</th><th>STATE</th></tr></thead><tbody>`+
+      c.rows.map(r=>`<tr><td>${esc(r.p?r.p.name:'Company')}</td><td class="dim">${esc(r.p?r.p.title:'')}</td><td>${esc(m.lab(r.id))}</td><td><span class="cs ${STC[r.v.s]||'cs-wait'}">${esc(r.v.s||'planned')}${r.v.at?' · '+esc(day(r.v.at)):''}</span>`+
+        (r.v.text?`<div class="tx">${r.v.subject?'<b>'+esc(r.v.subject)+'</b>\n':''}${esc(r.v.text)}</div>`:'')+(r.v.why&&!/^after /.test(r.v.why)?`<div class="tx">${esc(r.v.why)}</div>`:'')+`</td></tr>`).join('')+`</tbody></table></details>`;
+  }).join(''):`<div class="none">${m.tot.companies?'No campaign matches that filter':'No campaign has been started yet'}</div>`;
+  $('#list').dataset.shown=shown.length;
+  renderSends(f);
+}
+// the sends tab (knowledge#16088): every sent touch with the exact subject and body that went out
+function renderSends(f){
+  const all=D.sends||[], sh=all.filter(x=>!f||[x.co,x.person,x.to,x.subject].some(v=>String(v||'').toLowerCase().includes(f)));
+  $('#sends-sum').innerHTML=`<b>${all.length}</b> sent touches carried · showing ${sh.length}`; $('#sends').dataset.n=sh.length;
+  $('#sends').innerHTML=sh.length?sh.slice(0,100).map(x=>`<details class="co send"><summary><b>${esc(x.co||'?')}</b><span class="dim">${esc(x.person||x.to||'')}${x.job?' · '+esc(x.job):''} · ${esc(day(x.at))} · ${esc(x.transport||'')}</span></summary>`+
+    `<table><tbody><tr><td class="dim">TO</td><td>${esc(x.to||'')}</td></tr><tr><td class="dim">SUBJECT</td><td>${esc(x.subject||'')}</td></tr><tr><td class="dim">MESSAGE-ID</td><td class="dim">${esc(x.message_id||'')}</td></tr>`+
+    `<tr><td class="dim">BODY</td><td><div class="tx">${esc(x.body||'(no body recorded)')}</div></td></tr></tbody></table></details>`).join(''):`<div class="none">No sent touch has been recorded yet</div>`;
+}
+async function load(){
+  try{ const r=await fetch(FEED+(FEED.includes('?')?'&':'?')+(WHO?'p='+encodeURIComponent(WHO)+'&':'')+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+    D=await r.json(); if(!D.companies) throw new Error(D.reason||'no campaign data in the feed yet'); render(); }
+  catch(e){ $('#sum').textContent='Offline: '+e.message; }
+}
+$('#q').addEventListener('input',()=>D&&render());
+load(); setInterval(load,30000);
+</script>
+</body>
+</html>
