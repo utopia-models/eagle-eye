@@ -1,7 +1,7 @@
 {
   "name": "eagle-eye",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "description": "The #1 open-source networking machine. The open alternative to Apollo and Clay, designed for AI agents.",
   "license": "MIT",
   "scripts": {

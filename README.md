@@ -54,6 +54,10 @@ write the feed JSON directly.
 
 Any adapter that writes the same JSON works: a CRM export, an ATS API, an inbox count.
 
+## The one-shot systems
+
+The Upwork and founder-video one-shot systems ship as a resource pack. See [`docs/ONE-SHOT-SYSTEMS.md`](docs/ONE-SHOT-SYSTEMS.md) to install them. Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security: [SECURITY.md](SECURITY.md).
+
 ## The landing page
 
 `site/` is the static page served at [eagleeye.sh](https://eagleeye.sh) (Vercel, root directory `site`). `install.sh`
