@@ -1,0 +1,14 @@
+[Unit]
+Description=Eagle Eye feed: measure horus's stores on novaserver, push data.json + cold-apps.json to KV every 30 s (knowledge#13151)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/dev/eagle-eye/packages/core
+Environment=EE_DATA=/srv/eagle-eye/data EE_CONFIG=/srv/eagle-eye/config
+ExecStart=/bin/bash %h/dev/eagle-eye/packages/core/push-kv.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,34 @@
+{
+  "config": {
+    "ingress": [
+      {
+        "service": "http://127.0.0.1:8851",
+        "hostname": "absa.utopiamodels.ai"
+      },
+      {
+        "service": "http://127.0.0.1:8861",
+        "hostname": "hooks.utopiamodels.ai"
+      },
+      {
+        "hostname": "eagle.utopiamodels.ai",
+        "path": "^/api/ask$",
+        "service": "http://100.127.249.81:8797"
+      },
+      {
+        "hostname": "eagle.utopiamodels.ai",
+        "path": "^/(api|rest|v|healthz)(/|$)",
+        "service": "http://100.127.249.81:8798"
+      },
+      {
+        "hostname": "eagle.utopiamodels.ai",
+        "service": "http://100.127.249.81:8797"
+      },
+      {
+        "service": "http_status:404"
+      }
+    ],
+    "warp-routing": {
+      "enabled": false
+    }
+  }
+}

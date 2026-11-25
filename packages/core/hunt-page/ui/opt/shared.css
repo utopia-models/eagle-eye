@@ -1,0 +1,65 @@
+/* Eagle Eye brand layer (fonts, tokens, top-bar lockup, eye intro) */
+/* THROWAWAY OPTION SPIKE: Eagle Eye brand layer shared by /opt-a /opt-b /opt-c (fonts, tokens, top-bar lockup, eye intro) */
+@font-face{font-family:Cinzel;src:url(/fonts/Cinzel-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Cinzel;src:url(/fonts/Cinzel-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Cormorant;src:url(/fonts/CormorantGaramond-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Cormorant;src:url(/fonts/CormorantGaramond-400i.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:Cormorant;src:url(/fonts/CormorantGaramond-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:JBM;src:url(/fonts/JetBrainsMono-400.woff2) format("woff2");font-display:swap}
+:root{
+  /* aliases onto /opt/tokens.css (the only place a color value lives) */
+  --bg:var(--ink-1); --panel:var(--ink-2); --panel2:var(--ink-3); --hover:var(--gold-2); --sel:var(--gold-3);
+  --line:var(--ink-6); --line2:var(--gold-6);
+  --g:var(--gold-9); --pale:var(--gold-11); --text:var(--ink-12); --mute:var(--ink-11); --dim:var(--ink-10);
+  --serif:Cormorant,Georgia,serif; --caps:Cinzel,serif; --mono:JBM,ui-monospace,monospace;
+  --top:64px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{font:16px/1.35 var(--serif);overflow-x:hidden;min-height:100vh}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.i{width:16px;height:16px;flex:none;display:inline-block;vertical-align:middle}
+[hidden]{display:none!important}
+
+.top{position:sticky;top:0;z-index:20;height:var(--top);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:0 28px;background:color-mix(in srgb,var(--ink-1) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+#mark{height:40px;width:auto;view-transition-name:eye;display:block;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,var(--ink-1) 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,var(--ink-1) 62%,transparent 100%)}
+.word{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.word b{font:500 17px var(--caps);letter-spacing:.32em;color:var(--gold-11)}
+.word span{font-style:italic;color:var(--mute);font-size:15px;white-space:nowrap}
+.tabs{display:flex;gap:4px;height:100%}
+.tabs button{background:none;border:0;padding:0 22px;height:100%;font:400 15px var(--caps);letter-spacing:.28em;text-transform:uppercase;color:var(--mute);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-selected=true]{color:var(--gold-11);border-bottom-color:var(--gold-9)}
+.optlabel{justify-self:end;font:11px var(--mono);letter-spacing:.08em;color:var(--g);border:1px solid var(--line2);padding:3px 8px;border-radius:3px}
+
+#intro{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center}
+#intro .lid{width:min(86vw,120vh);aspect-ratio:4/3;display:grid;place-items:center;clip-path:ellipse(50% 0% at 50% 50%);animation:lid .42s cubic-bezier(.2,.8,.2,1) forwards}
+#intro-eye{width:100%;height:auto;view-transition-name:eye;display:block;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,var(--ink-1) 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,var(--ink-1) 62%,transparent 100%);animation:glow .42s ease-out forwards}
+@keyframes lid{to{clip-path:ellipse(75% 75% at 50% 50%)}}
+@keyframes glow{from{filter:brightness(.4) blur(4px)}to{filter:none}}
+html.intro-on #mark{view-transition-name:none}
+html.intro-done #intro{display:none}
+::view-transition-group(eye){animation-duration:.46s;animation-timing-function:cubic-bezier(.65,0,.2,1)}
+@media (prefers-reduced-motion:reduce){#intro{display:none}}
+
+/* shared atoms */
+.av{width:22px;height:22px;border-radius:50%;flex:none;display:inline-grid;place-items:center;font:500 10px var(--caps);color:var(--ink-1);background:var(--gold-9)}
+.fit{width:8px;height:8px;border-radius:50%;border:1px solid var(--dim);display:inline-block;flex:none}
+.fit.on{background:var(--g);border-color:var(--g)}
+.empty{display:grid;place-items:center;gap:10px;padding:80px 0;color:var(--dim);font:13px var(--caps);letter-spacing:.24em;text-transform:uppercase}
+.empty .i{width:28px;height:28px;color:var(--gold-7)}
+.page{position:fixed;inset:var(--top) 0 0 0;z-index:15;background:var(--bg);overflow:auto;overscroll-behavior:contain;outline:none}
+/* chief 11-22: while a hunt page is open the list behind it is locked, so wheel/PgDn/Space scroll the page you see, not the hidden list */
+html{scrollbar-gutter:stable}
+/* lock on BODY, never html (Tyler 11-23 photo: a list row showed above the detail breadcrumb): overflow on html stops body's overflow
+   propagating to the viewport, so body (overflow-x:hidden) became its own non-scrolling scroll box, the sticky header stuck to it
+   and rode off with the scrolled list, and the rows at scrollY showed in the header band above the fixed .page. Locked on body,
+   the viewport itself stops scrolling and the header stays put. */
+html.ee-open body{overflow:hidden}
+@media (max-width:760px){
+  .top{grid-template-columns:auto 1fr;padding:0 12px}.word span,.optlabel{display:none}.word b{font-size:13px}#mark{height:30px}
+  .tabs{justify-self:end}.tabs button{padding:0 10px;font-size:12px;letter-spacing:.18em}
+}

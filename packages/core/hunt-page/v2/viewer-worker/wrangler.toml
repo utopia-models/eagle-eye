@@ -1,0 +1,18 @@
+# utopiamodels.ai/v/* -> the one-shot viewer. Deploy (needs CF_API_TOKEN_UTOPIA + CF_ACCOUNT_ID_UTOPIA, on nova/Infisical):
+#   npx wrangler@4 r2 bucket create oneshot-viewer
+#   npx wrangler@4 secret put EAGLE_ACCESS_CLIENT_ID ; npx wrangler@4 secret put EAGLE_ACCESS_CLIENT_SECRET
+#   npx wrangler@4 deploy
+# Free tier: Workers 100k req/day, R2 10 GB + zero egress = $0 at our volume (20-30 one-shots/day).
+name = "oneshot-viewer"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+routes = [{ pattern = "utopiamodels.ai/v/*", zone_name = "utopiamodels.ai" }]
+
+[[r2_buckets]]
+binding = "V"
+bucket_name = "oneshot-viewer"
+
+[vars]
+# the Eagle Eye API behind the Cloudflare Tunnel; /v/*/e must pass Access with the service token below
+EAGLE_BEACON_ORIGIN = "https://eagle.utopiamodels.ai"

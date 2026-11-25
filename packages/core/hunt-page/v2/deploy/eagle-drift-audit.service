@@ -1,0 +1,10 @@
+# Nightly safety net: diff every send store (Upwork ledger, proposals.db, desk Chrome history, hunt-send log, novaserver
+# ledger) against Eagle Eye; fleetmail the Architect (thread eagle-drift) on any mismatch. Read-only.
+[Unit]
+Description=Eagle Eye drift audit (ledgers vs cards)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/architect/dev/utopia-models/eagle-eye-v2/send/drift_audit.py
+SuccessExitStatus=1
+TimeoutStartSec=300

@@ -1,0 +1,21 @@
+# Eagle Eye server on Ra (systemd --user, architect). Install: cp deploy/eagle-server.service ~/.config/systemd/user/ && systemctl --user enable --now eagle-server
+[Unit]
+Description=Eagle Eye server (Hono REST + SSE + pg-boss worker) on Ra's Tailscale IP
+After=network-online.target
+
+[Service]
+WorkingDirectory=/home/architect/dev/utopia-models/eagle-eye-v2
+ExecStart=/home/architect/dev/utopia-models/eagle-eye-v2/node_modules/.bin/tsx src/server.ts
+Environment=EAGLE_HOST=100.127.249.81
+Environment=EAGLE_PORT=8798
+Environment=EAGLE_OPEN_READ=tyler
+Environment=EAGLE_WORKER=1
+Environment=PGSSLMODE=disable
+Environment=NODE_OPTIONS=--max-old-space-size=160
+# Ra has ~1-2 GB free: hard cap the process
+MemoryMax=320M
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
