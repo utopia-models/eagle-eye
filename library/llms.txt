@@ -64,7 +64,7 @@
 - [Skill: Time-to-Value Accelerator](kit/hormozi-mit/hormozi-skills/skills/value-accelerator/SKILL.md)
 - [Skill: Value Perception Booster (Psychology Layer)](kit/hormozi-mit/hormozi-skills/skills/value-perception/SKILL.md)
 - [Charlie Morgan - Imperium Academy (what is publicly observable)](kit/writeups/charlie-morgan.md)
-- [Daniel Fazio, Client Ascension - pointer card](kit/writeups/fazio.md)
+- [Daniel Fazio, Client Ascension - cold offers, risk reversal, first clients (from his public videos)](kit/writeups/fazio.md)
 - [Alex Hormozi - offers, leads, money models, scaling](kit/writeups/hormozi.md)
 - [ocp.wiki (Max Forbang) - outbound, cold email, VSL and self-improving campaigns](kit/writeups/ocp-wiki.md)
 
