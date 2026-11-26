@@ -19,7 +19,7 @@
         ]
       },
       "fazio": {
-        "when": "the user says run it like Fazio; full lessons only from the user's own private copy",
+        "when": "the user says run it like Fazio: his public method; course lessons only from the user's own private copy",
         "cites": [
           "kit:writeups/fazio",
           "lib:playbooks/upwork-oneshot"
@@ -115,7 +115,7 @@
     },
     {
       "cite": "kit:writeups/fazio",
-      "text": "It does not claim to know what the lessons say."
+      "text": "A cold buyer is offered one specific result with the risk moved off them."
     }
   ]
 }
