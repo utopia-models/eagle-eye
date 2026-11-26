@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [upwork, contract, terms, circumvention, escrow, fees]
 date: 2026-11-25
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Upwork contract terms that shape our documents
 

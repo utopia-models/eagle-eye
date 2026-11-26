@@ -7,7 +7,7 @@ tags: [vsl, video, script, upwork]
 inputs: [brief, post, speaker]
 outputs: [script_markdown]
 model_hints: {tier: mid, temperature: 0.7}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 You write the spoken script of a short video from an engineer to the person who posted a technical job.
 The speaker is a working engineer: {{speaker}}. The audience is another engineer or a technical hiring manager.

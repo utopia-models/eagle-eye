@@ -92,6 +92,794 @@
   "version": "1.0.0"
  },
  {
+  "id": "kit.readme",
+  "title": "The kit - what Systems copy from and cite",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "operators",
+   "sources",
+   "kit"
+  ],
+  "path": "kit/README.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/DISCLAIMER",
+  "title": "Disclaimer",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/DISCLAIMER.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/SOURCE",
+  "title": "Source",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/SOURCE.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL",
+  "title": "Hormozi Offer Audit",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/grand-slam-checklist",
+  "title": "Grand Slam Offer Checklist",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/grand-slam-checklist.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/lead-magnet",
+  "title": "Lead Magnet Reference Card",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/lead-magnet.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/market-filter",
+  "title": "Pre-Offer Market Filter",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/market-filter.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/sources",
+  "title": "Sources & Attribution",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/sources.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/value-equation",
+  "title": "Value Equation Reference Card",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "claude-skill-hormozi-offer-audit",
+   "skills",
+   "audit",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/references/value-equation.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/SOURCE",
+  "title": "Source",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/SOURCE.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/SKILL",
+  "title": "$100M Leads",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/cases",
+  "title": "100m-leads - Cases and Roadmap",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/cases.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/examples",
+  "title": "100m-leads - Templates and Examples",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/examples.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/frameworks",
+  "title": "100m-leads - Detailed Channel Playbooks",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/frameworks.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/integration",
+  "title": "100m-leads - Integration with Other Skills",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/integration.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/lead-getters",
+  "title": "100m-leads - Lead Getters Playbook",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/lead-getters.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-leads/paid-ads",
+  "title": "100m-leads - Paid Advertising Deep Dive",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-leads"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-leads/paid-ads.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-offers/SKILL",
+  "title": "$100M Offers",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-offers"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-offers/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-offers/cases",
+  "title": "100m-offers - Case Studies",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-offers"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-offers/cases.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-offers/examples",
+  "title": "100m-offers - Templates and Examples",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-offers"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-offers/examples.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-offers/frameworks",
+  "title": "100m-offers - Detailed Frameworks",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-offers"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-offers/frameworks.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/100m-offers/integration",
+  "title": "100m-offers - Integration with Other Skills",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "100m-offers"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/100m-offers/integration.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/money-models/SKILL",
+  "title": "$100M Money Models",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "money-models"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/money-models/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/money-models/cases",
+  "title": "money-models - Case Studies",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "money-models"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/money-models/cases.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/money-models/examples",
+  "title": "money-models - Templates and Examples",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "money-models"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/money-models/examples.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/money-models/frameworks",
+  "title": "money-models - Detailed Frameworks",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "money-models"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/money-models/frameworks.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/founder-playbook/skills/money-models/integration",
+  "title": "money-models - Integration with Other Skills",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "founder-playbook",
+   "skills",
+   "money-models"
+  ],
+  "path": "kit/hormozi-mit/founder-playbook/skills/money-models/integration.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/SOURCE",
+  "title": "Source",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/SOURCE.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/audit-offer/SKILL",
+  "title": "Skill: Offer Audit (Weak Point Detector)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "audit-offer"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/audit-offer/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/bonus-stack/SKILL",
+  "title": "Skill: Bonus Stack Generator (Objection Killer)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "bonus-stack"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/bonus-stack/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/business-model/SKILL",
+  "title": "Skill: Business Model Designer (Strategic Monetization Engine)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "business-model"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/business-model/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/create-plugin/SKILL",
+  "title": "Skill: Plugin Creator (Claude Code + Codex)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "create-plugin"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/create-plugin/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/dfy-dwy-diy/SKILL",
+  "title": "Skill: Delivery Mechanism Designer (DFY vs DWY vs DIY)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "dfy-dwy-diy"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/dfy-dwy-diy/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/effort-reduction/SKILL",
+  "title": "Skill: Effort Reduction (Friction Killer)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "effort-reduction"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/effort-reduction/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/hormozi-hooks/SKILL",
+  "title": "Skill: Hook Generator (Hormozi-Style)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "hormozi-hooks"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/hormozi-hooks/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/hormozi-hooks/references/hormozi-style-hooks",
+  "title": "Hormozi Style Hooks - Full Breakdown",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "hormozi-hooks",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/hormozi-hooks/references/hormozi-style-hooks.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/hormozi-offer/SKILL",
+  "title": "Skill: Build a Grand Slam Offer \u2192 `OFFER.md`",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "hormozi-offer"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/hormozi-offer/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/hormozi-pitch/SKILL",
+  "title": "Skill: Build a Hormozi-Style Pitch",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "hormozi-pitch"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/hormozi-pitch/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/idea-to-product/SKILL",
+  "title": "Skill: Lean Offer System (Idea \u2192 Offer \u2192 Pitch)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "idea-to-product"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/idea-to-product/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/idea-to-product/references/offer-key-points",
+  "title": "offer key points",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "idea-to-product",
+   "references"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/idea-to-product/references/offer-key-points.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/landing-page-copy/SKILL",
+  "title": "Skill: Landing Page Builder (Hormozi-Style)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "landing-page-copy"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/landing-page-copy/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/market-research/SKILL",
+  "title": "Skill: Market Research & Demand (Starving Crowd Engine)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "market-research"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/market-research/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/objection-destroyer/SKILL",
+  "title": "Skill: Objection Destroyer (Belief Shift Engine)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "objection-destroyer"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/objection-destroyer/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/offer-angles/SKILL",
+  "title": "Skill: Offer Angle Generator",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "offer-angles"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/offer-angles/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/pricing-strategy/SKILL",
+  "title": "Skill: Pricing Strategy (Value Anchoring Engine)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "pricing-strategy"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/pricing-strategy/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/productize/SKILL",
+  "title": "Skill: Productization & Scaling System (Hormozi-Style)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "productize"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/productize/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/value-accelerator/SKILL",
+  "title": "Skill: Time-to-Value Accelerator",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "value-accelerator"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/value-accelerator/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit/hormozi-mit/hormozi-skills/skills/value-perception/SKILL",
+  "title": "Skill: Value Perception Booster (Psychology Layer)",
+  "kind": "kit",
+  "tags": [
+   "kit",
+   "hormozi-mit",
+   "hormozi-skills",
+   "skills",
+   "value-perception"
+  ],
+  "path": "kit/hormozi-mit/hormozi-skills/skills/value-perception/SKILL.md",
+  "origin": "public",
+  "version": ""
+ },
+ {
+  "id": "kit.writeup.charlie-morgan",
+  "title": "Charlie Morgan - Imperium Academy (what is publicly observable)",
+  "kind": "kit",
+  "tags": [
+   "agency",
+   "sales",
+   "appointment-setting",
+   "charlie-morgan",
+   "kit",
+   "writeups"
+  ],
+  "path": "kit/writeups/charlie-morgan.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "kit.writeup.fazio",
+  "title": "Daniel Fazio, Client Ascension - pointer card",
+  "kind": "kit",
+  "tags": [
+   "agency",
+   "offer",
+   "guarantee",
+   "outbound",
+   "upwork",
+   "fazio",
+   "kit",
+   "writeups"
+  ],
+  "path": "kit/writeups/fazio.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "kit.writeup.hormozi",
+  "title": "Alex Hormozi - offers, leads, money models, scaling",
+  "kind": "kit",
+  "tags": [
+   "offer",
+   "pricing",
+   "leads",
+   "money-models",
+   "scaling",
+   "hormozi",
+   "kit",
+   "writeups"
+  ],
+  "path": "kit/writeups/hormozi.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "kit.writeup.ocp-wiki",
+  "title": "ocp.wiki (Max Forbang) - outbound, cold email, VSL and self-improving campaigns",
+  "kind": "kit",
+  "tags": [
+   "outbound",
+   "cold-email",
+   "vsl",
+   "offer",
+   "ocp",
+   "max",
+   "kit",
+   "writeups"
+  ],
+  "path": "kit/writeups/ocp-wiki.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
   "id": "playbook.client-close-and-delivery",
   "title": "Client close and delivery - from \"yes\" to a paid, delivered, retained client",
   "kind": "playbook",

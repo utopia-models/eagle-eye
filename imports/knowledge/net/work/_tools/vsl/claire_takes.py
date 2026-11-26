@@ -2,7 +2,7 @@
 """claire_takes.py: build Claire's own-network VSL take list from HER contacts (knowledge#14327, spec
 `net/work/specs/13429-claire-youk-client/vsl/network-vsl.md`).
 
-Claire records; the fleet does the rest. Source = the claire@utopiamodels.ai contacts (People API, domain-wide
+Claire records; the fleet does the rest. Source = the claire@example.com contacts (People API, domain-wide
 delegation), never Tyler's roster and never a question to her. One row per person who has a phone or email.
 The proof line comes from the contact's LABEL (Google contact group): FCPS, Chantilly, Encore, UCSB, Family friends.
 A contact with no matching label gets NO proof line (nothing is guessed).
@@ -23,7 +23,7 @@ from pathlib import Path
 KB = Path(__file__).resolve().parents[4]
 VSL = KB / "net/work/specs/13429-claire-youk-client/vsl"
 SCOPE = "https://www.googleapis.com/auth/contacts.readonly"
-SUBJECT = "claire@utopiamodels.ai"
+SUBJECT = "claire@example.com"
 PROOF = {  # network-vsl.md "Proof lines"
     "fcps": "I was one of three students representing Chantilly on the county's Student Advisory Council.",
     "chantilly": "I was on the SGA executive board, running events for the whole school.",
@@ -87,7 +87,7 @@ def script(rs: list[dict]) -> str:
 def main(argv: list[str]) -> int:
     if "--self-test" in argv:
         t = rows([{"names": [{"displayName": "Ann Lee"}], "phoneNumbers": [{"canonicalForm": "+15550001111"}], "_groups": ["Encore"]},
-                  {"names": [{"displayName": "Bo Ray"}], "emailAddresses": [{"value": "b@x.org"}], "_groups": []},
+                  {"names": [{"displayName": "Bo Ray"}], "emailAddresses": [{"value": "b@example.org"}], "_groups": []},
                   {"names": [{"displayName": "No Channel"}]}])
         assert [r["name"] for r in t] == ["Ann Lee", "Bo Ray"] and t[0]["proof"].startswith("I've taught") and t[1]["proof"] == ""
         s = script(t)

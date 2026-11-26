@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [ui,mvp,shadcn,motion,demo]
 date: 2026-11-25
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # UI libraries for per-job demo apps
 The original scratchpad (ui-research/libraries.md, demo-patterns.md) was absent on the dispatch box; this is the distilled decision, versions read from `npm view` on 2026-11-25.

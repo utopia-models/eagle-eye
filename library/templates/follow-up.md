@@ -5,7 +5,7 @@ kind: template
 version: 1.0.0
 tags: [follow-up,client-kit,cadence]
 inputs: [client]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Follow-up cadence: {{client_name}}
 

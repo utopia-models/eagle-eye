@@ -5,7 +5,7 @@ kind: template
 version: 1.0.0
 tags: [offer,client-kit,close]
 inputs: [client,result,timeframe,price,guarantee]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # {{client_name}}: {{engagement}}
 

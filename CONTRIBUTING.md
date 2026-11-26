@@ -8,4 +8,4 @@ Issues and pull requests are welcome.
 4. Never commit real data, credentials or personal details. The `guard` workflow runs gitleaks over full history and a PII grep (`scripts/pii-grep.sh`); both must pass.
 5. Open a PR describing what changed and why. Squash merges only.
 
-By contributing you agree your work is released under the [MIT License](LICENSE).
+By contributing you agree your work is released under the [Apache License 2.0](LICENSE).

@@ -30,7 +30,7 @@ fi
 
 DBP=$(bash $G fleet-infra KITSU_DB_PASSWORD prod); SK=$(bash $G fleet-infra KITSU_SECRET_KEY prod)
 AE=$(bash $G fleet-infra KITSU_ADMIN_EMAIL prod); AP=$(bash $G fleet-infra KITSU_ADMIN_PASSWORD prod)
-TP=$(bash $G fleet-infra KITSU_TYLER_PASSWORD prod)   # Tyler's own Kitsu login (tyler@utopiamodels.ai), for the UI
+TP=$(bash $G fleet-infra KITSU_TYLER_PASSWORD prod)   # Tyler's own Kitsu login (tyler@example.com), for the UI
 [ ${#DBP} -ge 16 ] && [ ${#SK} -ge 16 ] && [ ${#AP} -ge 16 ] && [ ${#TP} -ge 16 ] && [ -n "$AE" ] || { echo "install: Kitsu secrets missing in Infisical fleet-infra" >&2; exit 1; }
 
 scp -q "$HERE/nginx-studio.conf" "$HERE/zou.service" "$HERE/zou-events.service" "$RA:/tmp/"
@@ -98,7 +98,7 @@ zou() { sudo -u zou bash -c 'set -a; . /etc/zou/zou.env; set +a; cd /opt/zou; ex
 zou upgrade-db >/dev/null 2>&1 || zou init-db
 zou init-data >/dev/null
 zou create-admin --password "$AP" "$AE" >/dev/null 2>&1 || true   # exists already on a re-run
-zou create-admin --password "$TP" tyler@utopiamodels.ai >/dev/null 2>&1 || zou change-password tyler@utopiamodels.ai --password "$TP" >/dev/null
+zou create-admin --password "$TP" tyler@example.com >/dev/null 2>&1 || zou change-password tyler@example.com --password "$TP" >/dev/null
 
 # Kitsu UI: the latest release build.
 VER=$(curl -sfL https://api.github.com/repos/cgwire/kitsu/releases/latest | sed -n 's/.*"tag_name": *"v\{0,1\}\([^"]*\)".*/\1/p' | head -1)

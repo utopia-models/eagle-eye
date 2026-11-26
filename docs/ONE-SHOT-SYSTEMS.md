@@ -1,5 +1,8 @@
 # The one-shot systems (resource pack)
 
+The runnable manifests are in [`systems/`](../systems/README.md); the operators they copy are in
+[`library/kit/`](../library/kit/README.md). Below is the older code snapshot.
+
 Eagle Eye ships with the Utopia Models one-shot systems as a resource pack: the Upwork proposal rules and templates
 and the founder video ("VSL") tooling the agency runs on, for you to adapt toward your own goals.
 
@@ -13,8 +16,8 @@ and the founder video ("VSL") tooling the agency runs on, for you to adapt towar
 | `upwork/templates/<category>/` | per-category proposal templates and demo scripts |
 | `_tools/vsl/` | the video one-shot tooling (script, render, review helpers) |
 
-Status: this is a staging snapshot. Paths and hosts inside still reflect the original deployment; the move into
-`systems/upwork-oneshot` and `packages/kit` with a config loader (`EE_CONFIG`, `EE_DATA`, `EE_MEDIA`) is tracked in
+Status: this is a staging snapshot. Paths and hosts inside still reflect the original deployment; the move of this code into
+`systems/upwork-oneshot` and `packages/toolkit` with a config loader (`EE_CONFIG`, `EE_DATA`, `EE_MEDIA`) is tracked in
 utopia-models/knowledge#19366. Until then, treat the files as reference you copy and edit.
 
 ## Install

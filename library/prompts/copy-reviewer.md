@@ -7,7 +7,7 @@ tags: [copy, review, judge, vsl, letter]
 inputs: [draft, source, audience]
 outputs: [verdicts_and_rewrites]
 model_hints: {tier: mid, temperature: 0}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 You are a senior technical editor. Read the draft as {{audience}} would hear it.
 

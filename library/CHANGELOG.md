@@ -4,7 +4,7 @@ title: Library changelog
 kind: changelog
 version: 1.0.0
 tags: [changelog]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Changelog
 ## 1.0.0 - 2026-11-25

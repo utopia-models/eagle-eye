@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [library,markdown,dotprompt,mcp,llms-txt,index]
 date: 2026-11-24
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Eagle Eye `library/` research (2026-11-24)
 

@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [architecture,plugin,eagle-eye,overlay,license]
 date: 2026-11-24
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Make Eagle Eye a core plus systems
 

@@ -7,7 +7,7 @@ tags: [upwork, oneshot, vsl, proposal, freelance]
 diataxis: how-to
 inputs: [job_post]
 outputs: [sent_proposal]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Upwork one-shot: a letter, a working demo and a video for one job post
 

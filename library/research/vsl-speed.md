@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [vsl,speed,pipeline,render,design]
 date: 2026-11-25
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # VSL 100x speed 3/3: three pipeline designs for a 10-minute build (knowledge#18878)
 

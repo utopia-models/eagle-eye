@@ -7,7 +7,7 @@ tags: [proposal, offer, outbound, founder]
 inputs: [buyer, their_post_or_situation, outcome, proof, price_sheet]
 outputs: [proposal_markdown]
 model_hints: {tier: high}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 Write a one-page proposal to {{buyer}}.
 

@@ -7,7 +7,7 @@ tags: [close, delivery, onboarding, sow, follow-up, retention]
 diataxis: how-to
 inputs: [qualified_reply]
 outputs: [signed_offer, delivered_milestones]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Client close and delivery
 

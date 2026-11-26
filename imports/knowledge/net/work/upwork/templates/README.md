@@ -34,14 +34,14 @@ Tyler, 2026-11-17 06:53Z: *"apply within 5 minutes of any software, AI or infra 
 check only; proposals send only while he is online (queue while away). Upwork is never polled (RULES.md 13-16, 21), so
 the trigger is Upwork's own job-alert mail in dev@:
 
-1. **Alerts.** Upwork mails `New job alert: <title>` from `donotreply@upwork.com` for each saved search with email
+1. **Alerts.** Upwork mails `New job alert: <title>` from `Upwork's no-reply address` for each saved search with email
    alerts on. The upwork agent keeps one saved search per category in the seat's Chrome, by hand: `software engineer`,
    `python backend api`, `data engineering scraping`, `ai llm agent`, `devops kubernetes aws`, `automation n8n zapier`
    (sort newest, payment verified), each with **email alerts on**.
 2. **Ping.** `mail_watch.py` (`upwork-mail.timer`, every minute, as `upwork` on Nova) classifies each alert
    (`category()`: title + skills; a sales, admin or marketing title never pings) and, when the mail is under 15 min old,
    fleetmails upwork on thread `upwork-apply`: title, budget, client line, job key, and this category's letter + demo.
-   Probe it end to end with a mail whose subject is `New job alert: [fleet-test] <title>` from `donotreply@upwork.com`
+   Probe it end to end with a mail whose subject is `New job alert: [fleet-test] <title>` from `Upwork's no-reply address`
    (pinged as TEST, never a ledger row).
 3. **Apply.** The upwork agent reads the job by hand, builds the first version from `demo.md`, fills `letter.txt`,
    and sends when Tyler is online to record the VSL.
