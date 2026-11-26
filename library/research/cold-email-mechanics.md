@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [cold-email, outbound, deliverability, video, benchmarks]
 date: 2026-11-23
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Cold email mechanics: who to copy and how good the evidence is
 

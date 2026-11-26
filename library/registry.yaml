@@ -6,6 +6,7 @@ kinds:
   template:    {dir: templates,   what: "documents a client or buyer receives"}
   research:    {dir: research,    what: "dated reports with sources"}
   copy-rules:  {dir: copy-rules,  what: "checks as data, read by copy_lint.py"}
+  kit:         {dir: kit,         what: "real operators' playbooks Systems copy from and cite: own write-ups and open-licence packs"}
   sources:     {dir: sources,     what: "index of external sources; paid material only in the private overlay"}
 overlay: {repo: eagle-eye-utopia, path: library/, private_paths: ["sources/fazio"]}
-consumers: [vsl, eagle, atlas, upwork]
+consumers: [systems, vsl, eagle, atlas, upwork]   # outside this repo: a pinned checkout, EE_KIT=<checkout>/library

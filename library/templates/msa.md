@@ -5,7 +5,7 @@ kind: template
 version: 1.0.0
 tags: [msa,contract,client-kit,legal]
 inputs: [parties]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Master services agreement
 

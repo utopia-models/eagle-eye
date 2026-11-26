@@ -7,7 +7,7 @@ tags: [founder, offer, vsl, outbound, high-ticket]
 diataxis: tutorial
 inputs: [founder_target]
 outputs: [page, video, email_sequence]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Founder one-shot
 

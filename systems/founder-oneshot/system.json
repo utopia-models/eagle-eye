@@ -1,0 +1,117 @@
+{
+  "id": "founder-oneshot",
+  "version": "0.1.0",
+  "title": "Founder one-shot",
+  "does": "Offers a funded founder the thing their open engineering post is hiring for: a built component, a page, a video and a short email sequence. For engineering studios and agencies selling to startups.",
+  "copies": [
+    "lib:playbooks/founder-oneshot",
+    "lib:playbooks/cold-apply-campaign",
+    "lib:templates/offer",
+    "lib:prompts/vsl-script-writer"
+  ],
+  "basis": {
+    "default": "ours",
+    "options": {
+      "ours": {
+        "when": "our playbook; the default",
+        "cites": [
+          "lib:playbooks/founder-oneshot"
+        ]
+      },
+      "fazio": {
+        "when": "the user says run it like Fazio; full lessons only from the user's own private copy",
+        "cites": [
+          "kit:writeups/fazio",
+          "lib:playbooks/founder-oneshot"
+        ]
+      },
+      "hormozi": {
+        "when": "offer design is the weak point: value, guarantee, pricing, lead channels",
+        "cites": [
+          "kit:writeups/hormozi",
+          "kit:hormozi-mit/founder-playbook/skills/100m-offers/SKILL",
+          "kit:hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL",
+          "lib:playbooks/founder-oneshot"
+        ]
+      },
+      "max": {
+        "when": "cold outbound and video structure, as in Max Forbang's ocp.wiki",
+        "cites": [
+          "kit:writeups/ocp-wiki",
+          "lib:playbooks/founder-oneshot"
+        ]
+      }
+    }
+  },
+  "defaults": {
+    "lane": "cold_email",
+    "delivery_days": 14,
+    "funded_within_days": 90,
+    "staff": [
+      1,
+      200
+    ]
+  },
+  "stages": [
+    {
+      "id": "offer",
+      "task": "Write the one offer: one buyer, one outcome, a date, and a guarantee marked as a proposal the owner can honour."
+    },
+    {
+      "id": "targets",
+      "task": "Write the target gate and where to look for founders who pass it."
+    },
+    {
+      "id": "page",
+      "needs": [
+        "founder_target"
+      ],
+      "task": "Write the one-page copy for this founder."
+    },
+    {
+      "id": "script",
+      "needs": [
+        "founder_target"
+      ],
+      "task": "Write the video script for this founder."
+    },
+    {
+      "id": "emails",
+      "needs": [
+        "founder_target"
+      ],
+      "task": "Write the email sequence for this founder."
+    },
+    {
+      "id": "send",
+      "outward": true
+    }
+  ],
+  "rails": {
+    "status": "open",
+    "hook": "before_outward",
+    "fixed": []
+  },
+  "quotes": [
+    {
+      "cite": "lib:playbooks/founder-oneshot",
+      "text": "Funded within 90 days, 1-200 staff, the post names the work, the post text is saved whole. Fail any and stop."
+    },
+    {
+      "cite": "lib:playbooks/founder-oneshot",
+      "text": "The offer is one thing. A menu of services is the failure this playbook exists to avoid."
+    },
+    {
+      "cite": "kit:hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL",
+      "text": "Value = (Dream Outcome × Perceived Likelihood of Achievement) ÷ (Time Delay × Effort & Sacrifice)"
+    },
+    {
+      "cite": "kit:writeups/ocp-wiki",
+      "text": "A message that would still make sense sent to someone else is not personal enough."
+    },
+    {
+      "cite": "kit:writeups/fazio",
+      "text": "It does not claim to know what the lessons say."
+    }
+  ]
+}

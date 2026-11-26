@@ -4,14 +4,19 @@
 #   curl -fsSL eagleeye.sh/install | sh
 #
 # Downloads Eagle Eye into ./eagle-eye and serves it on http://localhost:8000 with python3.
+# If an AI is available (the claude CLI, or EE_AI) it also onboards you with no questions: it reads the README, about
+# and package files of the folder you ran this in, sends them to that AI, picks a System and drafts your offer and
+# targeting into ./eagle-eye/live. It sends nothing to anyone else. Set EAGLE_EYE_NO_RUN=1 to skip it.
 # Running it again updates the app files and keeps your config.js.
 #
 #   EAGLE_EYE_DIR=path     where to install            (default: ./eagle-eye)
 #   EAGLE_EYE_PORT=8000    port for the local server   (default: 8000)
 #   EAGLE_EYE_REF=main     branch or tag to install    (default: main)
 #   EAGLE_EYE_NO_SERVE=1   install only, do not start the server
+#   EAGLE_EYE_NO_RUN=1     do not run a System
+#   EAGLE_EYE_BASIS=name   ours, fazio, hormozi or max     (default: the AI picks)
 #
-# Licensed under the MIT License. Source: https://github.com/utopia-models/eagle-eye
+# Licensed under the Apache License 2.0. Source: https://github.com/utopia-models/eagle-eye
 set -eu
 
 main() {
@@ -70,6 +75,11 @@ main() {
     tries=$((tries + 1)); [ "$tries" -lt 20 ] || die "no free port from ${EAGLE_EYE_PORT:-8000} up; set EAGLE_EYE_PORT"
     port=$((port + 1))
   done
+  if [ -z "${EAGLE_EYE_NO_RUN:-}" ] && { [ -n "${EE_AI:-}" ] || command -v claude >/dev/null 2>&1; }; then
+    say "Onboarding from $(pwd): the screen switches to your live feed when it finishes (reload once)."
+    python3 "$dir/packages/toolkit/onboard.py" --dir "$(pwd)" \
+      ${EAGLE_EYE_BASIS:+--basis "$EAGLE_EYE_BASIS"} </dev/null &
+  fi
   say "Serving on http://localhost:${port}  (Ctrl-C to stop)"
   cd "$dir"
   exec python3 -m http.server "$port" --bind 127.0.0.1

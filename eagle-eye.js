@@ -1,6 +1,6 @@
 // Eagle Eye: one screen for every outreach pipeline you run. The eye in the middle, your hunts (what you send out)
 // on the outer ring, your roosts (what comes back) on the inner ring, and the live lane's funnel in a card.
-// Copyright 2026 Utopia Models, Inc. Licensed under the MIT License (see LICENSE).
+// Copyright 2026 Utopia Models, Inc. Licensed under the Apache License 2.0 (see LICENSE).
 // Config: window.EAGLE_EYE = {feed, title, pipes, doors, stages, key4, liveLabel, hero:false, pipelines:false}
 // (config.js documents every key). Feed shape: docs/FEED.md.
 const keep = {};

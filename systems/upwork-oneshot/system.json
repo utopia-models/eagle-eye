@@ -1,0 +1,121 @@
+{
+  "id": "upwork-oneshot",
+  "version": "0.1.0",
+  "title": "Upwork one-shot",
+  "does": "Answers a freelance job post with a short letter, a working demo and a short video. For people who sell services that can be shown working.",
+  "copies": [
+    "lib:playbooks/upwork-oneshot",
+    "lib:prompts/mvp-planner",
+    "lib:prompts/vsl-script-writer",
+    "lib:prompts/letter-writer"
+  ],
+  "basis": {
+    "default": "ours",
+    "options": {
+      "ours": {
+        "when": "our playbook; the default",
+        "cites": [
+          "lib:playbooks/upwork-oneshot"
+        ]
+      },
+      "fazio": {
+        "when": "the user says run it like Fazio; full lessons only from the user's own private copy",
+        "cites": [
+          "kit:writeups/fazio",
+          "lib:playbooks/upwork-oneshot"
+        ]
+      },
+      "hormozi": {
+        "when": "offer design is the weak point: value, guarantee, pricing, lead channels",
+        "cites": [
+          "kit:writeups/hormozi",
+          "kit:hormozi-mit/founder-playbook/skills/100m-offers/SKILL",
+          "kit:hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL",
+          "lib:playbooks/upwork-oneshot"
+        ]
+      },
+      "max": {
+        "when": "cold outbound and video structure, as in Max Forbang's ocp.wiki",
+        "cites": [
+          "kit:writeups/ocp-wiki",
+          "lib:playbooks/upwork-oneshot"
+        ]
+      }
+    }
+  },
+  "defaults": {
+    "lane": "job_boards",
+    "video_seconds": [
+      45,
+      70
+    ],
+    "max_proposals_on_post": 20,
+    "price": "under the post's stated budget"
+  },
+  "stages": [
+    {
+      "id": "offer",
+      "task": "Write the one offer this business makes in a proposal: outcome, what they get, proof actually found in the profile."
+    },
+    {
+      "id": "targets",
+      "task": "Write the search queries to save and the rules for which job posts to answer or skip."
+    },
+    {
+      "id": "demo-plan",
+      "needs": [
+        "job_post"
+      ],
+      "task": "Plan the demo for this job post: problem in their words, screens, sample data from the post."
+    },
+    {
+      "id": "script",
+      "needs": [
+        "job_post"
+      ],
+      "task": "Write the video script for this job post."
+    },
+    {
+      "id": "letter",
+      "needs": [
+        "job_post"
+      ],
+      "task": "Write the proposal letter for this job post."
+    },
+    {
+      "id": "send",
+      "outward": true
+    }
+  ],
+  "rails": {
+    "status": "open",
+    "hook": "before_outward",
+    "fixed": []
+  },
+  "quotes": [
+    {
+      "cite": "lib:playbooks/upwork-oneshot",
+      "text": "reply to a fresh, fit job post within the first hour with a package no other bidder sends"
+    },
+    {
+      "cite": "lib:playbooks/upwork-oneshot",
+      "text": "Every claim in the video and letter traces to the post or to a built artifact."
+    },
+    {
+      "cite": "lib:playbooks/upwork-oneshot",
+      "text": "Attach the MP4 as a file; never a link before a contract."
+    },
+    {
+      "cite": "kit:hormozi-mit/claude-skill-hormozi-offer-audit/skills/audit/SKILL",
+      "text": "Value = (Dream Outcome × Perceived Likelihood of Achievement) ÷ (Time Delay × Effort & Sacrifice)"
+    },
+    {
+      "cite": "kit:writeups/ocp-wiki",
+      "text": "A message that would still make sense sent to someone else is not personal enough."
+    },
+    {
+      "cite": "kit:writeups/fazio",
+      "text": "It does not claim to know what the lessons say."
+    }
+  ]
+}

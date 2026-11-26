@@ -4,7 +4,7 @@ title: Eagle Eye library - read me first
 kind: readme
 version: 1.0.0
 tags: [library, index, start-here]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Eagle Eye library
 
@@ -17,13 +17,14 @@ A knowledge base any person or any LLM can read: playbooks, meta prompts, templa
 | `templates/` | offer, SOW, MSA, Upwork-safe variants, onboarding, follow-up (+ `html/` Jinja2 renderers) | `offer.md` |
 | `research/` | dated reports with sources | `ui-libraries.md`, `upwork-contract-terms.md` |
 | `copy-rules/` | checks as data (YAML) read by `copy_lint.py` | `letter-caveats.yaml` |
+| `kit/` | operators' playbooks that `systems/` copy from and cite: our write-ups, MIT packs | `kit/README.md` |
 | `sources/` | an index of external sources; the paid-course copies live ONLY in the private overlay | `INDEX.md` |
 
 ## Use it
 ```
-python3 library/library_index.py search "guarantee"                       # lexical search, public tree
+python3 library/library_index.py search "guarantee"                       # SQLite FTS5 search, public tree
 python3 library/library_index.py search "guarantee" --overlay <private>/library   # public + private overlay
-python3 library/library_index.py build                                    # writes index.json and llms.txt
+python3 library/library_index.py build                                    # writes index.json, llms.txt, index.sqlite
 python3 library/library_index.py check                                    # fails if private text is in a public path
 python3 library/copy_lint.py letter-caveats letter.md                     # a copy-rules file is the whole linter
 ```
@@ -39,7 +40,7 @@ version: 1.0.0                # semver; bump on any change to meaning
 tags: [..]
 inputs: [..]   outputs: [..]  # prompts and templates
 model_hints: {..}             # advisory only; every prompt works on any capable model
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 ```
 Variables are `{{name}}`. Exporters can turn `prompts/` into Dotprompt, Prompty or promptfoo files; no vendor format is canonical.
@@ -48,4 +49,4 @@ Variables are `{{name}}`. Exporters can turn `prompts/` into Dotprompt, Prompty 
 The private repo `eagle-eye-utopia` holds `library/` with the same schema. A file at the same path overrides the public one; `library/sources/fazio/` holds the full copies of a paid course, which never enter this repo. Agents search both.
 
 ## Licence
-Library text: CC BY 4.0. Code (`library_index.py`, `copy_lint.py`): the repository licence. Third-party material is cited in `sources/INDEX.md`, never copied.
+Apache-2.0, text and code. The MIT packs in `kit/hormozi-mit/` keep their own licences. Other third-party material is cited in `sources/INDEX.md` or a write-up, never copied.

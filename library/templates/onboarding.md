@@ -5,7 +5,7 @@ kind: template
 version: 1.0.0
 tags: [onboarding,client-kit,access]
 inputs: [client]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Onboarding: {{client_name}}
 

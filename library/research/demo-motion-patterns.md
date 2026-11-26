@@ -5,7 +5,7 @@ kind: research
 version: 1.0.0
 tags: [motion,demo,video,ui]
 date: 2026-11-25
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Demo motion patterns
 

@@ -7,7 +7,7 @@ tags: [upwork, letter, proposal, cover-letter]
 inputs: [post, deliverable, price, signer]
 outputs: [letter_text]
 model_hints: {tier: mid, temperature: 0.6}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 Write a cover letter for the job post below. It is short, in the first person, and says what will be delivered in the client's own words.
 

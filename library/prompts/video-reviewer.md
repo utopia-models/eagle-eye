@@ -7,7 +7,7 @@ tags: [video, review, gemini, mismatch, qa]
 inputs: [video, script_rows]
 outputs: [review_json]
 model_hints: {needs: video-understanding, temperature: 0}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 You are watching a short sales video with its audio, as a skeptical viewer would. The script rows spoken are:
 

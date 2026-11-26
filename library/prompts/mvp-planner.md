@@ -7,7 +7,7 @@ tags: [mvp, demo, video, beats, motion]
 inputs: [post, stack_choice, seed_data]
 outputs: [beats_json]
 model_hints: {tier: high}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 Plan the demo app a viewer sees in a 45 to 70 second video, as `beats.json`: an ordered list of screens and moves.
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "description": "The #1 open-source networking machine. The open alternative to Apollo and Clay, designed for AI agents.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "start": "python3 -m http.server 8000",
     "dev": "python3 -m http.server 8000",

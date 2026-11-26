@@ -7,7 +7,7 @@ tags: [offer, sow, contract, client-kit]
 inputs: [conversation, price_sheet, channel]
 outputs: [deal_yaml]
 model_hints: {tier: high}
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 Turn the conversation below into a deal record (YAML) that `templates/` renders into a one-page offer and a statement of work.
 

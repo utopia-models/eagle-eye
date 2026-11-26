@@ -5,7 +5,7 @@ kind: template
 version: 1.0.0
 tags: [upwork,offer,sow,client-kit,circumvention]
 inputs: [deal_record]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Upwork-safe variants
 

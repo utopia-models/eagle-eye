@@ -7,7 +7,7 @@ tags: [cold-email, outbound, applications, campaign, deliverability]
 diataxis: how-to
 inputs: [target_list, offer]
 outputs: [sent_touches, reply_log]
-license: CC-BY-4.0
+license: Apache-2.0
 ---
 # Cold apply / cold outreach campaign
 
