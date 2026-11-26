@@ -60,7 +60,7 @@ The Upwork and founder-video one-shot systems ship as a resource pack. See [`doc
 
 ## The landing page
 
-`site/` is the static page served at [eagleeye.sh](https://eagleeye.sh) (Vercel, root directory `site`). `install.sh`
+`site/` is the static page served at [eagleeye.sh](https://eagleeye.sh) (Cloudflare Worker `eagleeye-site`, `site-worker/`). `install.sh`
 is served at `eagleeye.sh/install`.
 
 ## Check the layout

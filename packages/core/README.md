@@ -117,7 +117,7 @@ Setup is due before work starts; monthly is billed in advance. No discounts, fri
 
 ## The product site, eagleeye.sh (knowledge#14308)
 
-The open-source Eagle Eye's landing page lives in `github.com/utopia-models/eagle-eye` `site/` (Vercel project
+The open-source Eagle Eye's landing page lives in `github.com/utopia-models/eagle-eye` `site/` (Cloudflare Worker
 `eagleeye-site`), not in this folder. Tyler's "same magic feel as live.utopiamodels.ai and utopiamodels.ai" (ask 128)
 and "the real eagle eye instead of that logo eye" (ask 127) were built there by eagle-eye PR #5 (the real
 `home-v2.js` eye over the Utopia sites' OGL sand renderer) and PR #6 (Horus as nav/footer logo and favicon). Probe
