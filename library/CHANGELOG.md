@@ -7,6 +7,9 @@ tags: [changelog]
 license: Apache-2.0
 ---
 # Changelog
+## 1.1.0 - 2026-11-27
+Two cited research notes (`research/technical-buyer-outreach.md`, `research/delivery-guarantee-copy.md`). Founder offer: a live link, no access, click through by day 14 or pay nothing.
+Video length 45-75 s at 2.4 words a second in the script rules, the writer prompt and the Upwork playbook.
 ## Kit - 2026-11-26
 `kit/writeups/fazio.md` is now our own write-up of five free public videos, each point linked to its time in the video. The paid course is still not in this repo.
 

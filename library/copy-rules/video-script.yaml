@@ -1,10 +1,10 @@
 id: copy-rules.video-script
-title: Video script (VSL) rules - spoken scripts for a 45-70 second engineer video
+title: Video script (VSL) rules - spoken scripts for a 45-75 second engineer video
 kind: copy-rules
-version: 1.0.0
+version: 1.1.0
 tags: [vsl, script, video, lint]
 description: "Mechanical rules a script must pass before anyone records or renders it. Numbers are the contract values in effect at library version 1.0.0; the checker reads them from here."
-length: {seconds_min: 45, seconds_max: 70, words_per_second: 2.0, row_words_min: 6, row_words_max: 14}
+length: {seconds_min: 45, seconds_max: 75, words_per_second: 2.4, row_words_min: 6, row_words_max: 16}
 readability: {max_flesch_kincaid_grade: 8}
 mode: forbid
 checks:
