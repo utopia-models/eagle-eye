@@ -2,14 +2,14 @@
 id: prompt.mvp-planner
 title: MVP planner - the beats.json for a per-job demo video
 kind: prompt
-version: 1.0.0
+version: 1.0.1
 tags: [mvp, demo, video, beats, motion]
 inputs: [post, stack_choice, seed_data]
 outputs: [beats_json]
 model_hints: {tier: high}
 license: Apache-2.0
 ---
-Plan the demo app a viewer sees in a 45 to 70 second video, as `beats.json`: an ordered list of screens and moves.
+Plan the demo app a viewer sees in a 45 to 75 second video, as `beats.json`: an ordered list of screens and moves.
 
 Each beat: `{ "id", "screen", "regions": [3-5 named regions], "data": "realistic seeded rows taken from the post", "motion": "<pattern id from research/demo-motion-patterns.md>", "hold_s": 1.5, "say": "<the spoken row it matches>" }`.
 

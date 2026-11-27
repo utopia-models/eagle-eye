@@ -12,7 +12,7 @@
 - [Letter caveats - phrases a proposal never carries](copy-rules/letter-caveats.yaml)
 - [Cold email - plain text, one ask, no tracking](copy-rules/outbound-email.yaml)
 - [Upwork circumvention - what a pre-contract message or document never carries](copy-rules/upwork-circumvention.yaml)
-- [Video script (VSL) rules - spoken scripts for a 45-70 second engineer video](copy-rules/video-script.yaml)
+- [Video script (VSL) rules - spoken scripts for a 45-75 second engineer video](copy-rules/video-script.yaml)
 
 ## kit
 - [The kit - what Systems copy from and cite](kit/README.md)
@@ -81,7 +81,7 @@
 - [Offer and SOW writer - fills the client-kit deal record](prompts/offer-sow-writer.md)
 - [Proposal writer - a one-page outcome proposal for a named buyer](prompts/proposal-writer.md)
 - [Video reviewer - does the picture show what the narration says (mismatch review)](prompts/video-reviewer.md)
-- [VSL script writer - the spoken script of a 90-second engineer video](prompts/vsl-script-writer.md)
+- [VSL script writer - the spoken script of a short engineer video](prompts/vsl-script-writer.md)
 
 ## readme
 - [Eagle Eye library - read me first](README.md)
@@ -91,9 +91,11 @@
 
 ## research
 - [Cold email mechanics - what to copy, what the evidence is](research/cold-email-mechanics.md)
+- [Delivery and guarantee copy - how build shops phrase the free first build and the risk reversal](research/delivery-guarantee-copy.md)
 - [Demo motion patterns - what moves in a product demo video, with durations](research/demo-motion-patterns.md)
 - [Library design - formats, layout, index and overlay for an agent-neutral knowledge base](research/library-design.md)
 - [Core plus systems - how a small open core hosts outreach systems as plugins](research/plugin-architecture.md)
+- [Technical-buyer outreach - what engineers and technical leads answer](research/technical-buyer-outreach.md)
 - [UI libraries for per-job demo apps](research/ui-libraries.md)
 - [Upwork contract terms that shape our documents - circumvention, fees, escrow](research/upwork-contract-terms.md)
 - [VSL 100x speed - three pipeline designs for a 10-minute build](research/vsl-speed.md)

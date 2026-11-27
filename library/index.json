@@ -78,7 +78,7 @@
  },
  {
   "id": "copy-rules.video-script",
-  "title": "Video script (VSL) rules - spoken scripts for a 45-70 second engineer video",
+  "title": "Video script (VSL) rules - spoken scripts for a 45-75 second engineer video",
   "kind": "copy-rules",
   "tags": [
    "vsl",
@@ -89,7 +89,7 @@
   ],
   "path": "copy-rules/video-script.yaml",
   "origin": "public",
-  "version": "1.0.0"
+  "version": "1.1.0"
  },
  {
   "id": "kit.readme",
@@ -926,7 +926,7 @@
   ],
   "path": "playbooks/founder-oneshot.md",
   "origin": "public",
-  "version": "1.0.0"
+  "version": "2.0.0"
  },
  {
   "id": "playbook.upwork-oneshot",
@@ -942,7 +942,7 @@
   ],
   "path": "playbooks/upwork-oneshot.md",
   "origin": "public",
-  "version": "1.0.0"
+  "version": "1.1.0"
  },
  {
   "id": "prompt.copy-reviewer",
@@ -989,7 +989,7 @@
   ],
   "path": "prompts/mvp-planner.md",
   "origin": "public",
-  "version": "1.0.0"
+  "version": "1.0.1"
  },
  {
   "id": "prompt.offer-sow-writer",
@@ -1039,7 +1039,7 @@
  },
  {
   "id": "prompt.vsl-script-writer",
-  "title": "VSL script writer - the spoken script of a 90-second engineer video",
+  "title": "VSL script writer - the spoken script of a short engineer video",
   "kind": "prompt",
   "tags": [
    "vsl",
@@ -1050,7 +1050,7 @@
   ],
   "path": "prompts/vsl-script-writer.md",
   "origin": "public",
-  "version": "1.0.0"
+  "version": "2.0.0"
  },
  {
   "id": "registry",
@@ -1074,6 +1074,23 @@
    "research"
   ],
   "path": "research/cold-email-mechanics.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.delivery-guarantee-copy",
+  "title": "Delivery and guarantee copy - how build shops phrase the free first build and the risk reversal",
+  "kind": "research",
+  "tags": [
+   "offer",
+   "guarantee",
+   "trial",
+   "delivery",
+   "founder",
+   "upwork",
+   "research"
+  ],
+  "path": "research/delivery-guarantee-copy.md",
   "origin": "public",
   "version": "1.0.0"
  },
@@ -1122,6 +1139,24 @@
    "research"
   ],
   "path": "research/plugin-architecture.md",
+  "origin": "public",
+  "version": "1.0.0"
+ },
+ {
+  "id": "research.technical-buyer-outreach",
+  "title": "Technical-buyer outreach - what engineers and technical leads answer",
+  "kind": "research",
+  "tags": [
+   "vsl",
+   "outreach",
+   "engineers",
+   "cold-email",
+   "video",
+   "founder",
+   "upwork",
+   "research"
+  ],
+  "path": "research/technical-buyer-outreach.md",
   "origin": "public",
   "version": "1.0.0"
  },

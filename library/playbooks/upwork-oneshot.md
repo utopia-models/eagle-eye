@@ -2,7 +2,7 @@
 id: playbook.upwork-oneshot
 title: Upwork one-shot - answer a job post with a letter, a demo and a video
 kind: playbook
-version: 1.0.0
+version: 1.1.0
 tags: [upwork, oneshot, vsl, proposal, freelance]
 diataxis: how-to
 inputs: [job_post]
@@ -11,7 +11,7 @@ license: Apache-2.0
 ---
 # Upwork one-shot: a letter, a working demo and a video for one job post
 
-**Goal:** reply to a fresh, fit job post within the first hour with a package no other bidder sends: a short letter, a working version of what they asked for, and a 45 to 70 second video that walks through it.
+**Goal:** reply to a fresh, fit job post within the first hour with a package no other bidder sends: a short letter, a working version of what they asked for, and a 45 to 75 second video that walks through it.
 
 ## 1. Pick the post (standards)
 - Open and fresh: under about 20 proposals, payment verified, no interview or offer already out. Early replies win (research/vsl-speed.md).
@@ -27,7 +27,9 @@ license: Apache-2.0
 ## 3. Write and review the script
 - `prompts/vsl-script-writer.md`, then `copy_lint.py video-script script.md`, then `prompts/copy-reviewer.md` against the post.
 - Shape: opener "I noticed ..., so I made you ..., so that you can ..." then tab 1 their post, tab 2 the working app, tab 3 the diagram. One claim per sentence, their words, nothing that fits another job.
-- Length 45-70 s. No question, no price, no link spoken.
+- Length 45-75 s. No question, no price, no link spoken.
+- Technical readers: start on the most valuable screen, walk one workflow from their post, name one failure and what the system does about it, and say a number only when the build produced it (research/technical-buyer-outreach.md).
+- A recorded live intro is free-form: a real greeting and the time of day show it was made for them. Do not grade its wording.
 
 ## 4. Record or render, then review
 - Either the founder records the live intro and an AI voice speaks the body, or the whole video is rendered. Pick on the spot; a reusable intro per job type exists for the fast path.
